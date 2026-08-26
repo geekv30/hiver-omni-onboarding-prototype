@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Hiver Omni · AI onboarding</title>
+  <link rel="stylesheet" href="styles.css?build=illustration-pass-20260824">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <div class="app" id="app">
+    <header class="global-header">
+      <a class="brand" href="#" aria-label="Hiver Omni onboarding home">
+        <span class="brand-mark" data-icon="hiver" aria-hidden="true"></span>
+        <span class="brand-name">Hiver <b>Omni</b></span>
+      </a>
+      <div class="header-actions">
+        <button class="restart-journey" type="button" data-restart-journey>Restart journey</button>
+        <div class="private-label"><span class="status-dot"></span>Private AI preview</div>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="onboarding-screen" data-screen="channels" aria-labelledby="channels-title">
+        <div class="experience-shell">
+          <div class="task-pane">
+            <div class="pane-content">
+              <div class="screen-meta"><span>01</span><i></i><span>Your support world</span></div>
+              <div class="stage-copy">
+                <h1 id="channels-title">Where do customers reach you?</h1>
+                <p>Choose all that apply. Nothing connects yet.</p>
+              </div>
+
+              <fieldset class="choice-grid">
+                <legend class="sr-only">Customer support channels</legend>
+                <label class="channel-option">
+                  <input type="checkbox" name="channel" value="Email">
+                  <span class="option-icon" data-icon="mail"></span>
+                  <span><b>Email</b></span>
+                  <i data-icon="check"></i>
+                </label>
+                <label class="channel-option">
+                  <input type="checkbox" name="channel" value="Chat">
+                  <span class="option-icon" data-icon="message"></span>
+                  <span><b>Chat</b></span>
+                  <i data-icon="check"></i>
+                </label>
+                <label class="channel-option">
+                  <input type="checkbox" name="channel" value="Slack">
+                  <span class="option-icon" data-icon="hash"></span>
+                  <span><b>Slack</b></span>
+                  <i data-icon="check"></i>
+                </label>
+                <label class="channel-option">
+                  <input type="checkbox" name="channel" value="Voice">
+                  <span class="option-icon" data-icon="phone"></span>
+                  <span><b>Voice</b></span>
+                  <i data-icon="check"></i>
+                </label>
+                <label class="channel-option choice-wide">
+                  <input type="checkbox" name="channel" value="Not sure yet">
+                  <span class="option-icon" data-icon="help"></span>
+                  <span><b>I’m not sure yet</b></span>
+                  <i data-icon="check"></i>
+                </label>
+              </fieldset>
+              <p class="inline-error" id="channel-error" role="alert" hidden>Select at least one option, or choose “I’m not sure yet.”</p>
+
+              <div class="stage-actions">
+                <button class="primary-button" id="continue-channels"><span>Continue</span><span data-icon="arrow-right"></span></button>
+                <button class="text-button" data-skip-to="home">Set up later</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="story-pane channel-story" aria-label="A visual preview of Hiver bringing customer channels together">
+            <img class="story-art" src="assets/outlook-river-convergence.png" alt="Mountain streams joining one clear river in an Outlook-blue landscape">
+            <div class="story-tint"></div>
+            <div class="story-heading dark"><span>Hiver Omni</span><strong>Every conversation<br><em>finds its way home.</em></strong></div>
+            <div class="channel-world" aria-hidden="true">
+              <div class="channel-signal signal-email" data-channel-visual="Email"><span data-icon="mail"></span><b>Email</b><i>Selected</i></div>
+              <div class="channel-signal signal-chat" data-channel-visual="Chat"><span data-icon="message"></span><b>Chat</b><i>Selected</i></div>
+              <div class="channel-signal signal-slack" data-channel-visual="Slack"><span data-icon="hash"></span><b>Slack</b><i>Selected</i></div>
+              <div class="channel-signal signal-voice" data-channel-visual="Voice"><span data-icon="phone"></span><b>Voice</b><i>Selected</i></div>
+              <div class="hiver-destination"><span class="brand-mark" data-icon="hiver"></span><b>One calm workspace</b><small>Your team + AI</small></div>
+            </div>
+            <p class="story-footnote"><span></span>Channel setup happens after onboarding</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="onboarding-screen" data-screen="knowledge" aria-labelledby="knowledge-title" hidden>
+        <div class="experience-shell">
+          <div class="task-pane">
+            <div class="pane-content">
+              <div class="screen-meta"><span>02</span><i></i><span>Company knowledge</span></div>
+              <div class="stage-copy">
+                <h1 id="knowledge-title">Give Hiver one place to begin.</h1>
+                <p>Add your website or help centre. Hiver learns from public pages only.</p>
+              </div>
+
+              <form class="field-stack" id="knowledge-form" novalidate>
+                <label for="knowledge-url">Company website or help centre</label>
+                <div class="text-field" id="url-field">
+                  <span data-icon="globe"></span>
+                  <input id="knowledge-url" type="url" inputmode="url" placeholder="help.yourcompany.com" autocomplete="url">
+                  <button type="button" id="clear-url" aria-label="Clear URL">Clear</button>
+                </div>
+                <p class="field-note"><span data-icon="lock"></span>Public pages only. Nothing is published or sent to customers.</p>
+                <p class="inline-error" id="url-error" role="alert" hidden></p>
+                <div class="or-rule"><span>or</span></div>
+                <button type="button" class="sample-option" id="use-sample">
+                  <span class="sample-monogram">H</span>
+                  <span><b>Explore with a sample company</b><small>See the complete AI experience</small></span>
+                  <i data-icon="arrow-right"></i>
+                </button>
+              </form>
+
+              <div class="stage-actions">
+                <button class="primary-button" id="continue-knowledge"><span>Create my AI preview</span><span data-icon="arrow-right"></span></button>
+                <button class="text-button" data-skip-to="home">Skip AI preview</button>
+                <button class="back-button" data-go="channels"><span data-icon="arrow-left"></span>Back</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="story-pane knowledge-story" aria-label="Public company pages becoming structured knowledge">
+            <img class="story-art" src="assets/knowledge-landscape.webp" alt="Company pages travelling through an illustrated knowledge landscape toward one clear source">
+            <div class="story-tint"></div>
+            <div class="story-heading dark"><span>Your company, understood</span><strong>From public pages<br><em>to useful answers.</em></strong></div>
+            <div class="knowledge-preview" aria-hidden="true">
+              <div class="source-domain"><span data-icon="globe"></span><b id="visual-domain">yourcompany.com</b><i>Public source</i></div>
+              <div class="source-sheet sheet-one"><i></i><b>Returns</b><small>Policy page</small></div>
+              <div class="source-sheet sheet-two"><i></i><b>Delivery</b><small>Help article</small></div>
+              <div class="source-sheet sheet-three"><i></i><b>Billing</b><small>FAQ</small></div>
+              <div class="source-sheet sheet-four"><i></i><b>Account</b><small>Guide</small></div>
+              <div class="source-sheet sheet-five"><i></i><b>Security</b><small>Overview</small></div>
+              <div class="knowledge-core"><span data-icon="sparkles"></span><b>Private AI preview</b><small>Waiting for your source</small></div>
+            </div>
+            <p class="story-footnote"><span></span>Your source stays private to this preview</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="onboarding-screen" data-screen="learn" aria-labelledby="learn-title" hidden>
+        <div class="experience-shell">
+          <div class="task-pane">
+            <div class="pane-content">
+              <div class="screen-meta"><span>03</span><i></i><span>Learning safely</span></div>
+              <div class="stage-copy">
+                <h1 id="learn-title">Hiver is learning how your company helps.</h1>
+                <p id="processing-detail">You can leave while Hiver learns.</p>
+              </div>
+
+              <div class="learning-status" aria-live="polite">
+                <div class="learning-status-head">
+                  <span class="learning-pulse"><i></i></span>
+                  <div><b id="processing-label">Reading your website</b><small id="learning-domain">Finding useful support pages</small></div>
+                  <span class="live-label">Working</span>
+                </div>
+                <div class="learning-steps">
+                  <div class="learning-step" data-process-step="read"><span>01</span><div><b>Read public pages</b><small id="page-count">Starting now</small></div><i>Waiting</i></div>
+                  <div class="learning-step" data-process-step="organise"><span>02</span><div><b>Organise support topics</b><small>Waiting</small></div><i>Waiting</i></div>
+                  <div class="learning-step" data-process-step="prepare"><span>03</span><div><b>Prepare safe test questions</b><small>Waiting</small></div><i>Waiting</i></div>
+                </div>
+                <details class="state-preview"><summary>Preview recovery states</summary><div><button data-processing-state="slow">Taking longer</button><button data-processing-state="thin">Not enough content</button><button data-processing-state="error">Technical failure</button><button data-processing-state="resume">Resume</button></div></details>
+                <div class="process-message" id="process-message" hidden></div>
+              </div>
+
+              <div class="stage-actions">
+                <button class="primary-button" id="open-test" disabled><span>Test my AI agent</span><span data-icon="arrow-right"></span></button>
+                <button class="text-button" id="processing-exit" data-skip-to="home">Enter Hiver while this runs</button>
+                <button class="back-button" data-go="knowledge"><span data-icon="arrow-left"></span>Back</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="story-pane learning-story" aria-label="Company pages being organised into an AI-ready knowledge source">
+            <img class="story-art" src="assets/knowledge-landscape.webp" alt="Company pages becoming organised knowledge inside a flowing illustrated landscape">
+            <div class="story-tint"></div>
+            <div class="story-heading dark"><span>Knowledge in motion</span><strong>Scattered pages.<br><em>One useful mind.</em></strong></div>
+            <div class="learning-visual" aria-hidden="true">
+              <div class="source-sheet sheet-one"><i></i><b>Returns</b><small>Learned</small></div>
+              <div class="source-sheet sheet-two"><i></i><b>Delivery</b><small>Reading</small></div>
+              <div class="source-sheet sheet-three"><i></i><b>Billing</b><small>Queued</small></div>
+              <div class="source-sheet sheet-four"><i></i><b>Account</b><small>Queued</small></div>
+              <div class="source-sheet sheet-five"><i></i><b>Security</b><small>Queued</small></div>
+              <div class="agent-core"><span data-icon="sparkles"></span><b>Your private agent</b><small><i></i>Learning from <span id="agent-domain">your company</span></small></div>
+              <div class="question-preview-stack">
+                <span>3 questions ready</span>
+                <p>How long do I have to return an order?</p>
+                <p>Can I change my delivery address?</p>
+                <p>When will my refund appear?</p>
+              </div>
+            </div>
+            <p class="story-footnote"><span></span>Real stages update as each job completes</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="onboarding-screen" data-screen="test" aria-labelledby="test-title" hidden>
+        <div class="experience-shell test-shell">
+          <div class="task-pane">
+            <div class="pane-content">
+              <div class="screen-meta"><span>04</span><i></i><span>Private AI test</span></div>
+              <div class="stage-copy">
+                <h1 id="test-title">Try your AI agent.</h1>
+                <p id="test-instruction">Choose a question in the preview. Continue unlocks after Hiver answers.</p>
+              </div>
+              <div class="stage-actions test-actions">
+                <button class="primary-button" id="finish-test" disabled aria-describedby="test-instruction"><span>Ask a question to continue</span><span data-icon="arrow-right"></span></button>
+                <button class="text-button" data-go="invite">Skip AI test</button>
+                <button class="back-button" data-go="learn"><span data-icon="arrow-left"></span>Back</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="story-pane test-story" aria-label="Private Hiver AI conversation and its source evidence">
+            <img class="story-art" src="assets/outlook-human-ai-handoff.png" alt="Warm and cool paths meeting to represent a private exchange between people and AI">
+            <div class="story-tint test-tint"></div>
+            <div class="agent-workbench">
+              <section class="conversation-panel" aria-label="AI agent test conversation">
+                <header>
+                  <span class="agent-avatar" data-icon="sparkles"></span>
+                  <span><b>Your Hiver AI agent</b><small><i></i>Private preview · Not live</small></span>
+                  <button id="restart-test" aria-label="Restart test" data-icon="refresh"></button>
+                </header>
+                <div class="conversation-body" id="conversation-body" aria-live="polite">
+                  <div class="agent-intro"><span data-icon="sparkles"></span><p>I’m ready to answer from your company knowledge.</p></div>
+                  <div class="question-suggestions" id="suggestions">
+                    <span class="suggestions-label">Start here</span>
+                    <button data-question="How long do I have to return an order?">How long do I have to return an order?<span data-icon="arrow-up"></span></button>
+                    <button data-question="Can I change my delivery address?">Can I change my delivery address?<span data-icon="arrow-up"></span></button>
+                    <button data-question="When will my refund appear?">When will my refund appear?<span data-icon="arrow-up"></span></button>
+                  </div>
+                </div>
+                <form class="composer" id="question-form">
+                  <label class="sr-only" for="question-input">Ask the preview AI agent</label>
+                  <input id="question-input" placeholder="Ask a customer question…" autocomplete="off">
+                  <button type="submit" aria-label="Send question" data-icon="arrow-up"></button>
+                </form>
+              </section>
+              <aside class="evidence-panel" aria-label="Answer evidence">
+                <div class="evidence-empty" id="evidence-empty"><span data-icon="file-search"></span><b id="evidence-empty-title">Source will appear here</b><p id="evidence-empty-copy">Ask a question to see the page Hiver used.</p></div>
+                <div class="evidence-content" id="evidence-content" hidden>
+                  <div class="evidence-label"><span>Source used</span></div>
+                  <div class="source-card"><span data-icon="external-link"></span><div><b>Returns and refunds</b><small id="source-url">help.example.com/returns</small></div></div>
+                  <blockquote id="source-excerpt">Items can be returned within 30 days of delivery.</blockquote>
+                  <div class="source-confirmation"><span data-icon="check"></span><p>Hiver answered only from this page.</p></div>
+                </div>
+              </aside>
+            </div>
+            <p class="story-footnote"><span></span>Answers are grounded in the source shown beside them</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="onboarding-screen" data-screen="invite" aria-labelledby="invite-title" hidden>
+        <div class="experience-shell">
+          <div class="task-pane">
+            <div class="pane-content">
+              <div class="screen-meta"><span>05</span><i></i><span>Your team</span></div>
+              <div class="stage-copy">
+                <h1 id="invite-title">Who should see what Hiver can do?</h1>
+                <p>Invite teammates now or later. Each gets a short, role-based welcome.</p>
+              </div>
+
+              <form class="invite-panel" id="invite-form" novalidate>
+                <label for="invite-input">Work email</label>
+                <div class="invite-field"><input id="invite-input" type="email" placeholder="teammate@company.com" autocomplete="email"><button type="submit">Add</button></div>
+                <p class="inline-error" id="invite-error" role="alert" hidden></p>
+                <div class="invite-list" id="invite-list"></div>
+              </form>
+
+              <div class="stage-actions">
+                <button class="primary-button" id="continue-invite"><span>Review my workspace</span><span data-icon="arrow-right"></span></button>
+                <button class="text-button" id="skip-invite">Invite later</button>
+                <button class="back-button" data-go="test"><span data-icon="arrow-left"></span>Back</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="story-pane team-story" aria-label="A calm workspace where people and AI work together">
+            <img class="story-art" src="assets/outlook-human-ai-handoff.png" alt="Warm human and cool AI paths meeting in one shared workspace">
+            <div class="story-tint"></div>
+            <div class="story-heading dark"><span>Human when it matters</span><strong>AI handles the routine.<br><em>Your team handles the rest.</em></strong></div>
+            <div class="team-preview" aria-hidden="true">
+              <div class="team-card card-ai"><span data-icon="sparkles"></span><div><b>AI found the answer</b><small>Grounded in your policy</small></div><i>01</i></div>
+              <div class="team-card card-route"><span data-icon="arrow-right"></span><div><b>Passed on with context</b><small>Nothing gets lost</small></div><i>02</i></div>
+              <div class="team-card card-human"><span class="human-avatar">AM</span><div><b>Aarav reviewed the exception</b><small>Customer updated · 2m ago</small></div><i data-icon="check"></i></div>
+            </div>
+            <p class="story-footnote"><span></span>Invited teammates get a shorter, role-based welcome</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="onboarding-screen" data-screen="ready" aria-labelledby="ready-title" hidden>
+        <div class="experience-shell ready-shell">
+          <div class="task-pane">
+            <div class="pane-content">
+              <div class="screen-meta"><span>Ready</span><i></i><span>Your starting point</span></div>
+              <div class="stage-copy">
+                <h1 id="ready-title">Hiver already knows where to begin.</h1>
+                <p>Your private preview is waiting inside. Connect channels when your team is ready.</p>
+              </div>
+
+              <div class="completion-summary">
+                <div><span data-icon="globe"></span><p><small>Company knowledge</small><b id="summary-source">Company website</b></p><i data-icon="check"></i></div>
+                <div><span data-icon="sparkles"></span><p><small>AI preview</small><b id="summary-test">One grounded answer tested</b></p><i data-icon="check"></i></div>
+                <div><span data-icon="inbox"></span><p><small>Channels</small><b id="summary-channels">Connect later</b></p><em>Later</em></div>
+              </div>
+              <p class="safety-copy"><span data-icon="lock"></span>Nothing is live and no channels are connected.</p>
+              <div class="stage-actions"><button class="primary-button" id="enter-omni"><span>Enter Hiver Omni</span><span data-icon="arrow-right"></span></button></div>
+            </div>
+          </div>
+
+          <aside class="story-pane ready-story" aria-label="The completed private AI preview ready inside Hiver Omni">
+            <img class="story-art" src="assets/outlook-workspace-ready.png" alt="An Outlook-blue workspace opening into a bright, prepared destination">
+            <div class="story-tint"></div>
+            <div class="ready-orbit" aria-hidden="true">
+              <div class="ready-agent"><span class="brand-mark" data-icon="hiver"></span><b>Your AI preview is ready</b><small>Private · Grounded · Human-controlled</small></div>
+              <div class="ready-answer"><span>Customer question</span><p>“How long do I have to return an order?”</p><div><span data-icon="sparkles"></span><p><b>30 days from delivery</b><small>According to Returns and refunds</small></p><i data-icon="check"></i></div></div>
+            </div>
+            <p class="story-footnote"><span></span>Your real workspace opens with context—not an empty state</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="product-screen" data-screen="home" aria-labelledby="home-title" hidden>
+        <aside class="product-sidebar"><div class="product-brand" data-icon="hiver"></div><button class="is-active" data-icon="home" aria-label="Home"></button><button data-icon="inbox" aria-label="Inbox"></button><button data-icon="chart" aria-label="Analytics"></button><button data-icon="sparkles" aria-label="AI"></button><span></span><div class="avatar">VK</div></aside>
+        <div class="product-main">
+          <header><span>Hiver Omni</span><div><button class="restart-journey product-restart" type="button" data-restart-journey>Restart journey</button><button data-icon="search" aria-label="Search"></button><button data-icon="help" aria-label="Help"></button><div class="avatar">VK</div></div></header>
+          <div class="product-content">
+            <span class="stage-kicker">Workspace ready</span><h1 id="home-title">Good morning, Varun.</h1><p>Your private preview is saved. Here is the best next step for your team.</p>
+            <section class="next-step"><span class="next-icon" data-icon="inbox"></span><div><small>Recommended next step</small><h2 id="connect-title">Connect your first channel</h2><p id="connect-copy">Bring customer conversations into your unified queue.</p></div><button>Connect channel</button></section>
+            <div class="product-grid"><article><span data-icon="globe"></span><small>Company knowledge</small><strong id="home-pages">14 pages</strong><p id="home-knowledge-status">Created during onboarding</p></article><article><span data-icon="sparkles"></span><small>AI preview</small><strong id="home-test-status">1 answer tested</strong><p id="home-question">How long do I have to return an order?</p></article><article><span data-icon="users"></span><small>Team</small><strong id="home-team-status">Invite later</strong><p>Collaborate on complex conversations.</p></article></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast-region" aria-live="polite"></div>
+    <div class="sr-only" id="live-announcer" aria-live="polite"></div>
+  </div>
+
+  <script src="app.js?build=illustration-pass-20260824"></script>
+</body>
+</html>
