@@ -1,0 +1,43 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Ellipse 208 - Gradient Alive">
+<g clip-path="url(#clip0_0_179)">
+<circle id="Base Gradient" cx="10" cy="9.99902" r="10" fill="url(#paint0_radial_0_179)"/>
+<g id="Blob 1" opacity="0.7" filter="url(#filter0_f_0_179)">
+<circle cx="6.25009" cy="4.68671" r="7.8125" fill="#FAE8BF"/>
+</g>
+<g id="Blob 2" opacity="0.65" filter="url(#filter1_f_0_179)">
+<circle cx="13.2814" cy="14.8433" r="7.03125" fill="#8CC7E0"/>
+</g>
+<g id="Blob 3" opacity="0.6" filter="url(#filter2_f_0_179)">
+<circle cx="7.81241" cy="10.9373" r="6.25" fill="#386B8F"/>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_179" x="-4.0624" y="-5.62579" width="20.625" height="20.625" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="1.25" result="effect1_foregroundBlur_0_179"/>
+</filter>
+<filter id="filter1_f_0_179" x="4.06263" y="5.62456" width="18.4375" height="18.4375" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="1.09375" result="effect1_foregroundBlur_0_179"/>
+</filter>
+<filter id="filter2_f_0_179" x="-0.312595" y="2.81225" width="16.25" height="16.25" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="0.9375" result="effect1_foregroundBlur_0_179"/>
+</filter>
+<radialGradient id="paint0_radial_0_179" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(5 4.99902) scale(12.5)">
+<stop stop-color="#FAE8BF"/>
+<stop offset="0.3" stop-color="#C2D6E0"/>
+<stop offset="0.55" stop-color="#6B9EBD"/>
+<stop offset="0.75" stop-color="#386B8F"/>
+<stop offset="1" stop-color="#26526B"/>
+</radialGradient>
+<clipPath id="clip0_0_179">
+<rect width="20" height="20" rx="10" fill="white"/>
+</clipPath>
+</defs>
+</svg>

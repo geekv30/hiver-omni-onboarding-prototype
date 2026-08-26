@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame">
+      <section class="form-pane" aria-labelledby="invite-title">
+        <div class="page">
+          <header class="product-header">
+            <div class="step-progress" aria-label="Onboarding progress: step 4 of 4">
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="channel-form" id="invite-form">
+            <div class="form-body">
+              <div class="channel-heading">
+                <h1 id="invite-title">Invite team</h1>
+                <p>Hiver is best used together</p>
+              </div>
+
+              <div class="invite-domain" aria-hidden="false">
+                <span class="invite-domain__icon" aria-hidden="true">
+                  <img src="./assets/icons/globe-01.svg" alt="" />
+                </span>
+                <span class="invite-domain__text" id="invite-domain-text">help.yourcompany.com</span>
+              </div>
+            </div>
+
+            <div class="form-footer form-footer--split">
+              <button class="back-button" type="button" id="back-button" aria-label="Back">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+              <button class="continue-button" type="submit">Continue</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="landscape-pane" aria-label="Your team, connected around Hiver">
+        <img class="landscape-image" src="./assets/widget/landscape.jpg" alt="" />
+
+        <div class="invite-graph" id="invite-graph">
+          <div class="invite-ring invite-ring--1"><img src="./assets/invite/polygon-500.svg" alt="" /></div>
+          <div class="invite-ring invite-ring--2"><img src="./assets/invite/polygon-356.svg" alt="" /></div>
+          <div class="invite-ring invite-ring--3"><img src="./assets/invite/polygon-217.svg" alt="" /></div>
+          <div class="invite-ring invite-ring--4"><img src="./assets/invite/polygon-96.svg" alt="" /></div>
+          <div class="invite-badge-glow" aria-hidden="true"></div>
+          <img class="invite-hex" src="./assets/invite/hexagon-logo.svg" alt="Hiver" />
+
+          <div class="invite-chip" style="--x:54.3%; --y:16.7%; --size:50px;">
+            <img src="./assets/invite/avatar3.jpg" alt="" />
+          </div>
+          <div class="invite-chip invite-chip--labeled" style="--x:28.1%; --y:43.4%; --size:56px;">
+            <img src="./assets/invite/avatar1.jpg" alt="" />
+            <img class="invite-chip__cursor" src="./assets/invite/cursor.svg" alt="" style="--cur-rot:6deg;" />
+            <span class="invite-chip__label">James</span>
+          </div>
+          <div class="invite-chip invite-chip--labeled" style="--x:59.2%; --y:40.1%; --size:46px;">
+            <img src="./assets/invite/avatar2.jpg" alt="" />
+            <img class="invite-chip__cursor" src="./assets/invite/cursor.svg" alt="" style="--cur-rot:-8deg;" />
+            <span class="invite-chip__label">Sarah</span>
+          </div>
+          <div class="invite-chip" style="--x:72%; --y:48.3%; --size:40px;">
+            <img src="./assets/invite/avatar5.jpg" alt="" />
+          </div>
+          <div class="invite-chip" style="--x:40.8%; --y:54.5%; --size:40px;">
+            <img src="./assets/invite/avatar6.jpg" alt="" />
+          </div>
+          <div class="invite-chip" style="--x:65%; --y:59.8%; --size:44px;">
+            <img src="./assets/invite/avatar7.jpg" alt="" />
+          </div>
+          <div class="invite-chip invite-chip--labeled" style="--x:50.5%; --y:79.3%; --size:56px;">
+            <img src="./assets/invite/avatar4.jpg" alt="" />
+            <img class="invite-chip__cursor" src="./assets/invite/cursor.svg" alt="" style="--cur-rot:-4deg;" />
+            <span class="invite-chip__label">Sarah</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./invite.js"></script>
+  </body>
+</html>

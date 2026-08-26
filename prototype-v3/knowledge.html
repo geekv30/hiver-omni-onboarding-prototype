@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame">
+      <section class="form-pane" aria-labelledby="knowledge-title">
+        <div class="page">
+          <header class="product-header">
+            <div class="step-progress" aria-label="Onboarding progress: step 2 of 4">
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="channel-form" id="knowledge-form">
+            <div class="form-body">
+              <div class="channel-heading">
+                <h1 id="knowledge-title">Build your AI support agent.</h1>
+                <p>Give Hiver one public website or help centre.</p>
+              </div>
+
+              <label class="domain-field">
+                <span class="domain-field__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10m0-20a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/></svg>
+                </span>
+                <input type="text" id="domain-input" name="domain" placeholder="help.yourcompany.com" autocomplete="off" spellcheck="false" inputmode="url" />
+              </label>
+
+              <div class="ai-preview">
+                <div class="ai-preview__label">
+                  <span class="ai-preview__label-icon" aria-hidden="true">
+                    <img src="./assets/icons/hiver-ai-sparkle.svg" alt="" />
+                  </span>
+                  <span>Hiver AI will</span>
+                </div>
+
+                <div class="ai-preview__grid">
+                  <div class="ai-preview__card">
+                    <span class="ai-preview__card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M6.094 11.229A8.01 8.01 0 0 1 6 10c0-4.418 3.605-8 8.053-8 4.447 0 8.052 3.582 8.052 8a7.94 7.94 0 0 1-.52 2.835c-.07.182-.105.274-.12.345a.897.897 0 0 0-.024.194c-.002.073.008.153.028.314l.403 3.27c.043.355.065.532.006.66a.5.5 0 0 1-.257.252c-.13.055-.306.03-.66-.022l-3.184-.467c-.167-.024-.25-.037-.326-.036a.898.898 0 0 0-.2.021 2.989 2.989 0 0 0-.358.122 8.174 8.174 0 0 1-4.07.42M7.632 22C10.597 22 13 19.538 13 16.5S10.597 11 7.632 11c-2.965 0-5.369 2.462-5.369 5.5 0 .61.097 1.198.277 1.747.075.232.113.348.126.427.013.083.015.13.01.213-.005.08-.025.17-.065.351L2 22l2.995-.409c.163-.022.245-.034.316-.033.076 0 .115.005.19.02.07.013.173.05.381.123a5.246 5.246 0 0 0 1.75.299Z"/></svg>
+                    </span>
+                    <p class="ai-preview__card-text"><span>Understand your</span><strong>Brand</strong></p>
+                  </div>
+
+                  <div class="ai-preview__card">
+                    <span class="ai-preview__card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M12 16V4M12 4 7 9M12 4l5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                    </span>
+                    <p class="ai-preview__card-text"><span>Import your</span><strong>Assets</strong></p>
+                  </div>
+
+                  <div class="ai-preview__card">
+                    <span class="ai-preview__card-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="m12 21-.1-.15c-.695-1.042-1.042-1.563-1.5-1.94a4 4 0 0 0-1.378-.737C8.453 18 7.827 18 6.575 18H5.2c-1.12 0-1.68 0-2.108-.218a2 2 0 0 1-.874-.874C2 16.48 2 15.92 2 14.8V6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C3.52 3 4.08 3 5.2 3h.4c2.24 0 3.36 0 4.216.436a4 4 0 0 1 1.748 1.748C12 6.04 12 7.16 12 9.4M12 21V9.4M12 21l.1-.15c.695-1.042 1.042-1.563 1.5-1.94a3.999 3.999 0 0 1 1.378-.737C15.547 18 16.173 18 17.425 18H18.8c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 16.48 22 15.92 22 14.8V6.2c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 3 19.92 3 18.8 3h-.4c-2.24 0-3.36 0-4.216.436a4 4 0 0 0-1.748 1.748C12 6.04 12 7.16 12 9.4"/></svg>
+                    </span>
+                    <p class="ai-preview__card-text"><span>Build your</span><strong>Knowledge</strong></p>
+                  </div>
+
+                  <div class="ai-preview__card">
+                    <span class="ai-preview__orb" aria-hidden="true">
+                      <img class="ai-preview__orb-base" src="./assets/blob/base-gradient.svg" alt="" />
+                      <img class="ai-preview__orb-blob ai-preview__orb-blob--1" src="./assets/blob/blob1.svg" alt="" />
+                      <img class="ai-preview__orb-blob ai-preview__orb-blob--2" src="./assets/blob/blob2.svg" alt="" />
+                      <img class="ai-preview__orb-blob ai-preview__orb-blob--3" src="./assets/blob/blob3.svg" alt="" />
+                    </span>
+                    <p class="ai-preview__card-text"><span>Power your</span><strong>AI Support Agent</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-footer form-footer--split">
+              <button class="back-button" type="button" id="back-button" aria-label="Back">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+              <button class="continue-button" type="submit">Continue</button>
+            </div>
+          </form>
+        </div>
+
+        <p class="sr-only" id="save-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <aside class="landscape-pane" aria-label="Hiver reading your knowledge source">
+        <img class="landscape-image" src="./assets/omni-channel-landscape.png" alt="" />
+        <div class="radial-ring radial-ring--single" aria-hidden="true">
+          <img class="radial-ring__spin" src="./assets/ring-knowledge.svg" alt="" />
+        </div>
+        <div class="source-chip" id="source-chip">
+          <span class="source-chip__icon" id="source-chip-icon" hidden aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2c2.5 2.7 4 6.4 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.4-4-10s1.5-7.3 4-10Z"/></svg>
+          </span>
+          <span class="source-chip__text" id="source-chip-text">waiting for sources</span>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./knowledge.js"></script>
+  </body>
+</html>
