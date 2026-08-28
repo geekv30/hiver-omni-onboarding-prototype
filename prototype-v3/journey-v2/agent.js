@@ -149,17 +149,6 @@ function matchQuestionKey(text) {
   return null;
 }
 
-function sourceLabel(url) {
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.replace(/^www\./, "");
-    const segment = parsed.pathname.split("/").filter(Boolean).pop();
-    return segment ? `${host}/${segment}` : host;
-  } catch (error) {
-    return url;
-  }
-}
-
 function buildCollapse(innerHtml, extraClass) {
   const wrap = document.createElement("div");
   wrap.className = extraClass ? `learning-stage__collapse ${extraClass}` : "learning-stage__collapse";
@@ -260,16 +249,6 @@ function runExchange(questionText, key) {
 
   window.setTimeout(() => {
     if (sources) {
-      const sourcesWrap = document.createElement("div");
-      sourcesWrap.className = "chat-widget__inline-sources";
-      sourcesWrap.innerHTML = `<span class="chat-widget__inline-sources-label">Sources</span>${sources
-        .map(
-          (url) =>
-            `<a class="chat-widget__inline-source-chip" href="${url}" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10m0-20a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/></svg><span>${sourceLabel(url)}</span></a>`,
-        )
-        .join("")}`;
-      replyRow.querySelector(".chat-widget__bubbles").appendChild(sourcesWrap);
-
       sourceLinks[0].textContent = sources[0];
       if (sources[1]) sourceLinks[1].textContent = sources[1];
       widget.dataset.shift = "true";

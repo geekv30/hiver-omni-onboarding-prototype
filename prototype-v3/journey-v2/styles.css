@@ -2315,46 +2315,7 @@ label {
 .chat-widget__exchange {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.chat-widget__inline-sources {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  margin-left: 28px;
-}
-
-.chat-widget__inline-sources-label {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 16px;
-}
-
-.chat-widget__inline-source-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border: 1px solid #e2e8f0;
-  border-radius: 999px;
-  background: #f8fafc;
-  color: var(--brand-navy);
-  font-size: 12px;
-  line-height: 16px;
-  text-decoration: none;
-}
-
-.chat-widget__inline-source-chip svg {
-  flex: 0 0 auto;
-  width: 11px;
-  height: 11px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  gap: 16px;
 }
 
 @media (prefers-reduced-motion: reduce) {
