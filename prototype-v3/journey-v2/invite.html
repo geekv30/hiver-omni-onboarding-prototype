@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="onboarding-frame">
+    <main class="onboarding-frame onboarding-frame--company">
       <section class="form-pane" aria-labelledby="invite-title">
         <div class="page">
-          <header class="product-header">
-            <div class="step-progress" aria-label="Onboarding progress: step 4 of 4">
+          <header class="product-header product-header--company">
+            <div class="step-progress" aria-label="Onboarding progress: step 3 of 4">
+              <span class="step-progress__segment is-complete"></span>
+              <span class="step-progress__segment is-complete"></span>
               <span class="step-progress__segment is-active"></span>
-              <span class="step-progress__segment is-active"></span>
-              <span class="step-progress__segment is-active"></span>
-              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
             </div>
 
             <button class="support-button" type="button" aria-label="Get help">
@@ -26,69 +26,58 @@
             </button>
           </header>
 
-          <form class="channel-form" id="invite-form">
-            <div class="form-body">
-              <div class="channel-heading">
-                <h1 id="invite-title">Invite team</h1>
-                <p>Hiver is best used together</p>
+          <form class="company-step" id="invite-form">
+            <div class="company-step__fields">
+              <div class="company-heading">
+                <h1 id="invite-title">Let&rsquo;s bring your team onboard!</h1>
               </div>
 
-              <div class="invite-domain" aria-hidden="false">
-                <span class="invite-domain__icon" aria-hidden="true">
-                  <img src="./assets/icons/globe-01.svg" alt="" />
-                </span>
-                <span class="invite-domain__text" id="invite-domain-text">help.yourcompany.com</span>
+              <div class="company-fields invite-fields">
+                <div class="company-field">
+                  <span class="company-field__icon" aria-hidden="true">
+                    <svg viewBox="0 0 14 14" fill="none">
+                      <path d="M7 8.75C5.15079 8.75 3.5063 9.64287 2.45933 11.0285C2.23399 11.3267 2.12133 11.4758 2.12501 11.6773C2.12786 11.833 2.22563 12.0294 2.34813 12.1256C2.50669 12.25 2.72642 12.25 3.16589 12.25H10.8341C11.2736 12.25 11.4933 12.25 11.6519 12.1256C11.7744 12.0294 11.8721 11.833 11.875 11.6773C11.8787 11.4758 11.766 11.3267 11.5407 11.0285C10.4937 9.64287 8.84921 8.75 7 8.75Z" stroke="currentColor" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M7 7C8.44975 7 9.625 5.82475 9.625 4.375C9.625 2.92525 8.44975 1.75 7 1.75C5.55025 1.75 4.375 2.92525 4.375 4.375C4.375 5.82475 5.55025 7 7 7Z" stroke="currentColor" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <input type="email" id="invite-email-1" name="teammate1" placeholder="teammate@yourcompany.com" autocomplete="off" />
+                </div>
+                <div class="company-field">
+                  <span class="company-field__icon" aria-hidden="true">
+                    <svg viewBox="0 0 14 14" fill="none">
+                      <path d="M7 8.75C5.15079 8.75 3.5063 9.64287 2.45933 11.0285C2.23399 11.3267 2.12133 11.4758 2.12501 11.6773C2.12786 11.833 2.22563 12.0294 2.34813 12.1256C2.50669 12.25 2.72642 12.25 3.16589 12.25H10.8341C11.2736 12.25 11.4933 12.25 11.6519 12.1256C11.7744 12.0294 11.8721 11.833 11.875 11.6773C11.8787 11.4758 11.766 11.3267 11.5407 11.0285C10.4937 9.64287 8.84921 8.75 7 8.75Z" stroke="currentColor" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M7 7C8.44975 7 9.625 5.82475 9.625 4.375C9.625 2.92525 8.44975 1.75 7 1.75C5.55025 1.75 4.375 2.92525 4.375 4.375C4.375 5.82475 5.55025 7 7 7Z" stroke="currentColor" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <input type="email" id="invite-email-2" name="teammate2" placeholder="teammate@yourcompany.com" autocomplete="off" />
+                </div>
+                <div class="company-field">
+                  <span class="company-field__icon" aria-hidden="true">
+                    <svg viewBox="0 0 14 14" fill="none">
+                      <path d="M7 8.75C5.15079 8.75 3.5063 9.64287 2.45933 11.0285C2.23399 11.3267 2.12133 11.4758 2.12501 11.6773C2.12786 11.833 2.22563 12.0294 2.34813 12.1256C2.50669 12.25 2.72642 12.25 3.16589 12.25H10.8341C11.2736 12.25 11.4933 12.25 11.6519 12.1256C11.7744 12.0294 11.8721 11.833 11.875 11.6773C11.8787 11.4758 11.766 11.3267 11.5407 11.0285C10.4937 9.64287 8.84921 8.75 7 8.75Z" stroke="currentColor" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M7 7C8.44975 7 9.625 5.82475 9.625 4.375C9.625 2.92525 8.44975 1.75 7 1.75C5.55025 1.75 4.375 2.92525 4.375 4.375C4.375 5.82475 5.55025 7 7 7Z" stroke="currentColor" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <input type="email" id="invite-email-3" name="teammate3" placeholder="teammate@yourcompany.com" autocomplete="off" />
+                </div>
               </div>
             </div>
 
-            <div class="form-footer form-footer--split">
-              <button class="back-button" type="button" id="back-button" aria-label="Back">
-                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-              </button>
-              <button class="continue-button" type="submit">Continue</button>
+            <div class="company-step__footer">
+              <div class="form-footer--split">
+                <button class="back-button" type="button" id="back-button" aria-label="Back">
+                  <svg viewBox="0 0 14 14"><path d="M5.25 10.5L8.75 7L5.25 3.5" /></svg>
+                </button>
+                <button class="continue-button" type="submit">Continue</button>
+              </div>
             </div>
           </form>
         </div>
       </section>
 
-      <aside class="landscape-pane" aria-label="Your team, connected around Hiver">
-        <img class="landscape-image" src="./assets/widget/landscape.jpg" alt="" />
-
-        <div class="invite-graph" id="invite-graph">
-          <div class="invite-ring invite-ring--1"><img src="./assets/invite/polygon-500.svg" alt="" /></div>
-          <div class="invite-ring invite-ring--2"><img src="./assets/invite/polygon-356.svg" alt="" /></div>
-          <div class="invite-ring invite-ring--3"><img src="./assets/invite/polygon-217.svg" alt="" /></div>
-          <div class="invite-ring invite-ring--4"><img src="./assets/invite/polygon-96.svg" alt="" /></div>
-          <div class="invite-badge-glow" aria-hidden="true"></div>
-          <img class="invite-hex" src="./assets/invite/hexagon-logo.svg" alt="Hiver" />
-
-          <div class="invite-chip" style="--x:54.3%; --y:16.7%; --size:50px;">
-            <img src="./assets/invite/avatar3.jpg" alt="" />
-          </div>
-          <div class="invite-chip invite-chip--labeled" style="--x:28.1%; --y:43.4%; --size:56px;">
-            <img src="./assets/invite/avatar1.jpg" alt="" />
-            <img class="invite-chip__cursor" src="./assets/invite/cursor.svg" alt="" style="--cur-rot:6deg;" />
-            <span class="invite-chip__label">James</span>
-          </div>
-          <div class="invite-chip invite-chip--labeled" style="--x:59.2%; --y:40.1%; --size:46px;">
-            <img src="./assets/invite/avatar2.jpg" alt="" />
-            <img class="invite-chip__cursor" src="./assets/invite/cursor.svg" alt="" style="--cur-rot:-8deg;" />
-            <span class="invite-chip__label">Sarah</span>
-          </div>
-          <div class="invite-chip" style="--x:72%; --y:48.3%; --size:40px;">
-            <img src="./assets/invite/avatar5.jpg" alt="" />
-          </div>
-          <div class="invite-chip" style="--x:40.8%; --y:54.5%; --size:40px;">
-            <img src="./assets/invite/avatar6.jpg" alt="" />
-          </div>
-          <div class="invite-chip" style="--x:65%; --y:59.8%; --size:44px;">
-            <img src="./assets/invite/avatar7.jpg" alt="" />
-          </div>
-          <div class="invite-chip invite-chip--labeled" style="--x:50.5%; --y:79.3%; --size:56px;">
-            <img src="./assets/invite/avatar4.jpg" alt="" />
-            <img class="invite-chip__cursor" src="./assets/invite/cursor.svg" alt="" style="--cur-rot:-4deg;" />
-            <span class="invite-chip__label">Sarah</span>
-          </div>
+      <aside class="landscape-pane landscape-pane--framed" aria-label="Bring your team onboard">
+        <div class="video-card">
+          <img class="landscape-image" src="./assets/invite/team-hero.png" alt="" />
         </div>
       </aside>
     </main>

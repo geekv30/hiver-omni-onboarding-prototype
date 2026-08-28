@@ -149,11 +149,11 @@ function matchQuestionKey(text) {
   return null;
 }
 
-function buildCollapse(innerHtml, extraClass) {
+function buildCollapse(innerHtml) {
   const wrap = document.createElement("div");
-  wrap.className = extraClass ? `learning-stage__collapse ${extraClass}` : "learning-stage__collapse";
+  wrap.className = "chat-collapse";
   const inner = document.createElement("div");
-  inner.className = "learning-stage__collapse-inner";
+  inner.className = "chat-collapse-inner";
   inner.innerHTML = innerHtml;
   wrap.appendChild(inner);
   return wrap;
@@ -165,6 +165,7 @@ function setComposerBusy(busy) {
   chatBusy = busy;
   composerInput.disabled = busy;
   sendButton.disabled = busy || composerInput.value.trim() === "";
+  suggestionsRow.dataset.hidden = busy ? "true" : "false";
 }
 
 function runExchange(questionText, key) {
@@ -207,7 +208,7 @@ function runExchange(questionText, key) {
         ${reply2Html ? '<p class="chat-widget__bubble" data-reply="2"></p>' : ""}
       </div>
     </div>
-  `, "chat-widget__reply-collapse");
+  `);
   replyRow.querySelector('[data-reply="1"]').innerHTML = reply1Html;
   if (reply2Html) replyRow.querySelector('[data-reply="2"]').innerHTML = reply2Html;
 

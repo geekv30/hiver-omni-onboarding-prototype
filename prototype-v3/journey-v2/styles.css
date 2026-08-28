@@ -543,6 +543,10 @@ label {
   width: 100%;
 }
 
+.company-fields.invite-fields {
+  gap: 11px;
+}
+
 .field-group {
   display: flex;
   flex-direction: column;
@@ -1157,8 +1161,39 @@ label {
   max-height: 140px;
 }
 
-.chat-widget__reply-collapse[data-visible="true"] {
-  max-height: 340px;
+/*
+  Chat rows use CSS grid's 0fr -> 1fr trick instead of a fixed max-height:
+  a hand-picked pixel cap either clips a longer reply or leaves dead space
+  under a shorter one, which is what read as "cramped." Grid rows fit
+  whatever content is inside, at any height, with the same smooth feel.
+*/
+.chat-collapse {
+  display: grid;
+  width: 100%;
+  flex-shrink: 0;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 520ms var(--ease-out);
+}
+
+.chat-collapse[data-visible="true"] {
+  grid-template-rows: 1fr;
+}
+
+.chat-collapse-inner {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.9);
+  transition: opacity 460ms var(--ease-out), transform 460ms var(--ease-out);
+  transition-delay: 80ms;
+}
+
+.chat-collapse[data-visible="true"] .chat-collapse-inner {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .learning-stage__collapse-inner {
@@ -1480,7 +1515,7 @@ label {
   flex: 1 1 auto;
   flex-direction: column;
   gap: 16px;
-  padding: 24px 16px 18px;
+  padding: 24px 16px 6px;
   overflow-y: auto;
 }
 
@@ -2173,23 +2208,25 @@ label {
 
 .chat-widget__suggestions {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
   margin-top: auto;
-  padding: 8px 2px 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  padding-top: 8px;
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 280ms var(--ease-out), filter 280ms var(--ease-out);
 }
 
-.chat-widget__suggestions::-webkit-scrollbar {
-  display: none;
+.chat-widget__suggestions[data-hidden="true"] {
+  opacity: 0;
+  filter: blur(3px);
+  pointer-events: none;
 }
 
 .chat-widget__suggestion {
   flex: 0 0 auto;
-  max-width: none;
+  max-width: 100%;
   padding: 8px 12px;
   border: 0;
   border-radius: 999px;
@@ -2223,10 +2260,7 @@ label {
 }
 
 .chat-widget__suggestion[data-sent="true"] {
-  pointer-events: none;
-  opacity: 0.5;
-  filter: blur(0);
-  transform: none;
+  display: none;
 }
 
 .chat-widget[data-visible="true"][data-shift="true"] {
@@ -2236,7 +2270,7 @@ label {
 .agent-sources-card {
   position: absolute;
   left: calc(50% + 68px);
-  top: 42%;
+  top: 50%;
   width: 246px;
   padding: 4px;
   border: 1.3px solid rgba(243, 243, 245, 0.7);
@@ -2245,14 +2279,14 @@ label {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 25px 55px rgba(135, 135, 135, 0.1), 0 99px 99px rgba(135, 135, 135, 0.09);
   opacity: 0;
   filter: blur(6px);
-  transform: translateY(10px) scale(0.95);
+  transform: translateY(calc(-50% + 10px)) scale(0.95);
   transition: opacity 480ms var(--ease-out), filter 480ms var(--ease-out), transform 480ms var(--ease-out);
 }
 
 .agent-sources-card[data-visible="true"] {
   opacity: 1;
   filter: blur(0);
-  transform: none;
+  transform: translateY(-50%);
 }
 
 .agent-sources-card__inner {
@@ -2342,8 +2376,11 @@ label {
   .chat-widget__online,
   .chat-widget__bubble,
   .chat-widget__composer,
+  .chat-widget__suggestions,
   .chat-close,
-  .learning-stage__collapse {
+  .learning-stage__collapse,
+  .chat-collapse,
+  .chat-collapse-inner {
     transition-duration: 140ms;
     transition-delay: 0ms !important;
   }
