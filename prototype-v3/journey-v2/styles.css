@@ -539,7 +539,7 @@ label {
 .company-fields {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
   width: 100%;
 }
 
@@ -552,7 +552,7 @@ label {
 
 .field-label {
   color: var(--brand-navy);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 20px;
 }
@@ -883,7 +883,7 @@ label {
   padding: 0;
   border: 1px solid var(--checkbox-border);
   border-radius: 6px;
-  color: var(--ink);
+  color: var(--brand-navy);
   background: var(--pill-bg);
   cursor: pointer;
   place-items: center;
@@ -897,7 +897,8 @@ label {
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.6;
+  stroke-width: 1.1;
+  transform: rotate(180deg);
 }
 
 .continue-button {
@@ -910,7 +911,7 @@ label {
   align-items: center;
   justify-content: center;
   color: #fff;
-  background: var(--brand-navy);
+  background: #0f172a;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
