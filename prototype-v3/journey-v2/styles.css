@@ -634,15 +634,6 @@ label {
   pointer-events: none;
 }
 
-.company-hero-mark {
-  position: absolute;
-  top: 46px;
-  right: 12%;
-  width: 41px;
-  height: 45px;
-  pointer-events: none;
-}
-
 .hero-copy {
   position: absolute;
   z-index: 2;
@@ -1155,6 +1146,7 @@ label {
 
 .learning-stage__collapse {
   width: 100%;
+  flex-shrink: 0;
   max-height: 0;
   overflow: hidden;
   transition: max-height 620ms var(--ease-in-out);
@@ -1164,16 +1156,8 @@ label {
   max-height: 140px;
 }
 
-#chat-reply-collapse[data-visible="true"] {
-  max-height: 280px;
-}
-
-#chat-typing-collapse,
-#chat-message-collapse,
-#chat-sent-collapse,
-#chat-reply-typing-collapse,
-#chat-reply-collapse {
-  flex-shrink: 0;
+.chat-widget__reply-collapse[data-visible="true"] {
+  max-height: 340px;
 }
 
 .learning-stage__collapse-inner {
@@ -1563,6 +1547,7 @@ label {
 .chat-widget__composer {
   flex: 0 0 auto;
   padding: 14px 12px;
+  visibility: hidden;
   opacity: 0;
   transform: translateY(10px);
   filter: blur(2px);
@@ -1570,6 +1555,7 @@ label {
 }
 
 .chat-widget[data-composer="true"] .chat-widget__composer {
+  visibility: visible;
   opacity: 1;
   transform: none;
   filter: blur(0);
@@ -1587,10 +1573,27 @@ label {
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.04);
 }
 
-.chat-widget__composer-placeholder {
-  color: #94a3b8;
+.chat-widget__composer-input {
+  flex: 1 1 auto;
+  max-height: 72px;
+  overflow-y: auto;
+  resize: none;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  color: #0f172a;
+  background: transparent;
+  font: inherit;
   font-size: 14px;
   line-height: 20px;
+}
+
+.chat-widget__composer-input::placeholder {
+  color: #94a3b8;
+}
+
+.chat-widget__composer-input:disabled {
+  opacity: 0.6;
 }
 
 .chat-widget__composer-actions {
@@ -1607,6 +1610,11 @@ label {
   cursor: pointer;
   place-items: center;
   transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.chat-widget__send-btn:disabled {
+  cursor: default;
+  opacity: 0.4;
 }
 
 .chat-widget__attach-btn {
@@ -2122,55 +2130,9 @@ label {
 }
 
 .agent-field__sparkle {
-  position: relative;
   display: block;
   width: 14px;
   height: 14px;
-  animation: agent-sparkle-pulse 3s cubic-bezier(0.37, 0, 0.63, 1) infinite;
-}
-
-.agent-field__sparkle-stack {
-  position: absolute;
-  inset: 0;
-  mask-image: url("./assets/spinner/mask.svg");
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  animation: agent-sparkle-rotate 2s linear infinite;
-}
-
-.agent-field__sparkle-blob {
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 100%;
-  animation-name: agent-sparkle-twinkle;
-  animation-duration: 2s;
-  animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
-  animation-iteration-count: infinite;
-  animation-delay: var(--twinkle-delay, 0ms);
-}
-
-.agent-field__sparkle-blob--a { left: 5.16%; top: 30.2%; width: 87%; height: 86.9%; transform: rotate(-56.79deg); --twinkle-delay: 0ms; }
-.agent-field__sparkle-blob--b { left: 11.2%; top: 62.9%; width: 75.2%; height: 76.3%; transform: rotate(-56.79deg); --twinkle-delay: 150ms; }
-.agent-field__sparkle-blob--c { left: 62.1%; top: 48.9%; width: 66%; height: 54%; --twinkle-delay: 300ms; }
-.agent-field__sparkle-blob--d { left: 55%; top: 15%; width: 56.6%; height: 56.6%; --twinkle-delay: 450ms; }
-.agent-field__sparkle-blob--e { left: 0%; top: 0%; width: 75.2%; height: 61.9%; --twinkle-delay: 600ms; }
-
-@keyframes agent-sparkle-rotate {
-  from { transform: rotate(-90deg); }
-  to { transform: rotate(270deg); }
-}
-
-@keyframes agent-sparkle-pulse {
-  0%, 100% { scale: 1 1; }
-  25% { scale: 0.88 0.88; }
-  50% { scale: 1.05 1.05; }
-  75% { scale: 0.92 0.92; }
-}
-
-@keyframes agent-sparkle-twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
 }
 
 .agent-trained {
@@ -2209,15 +2171,17 @@ label {
 
 .chat-widget__suggestions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 8px;
   margin-top: auto;
   padding-top: 8px;
 }
 
 .chat-widget__suggestion {
-  max-width: 88%;
+  flex: 1 1 calc(50% - 4px);
+  max-width: calc(50% - 4px);
   padding: 8px 12px;
   border: 0;
   border-radius: 999px;
@@ -2227,6 +2191,7 @@ label {
   line-height: 20px;
   text-align: left;
   cursor: pointer;
+  visibility: hidden;
   opacity: 0;
   transform: translateY(12px);
   filter: blur(3px);
@@ -2238,6 +2203,7 @@ label {
 }
 
 .chat-widget__suggestion[data-visible="true"] {
+  visibility: visible;
   opacity: 1;
   transform: none;
   filter: blur(0);
@@ -2247,9 +2213,11 @@ label {
   background: var(--pill-bg-hover);
 }
 
-.chat-widget__suggestion[data-sent="true"],
-.chat-widget__suggestion[data-hidden="true"] {
-  display: none;
+.chat-widget__suggestion[data-sent="true"] {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: blur(0);
+  transform: none;
 }
 
 .chat-widget[data-visible="true"][data-shift="true"] {
@@ -2336,6 +2304,51 @@ label {
   stroke-linejoin: round;
 }
 
+.chat-widget__exchange {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-widget__inline-sources {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-left: 28px;
+}
+
+.chat-widget__inline-sources-label {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.chat-widget__inline-source-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: var(--brand-navy);
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.chat-widget__inline-source-chip svg {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2349,10 +2362,7 @@ label {
   .learning-brand-icon__placeholder,
   .chat-widget__orb-blob,
   .chat-widget__typing-dots span,
-  .setup-orb__blob,
-  .agent-field__sparkle,
-  .agent-field__sparkle-stack,
-  .agent-field__sparkle-blob {
+  .setup-orb__blob {
     animation: none !important;
   }
 

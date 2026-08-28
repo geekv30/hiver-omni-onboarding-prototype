@@ -37,15 +37,7 @@
                   <label class="field-label" for="agent-name-input">AI agent name</label>
                   <div class="agent-field">
                     <span class="agent-field__icon" aria-hidden="true">
-                      <span class="agent-field__sparkle">
-                        <span class="agent-field__sparkle-stack">
-                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--a" src="./assets/spinner/ellipse206.svg" alt="" />
-                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--b" src="./assets/spinner/ellipse208.svg" alt="" />
-                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--c" src="./assets/spinner/ellipse207.svg" alt="" />
-                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--d" src="./assets/spinner/ellipse209.svg" alt="" />
-                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--e" src="./assets/spinner/ellipse203.svg" alt="" />
-                        </span>
-                      </span>
+                      <img class="agent-field__sparkle" src="./assets/icons/hiver-ai-sparkle.svg" alt="" />
                     </span>
                     <input type="text" id="agent-name-input" name="agentName" placeholder="e.g., Ava, Hivey, or Max" autocomplete="off" />
                   </div>
@@ -126,43 +118,6 @@
                 </div>
               </div>
 
-              <div class="learning-stage__collapse" id="chat-sent-collapse">
-                <div class="learning-stage__collapse-inner">
-                  <div class="chat-widget__row chat-widget__row--user">
-                    <div class="chat-widget__bubbles chat-widget__bubbles--user">
-                      <p class="chat-widget__bubble chat-widget__bubble--user" id="chat-sent-bubble" data-visible="true">Battery issue with iPhone 16 pro max</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="learning-stage__collapse" id="chat-reply-typing-collapse">
-                <div class="learning-stage__collapse-inner">
-                  <div class="chat-widget__row">
-                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
-                    <div class="chat-widget__bubbles">
-                      <div class="chat-widget__bubble" data-visible="true">
-                        <span class="chat-widget__typing-dots" aria-label="Agent is typing">
-                          <span></span><span></span><span></span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="learning-stage__collapse" id="chat-reply-collapse">
-                <div class="learning-stage__collapse-inner">
-                  <div class="chat-widget__row">
-                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
-                    <div class="chat-widget__bubbles">
-                      <p class="chat-widget__bubble" id="chat-reply-1">Try restarting your iPhone, then go to Settings &gt; Battery and check which apps are using the most power. Disable Background App Refresh for any you don&rsquo;t need.</p>
-                      <p class="chat-widget__bubble" id="chat-reply-2">If the issue persists, don&rsquo;t hesitate to reach out. I&rsquo;m always here to help!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div class="chat-widget__suggestions" id="chat-suggestions">
                 <button class="chat-widget__suggestion" type="button" id="suggestion-1" data-visible="false">Battery issue with iPhone 16 pro max</button>
                 <button class="chat-widget__suggestion" type="button" id="suggestion-2" data-visible="false">Camera difference between iPhone 15 &amp; 16?</button>
@@ -171,12 +126,17 @@
 
             <div class="chat-widget__composer" id="chat-composer">
               <div class="chat-widget__composer-box">
-                <span class="chat-widget__composer-placeholder" id="chat-composer-placeholder">Ask me anything</span>
+                <textarea
+                  class="chat-widget__composer-input"
+                  id="chat-composer-input"
+                  rows="1"
+                  placeholder="Ask me anything"
+                ></textarea>
                 <div class="chat-widget__composer-actions">
                   <button class="chat-widget__attach-btn" type="button" aria-label="Attach a file">
                     <img src="./assets/widget/attachment.svg" alt="" />
                   </button>
-                  <button class="chat-widget__send-btn" type="button" aria-label="Send message">
+                  <button class="chat-widget__send-btn" type="button" id="chat-send-button" aria-label="Send message" disabled>
                     <img src="./assets/widget/send.svg" alt="" />
                   </button>
                 </div>

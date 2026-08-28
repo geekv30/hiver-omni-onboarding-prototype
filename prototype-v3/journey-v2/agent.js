@@ -21,19 +21,34 @@ const bubble1 = document.querySelector("#chat-bubble-1");
 const bubble2 = document.querySelector("#chat-bubble-2");
 const suggestion1 = document.querySelector("#suggestion-1");
 const suggestion2 = document.querySelector("#suggestion-2");
-const sentCollapse = document.querySelector("#chat-sent-collapse");
-const replyTypingCollapse = document.querySelector("#chat-reply-typing-collapse");
-const replyCollapse = document.querySelector("#chat-reply-collapse");
-const reply1 = document.querySelector("#chat-reply-1");
-const reply2 = document.querySelector("#chat-reply-2");
-const composerPlaceholder = document.querySelector("#chat-composer-placeholder");
+const suggestionsRow = document.querySelector("#chat-suggestions");
+const composerInput = document.querySelector("#chat-composer-input");
+const sendButton = document.querySelector("#chat-send-button");
 const sourcesCard = document.querySelector("#agent-sources-card");
 const chatBody = document.querySelector("#chat-body");
-const sentBubble = document.querySelector("#chat-sent-bubble");
 const sourceLinks = document.querySelectorAll("#agent-sources-card .agent-sources-card__link span");
 
-function scrollChatToBottom() {
+function isNearBottom() {
+  return chatBody.scrollHeight - chatBody.scrollTop - chatBody.clientHeight < 24;
+}
+
+// Only a genuine user scroll should be able to set this — our own
+// script-driven scrolling below is guarded so it never trips this flag,
+// otherwise the widget's own animated growth looks identical to "the user
+// scrolled up" and auto-scroll breaks itself.
+let userScrolledUp = false;
+let programmaticScroll = false;
+
+chatBody.addEventListener("scroll", () => {
+  if (programmaticScroll) return;
+  userScrolledUp = !isNearBottom();
+});
+
+function scrollChatToBottom(force = false) {
+  if (!force && userScrolledUp) return;
+  programmaticScroll = true;
   chatBody.scrollTop = chatBody.scrollHeight;
+  requestAnimationFrame(() => { programmaticScroll = false; });
 }
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -85,12 +100,12 @@ function runWidgetSequence() {
     setCollapse(typingCollapse, false);
     setCollapse(messageCollapse, true);
     bubble1.dataset.visible = "true";
-    window.setTimeout(scrollChatToBottom, 650);
+    window.setTimeout(() => scrollChatToBottom(true), 650);
   }, t.messages);
 
   window.setTimeout(() => {
     bubble2.dataset.visible = "true";
-    window.setTimeout(scrollChatToBottom, 350);
+    window.setTimeout(() => scrollChatToBottom(true), 350);
   }, t.bubble2);
 
   window.setTimeout(() => {
@@ -105,6 +120,7 @@ function runWidgetSequence() {
 
 const QUESTIONS = {
   [suggestion1.id]: {
+    match: ["battery"],
     reply1: "Try restarting your iPhone, then go to Settings &gt; Battery and check which apps are using the most power. Disable Background App Refresh for any you don&rsquo;t need.",
     reply2: "If the issue persists, don&rsquo;t hesitate to reach out. I&rsquo;m always here to help!",
     sources: [
@@ -113,6 +129,7 @@ const QUESTIONS = {
     ],
   },
   [suggestion2.id]: {
+    match: ["camera"],
     reply1: "The iPhone 16 Pro Max steps up to a 48MP Ultra Wide camera and adds a 5x telephoto lens, both exclusive to the Pro line. Low-light photos and 4K video stabilization are noticeably sharper too.",
     reply2: "Both phones support Night mode and Cinematic mode, but the 16 Pro Max adds macro photography and a longer zoom range.",
     sources: [
@@ -122,61 +139,183 @@ const QUESTIONS = {
   },
 };
 
-let askedAlready = false;
+const FALLBACK_REPLY = "I&rsquo;m still learning &mdash; try one of the questions above, or ask about battery life or camera specs.";
 
-function askQuestion(suggestion) {
-  if (askedAlready) return;
-  askedAlready = true;
+function matchQuestionKey(text) {
+  const lower = text.toLowerCase();
+  for (const [key, question] of Object.entries(QUESTIONS)) {
+    if (question.match.some((word) => lower.includes(word))) return key;
+  }
+  return null;
+}
 
-  const question = QUESTIONS[suggestion.id];
-  const other = suggestion === suggestion1 ? suggestion2 : suggestion1;
+function sourceLabel(url) {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    const segment = parsed.pathname.split("/").filter(Boolean).pop();
+    return segment ? `${host}/${segment}` : host;
+  } catch (error) {
+    return url;
+  }
+}
 
-  sentBubble.textContent = suggestion.textContent;
-  reply1.innerHTML = question.reply1;
-  reply2.innerHTML = question.reply2;
-  sourceLinks[0].textContent = question.sources[0];
-  sourceLinks[1].textContent = question.sources[1];
+function buildCollapse(innerHtml, extraClass) {
+  const wrap = document.createElement("div");
+  wrap.className = extraClass ? `learning-stage__collapse ${extraClass}` : "learning-stage__collapse";
+  const inner = document.createElement("div");
+  inner.className = "learning-stage__collapse-inner";
+  inner.innerHTML = innerHtml;
+  wrap.appendChild(inner);
+  return wrap;
+}
 
-  // A deliberate pause before the typing indicator appears, so the reply
-  // reads as the agent taking a beat to think rather than an instant echo.
+let chatBusy = false;
+
+function setComposerBusy(busy) {
+  chatBusy = busy;
+  composerInput.disabled = busy;
+  sendButton.disabled = busy || composerInput.value.trim() === "";
+}
+
+function runExchange(questionText, key) {
+  if (chatBusy) return;
+  setComposerBusy(true);
+
+  const question = QUESTIONS[key] || null;
+  const reply1Html = question ? question.reply1 : FALLBACK_REPLY;
+  const reply2Html = question ? question.reply2 : "";
+  const sources = question ? question.sources : null;
+
+  const exchange = document.createElement("div");
+  exchange.className = "chat-widget__exchange";
+
+  const sentRow = buildCollapse(`
+    <div class="chat-widget__row chat-widget__row--user">
+      <div class="chat-widget__bubbles chat-widget__bubbles--user">
+        <p class="chat-widget__bubble chat-widget__bubble--user" data-visible="true"></p>
+      </div>
+    </div>
+  `);
+  sentRow.querySelector(".chat-widget__bubble--user").textContent = questionText;
+
+  const typingRow = buildCollapse(`
+    <div class="chat-widget__row">
+      <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+      <div class="chat-widget__bubbles">
+        <div class="chat-widget__bubble" data-visible="true">
+          <span class="chat-widget__typing-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        </div>
+      </div>
+    </div>
+  `);
+
+  const replyRow = buildCollapse(`
+    <div class="chat-widget__row">
+      <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+      <div class="chat-widget__bubbles">
+        <p class="chat-widget__bubble" data-reply="1"></p>
+        ${reply2Html ? '<p class="chat-widget__bubble" data-reply="2"></p>' : ""}
+      </div>
+    </div>
+  `, "chat-widget__reply-collapse");
+  replyRow.querySelector('[data-reply="1"]').innerHTML = reply1Html;
+  if (reply2Html) replyRow.querySelector('[data-reply="2"]').innerHTML = reply2Html;
+
+  exchange.append(sentRow, typingRow, replyRow);
+  chatBody.insertBefore(exchange, suggestionsRow);
+
+  const reply1El = replyRow.querySelector('[data-reply="1"]');
+  const reply2El = reply2Html ? replyRow.querySelector('[data-reply="2"]') : null;
+
+  // A short, deliberate pause before the typing indicator appears, so the
+  // reply reads as the agent taking a beat to think rather than an instant echo.
   const t = prefersReducedMotion
-    ? { sent: 0, replyTyping: 460, reply1: 1060, reply2: 1460, sources: 1860 }
-    : { sent: 0, replyTyping: 1200, reply1: 2900, reply2: 3500, sources: 4200 };
+    ? { sent: 0, replyTyping: 150, reply1: 750, reply2: 1150, sources: 1550 }
+    : { sent: 0, replyTyping: 250, reply1: 1950, reply2: 2550, sources: 3250 };
 
   window.setTimeout(() => {
-    suggestion.dataset.sent = "true";
-    other.dataset.hidden = "true";
-    setCollapse(sentCollapse, true);
-    window.setTimeout(scrollChatToBottom, 650);
+    setCollapse(sentRow, true);
+    window.setTimeout(() => scrollChatToBottom(true), 650);
   }, t.sent);
 
   window.setTimeout(() => {
-    setCollapse(replyTypingCollapse, true);
-    window.setTimeout(scrollChatToBottom, 650);
+    setCollapse(typingRow, true);
+    window.setTimeout(() => scrollChatToBottom(), 650);
   }, t.replyTyping);
 
   window.setTimeout(() => {
-    setCollapse(replyTypingCollapse, false);
-    setCollapse(replyCollapse, true);
-    reply1.dataset.visible = "true";
-    composerPlaceholder.textContent = "Ask a followup";
-    window.setTimeout(scrollChatToBottom, 650);
+    setCollapse(typingRow, false);
+    setCollapse(replyRow, true);
+    reply1El.dataset.visible = "true";
+    window.setTimeout(() => scrollChatToBottom(), 650);
   }, t.reply1);
 
-  window.setTimeout(() => {
-    reply2.dataset.visible = "true";
-    window.setTimeout(scrollChatToBottom, 350);
-  }, t.reply2);
+  if (reply2El) {
+    window.setTimeout(() => {
+      reply2El.dataset.visible = "true";
+      window.setTimeout(() => scrollChatToBottom(), 350);
+    }, t.reply2);
+  }
 
   window.setTimeout(() => {
-    widget.dataset.shift = "true";
-    sourcesCard.dataset.visible = "true";
+    if (sources) {
+      const sourcesWrap = document.createElement("div");
+      sourcesWrap.className = "chat-widget__inline-sources";
+      sourcesWrap.innerHTML = `<span class="chat-widget__inline-sources-label">Sources</span>${sources
+        .map(
+          (url) =>
+            `<a class="chat-widget__inline-source-chip" href="${url}" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10m0-20a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/></svg><span>${sourceLabel(url)}</span></a>`,
+        )
+        .join("")}`;
+      replyRow.querySelector(".chat-widget__bubbles").appendChild(sourcesWrap);
+
+      sourceLinks[0].textContent = sources[0];
+      if (sources[1]) sourceLinks[1].textContent = sources[1];
+      widget.dataset.shift = "true";
+      sourcesCard.dataset.visible = "true";
+    }
+    window.setTimeout(() => scrollChatToBottom(), 350);
+    setComposerBusy(false);
   }, t.sources);
 }
 
+function handleSuggestionClick(suggestion) {
+  if (chatBusy || suggestion.dataset.sent === "true") return;
+  suggestion.dataset.sent = "true";
+  runExchange(suggestion.textContent, suggestion.id);
+}
+
+function autoResizeComposer() {
+  composerInput.style.height = "auto";
+  composerInput.style.height = `${composerInput.scrollHeight}px`;
+}
+
+function submitComposer() {
+  const text = composerInput.value.trim();
+  if (!text || chatBusy) return;
+  composerInput.value = "";
+  autoResizeComposer();
+  runExchange(text, matchQuestionKey(text));
+}
+
 runWidgetSequence();
-suggestion1.addEventListener("click", () => askQuestion(suggestion1));
-suggestion2.addEventListener("click", () => askQuestion(suggestion2));
+suggestion1.addEventListener("click", () => handleSuggestionClick(suggestion1));
+suggestion2.addEventListener("click", () => handleSuggestionClick(suggestion2));
+
+composerInput.addEventListener("input", () => {
+  autoResizeComposer();
+  if (!chatBusy) sendButton.disabled = composerInput.value.trim() === "";
+});
+
+composerInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+    event.preventDefault();
+    submitComposer();
+  }
+});
+
+sendButton.addEventListener("click", submitComposer);
 
 backButton.addEventListener("click", () => {
   window.location.href = "./index.html";
