@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame">
+      <section class="form-pane" aria-labelledby="channel-title">
+        <div class="page">
+          <header class="product-header">
+            <div class="step-progress" aria-label="Onboarding progress: step 1 of 4">
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="channel-form" id="channel-form">
+            <div class="form-body">
+              <div class="channel-heading">
+                <h1 id="channel-title">Where do customers reach you?</h1>
+                <p>Choose all that apply. Nothing connects yet.</p>
+              </div>
+
+              <fieldset class="channel-options">
+                <legend class="sr-only">Customer channels</legend>
+
+                <div class="channel-row">
+                  <label class="channel-option channel-option--fixed" data-channel="email">
+                    <input type="checkbox" name="channel" value="email" />
+                    <span class="channel-option__icon" data-icon-system="untitled-ui" data-icon-name="Mail01" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z"/></svg>
+                    </span>
+                    <span class="channel-option__label">Email</span>
+                    <span class="channel-option__check" aria-hidden="true"><svg viewBox="0 0 8 8"><path d="M6.66673 2.4L3.00007 6.06667L1.3334 4.4"/></svg></span>
+                  </label>
+
+                  <label class="channel-option channel-option--fixed" data-channel="chat">
+                    <input type="checkbox" name="channel" value="chat" />
+                    <span class="channel-option__icon" data-icon-system="untitled-ui" data-icon-name="MessageDotsCircle" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M7.5 12h.01M12 12h.01m4.49 0h.01M12 21a9 9 0 1 0-8.342-5.616c.081.2.122.3.14.381a.907.907 0 0 1 .024.219c0 .083-.015.173-.045.353l-.593 3.558c-.062.373-.093.56-.035.694a.5.5 0 0 0 .262.262c.135.058.321.027.694-.035l3.558-.593c.18-.03.27-.045.353-.045.081 0 .14.006.219.024.08.018.18.059.38.14A8.973 8.973 0 0 0 12 21Zm-4-9a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm4.5 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm4.5 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"/></svg>
+                    </span>
+                    <span class="channel-option__label">Chat</span>
+                    <span class="channel-option__check" aria-hidden="true"><svg viewBox="0 0 8 8"><path d="M6.66673 2.4L3.00007 6.06667L1.3334 4.4"/></svg></span>
+                  </label>
+
+                  <label class="channel-option channel-option--fixed" data-channel="voice">
+                    <input type="checkbox" name="channel" value="voice" />
+                    <span class="channel-option__icon" data-icon-system="untitled-ui" data-icon-name="PhoneCall01" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M14.05 6A5 5 0 0 1 18 9.95M14.05 2A9 9 0 0 1 22 9.94m-11.773 3.923a14.604 14.604 0 0 1-2.847-4.01 1.698 1.698 0 0 1-.113-.266 1.046 1.046 0 0 1 .147-.862c.048-.067.105-.124.22-.238.35-.35.524-.524.638-.7a2 2 0 0 0 0-2.18c-.114-.176-.289-.351-.638-.7l-.195-.196c-.532-.531-.797-.797-1.083-.941a2 2 0 0 0-1.805 0c-.285.144-.551.41-1.083.941l-.157.158c-.53.53-.795.794-.997 1.154-.224.4-.386 1.02-.384 1.479 0 .413.081.695.241 1.26a19.038 19.038 0 0 0 4.874 8.283 19.039 19.039 0 0 0 8.283 4.873c.565.16.847.24 1.26.242a3.377 3.377 0 0 0 1.478-.384c.36-.203.625-.468 1.155-.997l.157-.158c.532-.531.797-.797.942-1.082a2 2 0 0 0 0-1.806c-.145-.285-.41-.55-.942-1.082l-.195-.195c-.35-.35-.524-.524-.7-.639a2 2 0 0 0-2.18 0c-.176.114-.35.29-.7.639-.115.114-.172.171-.239.22-.237.17-.581.228-.862.146a1.695 1.695 0 0 1-.266-.113 14.605 14.605 0 0 1-4.01-2.846Z"/></svg>
+                    </span>
+                    <span class="channel-option__label">Voice</span>
+                    <span class="channel-option__check" aria-hidden="true"><svg viewBox="0 0 8 8"><path d="M6.66673 2.4L3.00007 6.06667L1.3334 4.4"/></svg></span>
+                  </label>
+                </div>
+
+                <div class="channel-row">
+                  <label class="channel-option channel-option--fixed" data-channel="slack">
+                    <input type="checkbox" name="channel" value="slack" />
+                    <span class="channel-option__icon channel-option__icon--brand" data-icon-system="brand" data-icon-name="Slack" aria-hidden="true">
+                      <img src="./assets/icons/slack.svg" alt="" />
+                    </span>
+                    <span class="channel-option__label">Slack</span>
+                    <span class="channel-option__check" aria-hidden="true"><svg viewBox="0 0 8 8"><path d="M6.66673 2.4L3.00007 6.06667L1.3334 4.4"/></svg></span>
+                  </label>
+
+                  <label class="channel-option channel-option--hug" data-channel="whatsapp">
+                    <input type="checkbox" name="channel" value="whatsapp" />
+                    <span class="channel-option__icon channel-option__icon--brand" data-icon-system="brand" data-icon-name="WhatsApp" aria-hidden="true">
+                      <img src="./assets/icons/whatsapp.svg" alt="" />
+                    </span>
+                    <span class="channel-option__label">WhatsApp</span>
+                    <span class="channel-option__check" aria-hidden="true"><svg viewBox="0 0 8 8"><path d="M6.66673 2.4L3.00007 6.06667L1.3334 4.4"/></svg></span>
+                  </label>
+                </div>
+
+                <div class="channel-row">
+                  <label class="channel-option channel-option--unsure" data-channel="unsure">
+                    <input type="checkbox" name="channel" value="unsure" />
+                    <span class="channel-option__icon" data-icon-system="untitled-ui" data-icon-name="AnnotationQuestion" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M10 8.502a2.248 2.248 0 0 1 4.37.75c0 1.499-2.25 2.248-2.25 2.248m.03 3h.01M9.9 19.2l1.46 1.947c.217.29.326.434.459.486a.5.5 0 0 0 .362 0c.133-.052.242-.197.459-.486L14.1 19.2c.293-.39.44-.586.619-.735a2 2 0 0 1 .822-.412c.226-.053.47-.053.959-.053 1.398 0 2.097 0 2.648-.228a3 3 0 0 0 1.624-1.624C21 15.597 21 14.898 21 13.5V7.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C18.72 3 17.88 3 16.2 3H7.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C3 5.28 3 6.12 3 7.8v5.7c0 1.398 0 2.097.228 2.648a3 3 0 0 0 1.624 1.624C5.403 18 6.102 18 7.5 18c.489 0 .733 0 .96.053a2 2 0 0 1 .821.412c.18.149.326.344.619.735Z"/></svg>
+                    </span>
+                    <span class="channel-option__label">I am not sure yet</span>
+                    <span class="channel-option__check" aria-hidden="true"><svg viewBox="0 0 8 8"><path d="M6.66673 2.4L3.00007 6.06667L1.3334 4.4"/></svg></span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-footer">
+              <button class="continue-button" type="submit" disabled>Continue</button>
+            </div>
+          </form>
+        </div>
+
+        <p class="sr-only" id="save-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <aside class="landscape-pane" aria-label="Hiver connected channels illustration">
+        <img class="landscape-image" src="./assets/omni-channel-landscape.png" alt="" />
+        <div class="radial-ring radial-ring--outer" aria-hidden="true">
+          <img class="radial-ring__spin" src="./assets/ring-outer.svg" alt="" />
+        </div>
+        <div class="radial-ring radial-ring--inner" aria-hidden="true">
+          <img class="radial-ring__spin" src="./assets/ring-inner.svg" alt="" />
+        </div>
+        <img class="hiver-core" src="./assets/hiver-core.svg" alt="" />
+      </aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

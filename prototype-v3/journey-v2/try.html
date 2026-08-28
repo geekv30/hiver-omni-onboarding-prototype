@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame">
+      <section class="form-pane" aria-labelledby="try-title">
+        <div class="page">
+          <header class="product-header">
+            <div class="step-progress" aria-label="Onboarding progress: step 3 of 4">
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="channel-form" id="try-form">
+            <div class="form-body">
+              <div class="channel-heading try-heading" id="try-heading">
+                <h1 id="try-title">Your AI Agent is ready to try.</h1>
+                <p>Send a test message and watch it reply in real time.</p>
+              </div>
+            </div>
+
+            <div class="form-footer form-footer--split">
+              <button class="back-button" type="button" id="back-button" aria-label="Back">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+              <button class="continue-button" type="submit" id="continue-button">Continue</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="landscape-pane" aria-label="Try your AI agent">
+        <img class="landscape-image" src="./assets/widget/landscape.jpg" alt="" />
+
+        <div class="chat-stage">
+          <div class="chat-widget" id="chat-widget" role="group" aria-label="Apple AI agent preview">
+            <div class="chat-widget__header">
+              <div class="chat-widget__identity">
+                <img class="chat-widget__brand-icon" src="./assets/widget/brand-mark.svg" alt="" />
+                <div class="chat-widget__identity-text">
+                  <strong id="chat-brand-name">Apple</strong>
+                  <span>Ask us anything</span>
+                </div>
+              </div>
+              <div class="chat-widget__orb-wrap">
+                <div class="chat-widget__orb" id="chat-widget-orb" aria-hidden="true">
+                  <img class="chat-widget__orb-base" src="./assets/widget/orb-base.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--1" src="./assets/widget/orb-blob1.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--2" src="./assets/widget/orb-blob2.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--3" src="./assets/widget/orb-blob3.svg" alt="" />
+                </div>
+                <img class="chat-widget__online" src="./assets/widget/online-dot.svg" alt="" />
+              </div>
+            </div>
+
+            <div class="chat-widget__body" id="chat-body">
+              <div class="learning-stage__collapse" id="chat-typing-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row">
+                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                    <div class="chat-widget__bubbles">
+                      <div class="chat-widget__bubble" data-visible="true">
+                        <span class="chat-widget__typing-dots" aria-label="Agent is typing">
+                          <span></span><span></span><span></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="learning-stage__collapse" id="chat-message-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row">
+                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                    <div class="chat-widget__bubbles">
+                      <p class="chat-widget__bubble" id="chat-bubble-1">Welcome aboard!</p>
+                      <p class="chat-widget__bubble" id="chat-bubble-2">How can I help you today?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-widget__composer" id="chat-composer">
+              <div class="chat-widget__composer-box">
+                <span class="chat-widget__composer-placeholder">Ask me anything!</span>
+                <div class="chat-widget__composer-actions">
+                  <button class="chat-widget__attach-btn" type="button" aria-label="Attach a file">
+                    <img src="./assets/widget/attachment.svg" alt="" />
+                  </button>
+                  <button class="chat-widget__send-btn" type="button" aria-label="Send message">
+                    <img src="./assets/widget/send.svg" alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="chat-close" id="chat-close" type="button" aria-label="Close chat preview">
+            <img src="./assets/widget/close.svg" alt="" />
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./try.js"></script>
+  </body>
+</html>

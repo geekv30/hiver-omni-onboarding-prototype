@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8fc" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="hero-frame hero-frame--card" aria-label="Hiver is reading your knowledge source">
+      <div class="learning-video-bg" aria-hidden="true">
+        <video class="learning-video-bg__video" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+        <div class="learning-video-bg__tint"></div>
+        <div class="learning-video-bg__scrim"></div>
+      </div>
+
+      <div class="source-chip" id="source-chip">
+        <span class="source-chip__icon" id="source-chip-icon" hidden aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2c2.5 2.7 4 6.4 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.4-4-10s1.5-7.3 4-10Z"/></svg>
+        </span>
+        <span class="source-chip__text" id="source-chip-text">waiting for sources</span>
+      </div>
+
+      <div class="learning-stage" id="learning-stage" aria-live="polite">
+        <h2 class="learning-heading">
+          <span class="learning-heading__state" id="learning-heading-building" data-active="true">
+            <span class="learning-heading__line">Hiver AI will help you build</span>
+            <span class="learning-heading__line learning-heading__brand-line">
+              <span>an AI agent for</span>
+              <span class="learning-brand-icon" id="learning-brand-icon">
+                <span class="learning-brand-icon__placeholder" aria-hidden="true"></span>
+                <span class="learning-brand-icon__resolved" id="learning-brand-icon-resolved" aria-hidden="true"></span>
+              </span>
+              <span id="learning-brand-name">your business</span>
+            </span>
+          </span>
+          <span class="learning-heading__state" id="learning-heading-ready">
+            <span class="learning-heading__line">Your AI Support Agent is ready!</span>
+          </span>
+        </h2>
+
+        <div class="learning-stage__collapse" id="learning-caption-collapse">
+          <div class="learning-stage__collapse-inner">
+            <p class="learning-caption" id="learning-caption">Analyzing your site&hellip;</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./learning.js"></script>
+  </body>
+</html>

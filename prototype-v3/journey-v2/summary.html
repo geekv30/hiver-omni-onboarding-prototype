@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame">
+      <section class="form-pane" aria-labelledby="summary-title">
+        <div class="page">
+          <header class="product-header">
+            <div class="step-progress" aria-label="Onboarding complete">
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment is-active"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="channel-form" id="summary-form">
+            <div class="form-body">
+              <div class="channel-heading">
+                <h1 id="summary-title">You are setup, but there's more to explore</h1>
+                <p>Your agent is live. Turn on the rest whenever you're ready.</p>
+              </div>
+
+              <div class="setup-group">
+                <div class="setup-group__label">
+                  <img src="./assets/icons/check.svg" alt="" />
+                  <span>Setup done</span>
+                </div>
+                <div class="setup-row">
+                  <div class="setup-pill setup-pill--done">
+                    <img class="setup-pill__icon" src="./assets/icons/navigation-menu.svg" alt="" />
+                    <span>Knowledge setup</span>
+                  </div>
+                  <div class="setup-pill setup-pill--done">
+                    <span class="setup-orb" aria-hidden="true">
+                      <img class="setup-orb__base" src="./assets/blob/base-gradient.svg" alt="" />
+                      <img class="setup-orb__blob setup-orb__blob--1" src="./assets/blob/blob1.svg" alt="" />
+                      <img class="setup-orb__blob setup-orb__blob--2" src="./assets/blob/blob2.svg" alt="" />
+                      <img class="setup-orb__blob setup-orb__blob--3" src="./assets/blob/blob3.svg" alt="" />
+                    </span>
+                    <span>AI Support Agent</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="setup-group">
+                <div class="setup-group__label">
+                  <img src="./assets/icons/edit-pencil.svg" alt="" />
+                  <span>Ready for setup</span>
+                </div>
+                <div class="setup-row setup-row--wrap">
+                  <div class="setup-pill">
+                    <img class="setup-pill__icon" src="./assets/icons/lightning-02.svg" alt="" />
+                    <span>SLAs</span>
+                  </div>
+                  <div class="setup-pill">
+                    <img class="setup-pill__icon" src="./assets/icons/dataflow-02.svg" alt="" />
+                    <span>Automations</span>
+                  </div>
+                  <div class="setup-pill">
+                    <img class="setup-pill__icon" src="./assets/icons/route.svg" alt="" />
+                    <span>Routing</span>
+                  </div>
+                  <div class="setup-pill">
+                    <img class="setup-pill__icon" src="./assets/icons/flash.svg" alt="" />
+                    <span>Skills</span>
+                  </div>
+                  <div class="setup-pill">
+                    <img class="setup-pill__icon" src="./assets/icons/clock-fast-forward.svg" alt="" />
+                    <span>Routines</span>
+                  </div>
+                  <div class="setup-pill">
+                    <img class="setup-pill__icon" src="./assets/icons/tag-01.svg" alt="" />
+                    <span>Tags</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-footer form-footer--split">
+              <button class="back-button" type="button" id="back-button" aria-label="Back">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+              <button class="continue-button" type="submit" id="continue-button">Continue</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="landscape-pane" aria-label="What you can explore next">
+        <img class="landscape-image" src="./assets/summary/river-convergence.jpg" alt="" />
+
+        <div class="summary-collage" id="summary-collage">
+          <div class="summary-card summary-card--empty summary-card--a"></div>
+          <div class="summary-card summary-card--empty summary-card--b"></div>
+          <div class="summary-card summary-card--empty summary-card--c"></div>
+
+          <div class="summary-card summary-card--preview">
+            <div class="chat-widget chat-widget--static chat-widget--card-preview" role="group" aria-label="Apple AI agent preview">
+              <div class="chat-widget__header">
+                <div class="chat-widget__identity">
+                  <img class="chat-widget__brand-icon" src="./assets/widget/brand-mark.svg" alt="" />
+                  <div class="chat-widget__identity-text">
+                    <strong id="summary-brand-name">Apple</strong>
+                    <span>Ask us anything</span>
+                  </div>
+                </div>
+                <div class="chat-widget__orb-wrap">
+                  <div class="chat-widget__orb" aria-hidden="true">
+                    <img class="chat-widget__orb-base" src="./assets/widget/orb-base.svg" alt="" />
+                    <img class="chat-widget__orb-blob chat-widget__orb-blob--1" src="./assets/widget/orb-blob1.svg" alt="" />
+                    <img class="chat-widget__orb-blob chat-widget__orb-blob--2" src="./assets/widget/orb-blob2.svg" alt="" />
+                    <img class="chat-widget__orb-blob chat-widget__orb-blob--3" src="./assets/widget/orb-blob3.svg" alt="" />
+                  </div>
+                  <img class="chat-widget__online" src="./assets/widget/online-dot.svg" alt="" />
+                </div>
+              </div>
+
+              <div class="chat-widget__body">
+                <div class="chat-widget__row">
+                  <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                  <div class="chat-widget__bubbles">
+                    <p class="chat-widget__bubble" data-visible="true">Welcome aboard!</p>
+                    <p class="chat-widget__bubble" data-visible="true">How may I help you today?</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./summary.js"></script>
+  </body>
+</html>

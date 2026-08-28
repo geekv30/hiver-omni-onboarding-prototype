@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame onboarding-frame--company">
+      <section class="form-pane" aria-labelledby="channel-title">
+        <div class="page">
+          <header class="product-header product-header--company">
+            <div class="step-progress" aria-label="Onboarding progress: step 1 of 4">
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="company-step" id="company-form">
+            <div class="company-step__fields">
+              <div class="company-heading">
+                <h1 id="channel-title">Let&rsquo;s get your AI support agent ready!</h1>
+              </div>
+
+              <div class="company-fields">
+                <div class="field-group">
+                  <label class="field-label" for="company-name-input">Company name</label>
+                  <div class="company-field">
+                    <span class="company-field__icon" aria-hidden="true">
+                      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.58333 6.41667H10.3833C11.0367 6.41667 11.3634 6.41667 11.613 6.54383C11.8325 6.65568 12.011 6.83416 12.1228 7.05368C12.25 7.30324 12.25 7.62994 12.25 8.28333V12.25M7.58333 12.25V3.61667C7.58333 2.96327 7.58333 2.63657 7.45617 2.38701C7.34432 2.16749 7.16585 1.98901 6.94632 1.87716C6.69676 1.75 6.37006 1.75 5.71667 1.75H3.61667C2.96327 1.75 2.63658 1.75 2.38701 1.87716C2.16749 1.98901 1.98901 2.16749 1.87716 2.38701C1.75 2.63657 1.75 2.96327 1.75 3.61667V12.25M12.8333 12.25H1.16667M3.79167 4.08333H5.54167M3.79167 6.41667H5.54167M3.79167 8.75H5.54167" stroke="currentColor" stroke-width="0.991667" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <input type="text" id="company-name-input" name="companyName" placeholder="Enter your company name" autocomplete="organization" />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="company-website-input">Company website</label>
+                  <div class="website-field">
+                    <div class="company-field company-field--joined">
+                      <span class="company-field__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10m0-20a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/></svg>
+                      </span>
+                      <input type="text" id="company-website-input" name="companyWebsite" placeholder="https://yourcompany.com" autocomplete="off" spellcheck="false" inputmode="url" />
+                    </div>
+                    <p class="website-note">
+                      <span class="website-note__icon" aria-hidden="true">
+                        <img src="./assets/icons/sparkle-mask.svg" alt="" />
+                      </span>
+                      <span>Hiver AI will analyze public pages, help center articles, and FAQs</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="company-step__footer">
+              <button class="continue-button" type="submit">Continue</button>
+            </div>
+          </form>
+        </div>
+
+        <p class="sr-only" id="save-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <aside class="landscape-pane landscape-pane--framed" aria-label="Companies already using Hiver">
+        <div class="video-card">
+          <video class="landscape-video" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+          <div class="video-tint" aria-hidden="true"></div>
+          <img class="company-hero-mark" src="./assets/hiver-core.svg" alt="" />
+
+          <div class="hero-copy">
+            <p class="hero-copy__heading">You&rsquo;ll be in good company</p>
+            <div class="logo-wall" aria-hidden="true">
+              <div class="logo-wall__card">
+                <span class="logo-wall__lockup"><span class="logo-wall__mark" aria-hidden="true">
+                  <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                </span>
+                <span class="logo-wall__name">Spotify</span>
+                </span>
+              </div>
+              <div class="logo-wall__card">
+                <span class="logo-wall__lockup"><span class="logo-wall__mark" aria-hidden="true">
+                  <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 18.275c-1.353-1.697-2.148-3.184-2.413-4.457-.263-1.027-.16-1.848.291-2.465.477-.71 1.188-1.056 2.121-1.056s1.643.345 2.12 1.063c.446.61.558 1.432.286 2.465-.291 1.298-1.085 2.785-2.412 4.458zm9.601 1.14c-.185 1.246-1.034 2.28-2.2 2.783-2.253.98-4.483-.583-6.392-2.704 3.157-3.951 3.74-7.028 2.385-9.018-.795-1.14-1.933-1.695-3.394-1.695-2.944 0-4.563 2.49-3.927 5.382.37 1.565 1.352 3.343 2.917 5.332-.98 1.085-1.91 1.856-2.732 2.333-.636.344-1.245.558-1.828.609-2.679.399-4.778-2.2-3.825-4.88.132-.345.395-.98.845-1.961l.025-.053c1.464-3.178 3.242-6.79 5.285-10.795l.053-.132.58-1.116c.45-.822.635-1.19 1.351-1.643.346-.21.77-.315 1.246-.315.954 0 1.698.558 2.016 1.007.158.239.345.557.582.953l.558 1.089.08.159c2.041 4.004 3.821 7.608 5.279 10.794l.026.025.533 1.22.318.764c.243.613.294 1.222.213 1.858zm1.22-2.39c-.186-.583-.505-1.271-.9-2.094v-.03c-1.889-4.006-3.642-7.608-5.307-10.844l-.111-.163C15.317 1.461 14.468 0 12.001 0c-2.44 0-3.476 1.695-4.535 3.898l-.081.16c-1.669 3.236-3.421 6.843-5.303 10.847v.053l-.559 1.22c-.21.504-.317.768-.345.847C-.172 20.74 2.611 24 5.98 24c.027 0 .132 0 .265-.027h.372c1.75-.213 3.554-1.325 5.384-3.317 1.829 1.989 3.635 3.104 5.382 3.317h.372c.133.027.239.027.265.027 3.37.003 6.152-3.261 4.802-6.975z"/></svg>
+                </span>
+                <span class="logo-wall__name">Airbnb</span>
+                </span>
+              </div>
+              <div class="logo-wall__card">
+                <span class="logo-wall__lockup"><span class="logo-wall__mark" aria-hidden="true">
+                  <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+                </span>
+                <span class="logo-wall__name">Slack</span>
+                </span>
+              </div>
+              <div class="logo-wall__card">
+                <span class="logo-wall__lockup"><span class="logo-wall__mark" aria-hidden="true">
+                  <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>
+                </span>
+                <span class="logo-wall__name">Notion</span>
+                </span>
+              </div>
+              <div class="logo-wall__card">
+                <span class="logo-wall__lockup"><span class="logo-wall__mark" aria-hidden="true">
+                  <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z"/></svg>
+                </span>
+                <span class="logo-wall__name">Stripe</span>
+                </span>
+              </div>
+              <div class="logo-wall__card">
+                <span class="logo-wall__lockup"><span class="logo-wall__mark" aria-hidden="true">
+                  <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z"/></svg>
+                </span>
+                <span class="logo-wall__name">Shopify</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

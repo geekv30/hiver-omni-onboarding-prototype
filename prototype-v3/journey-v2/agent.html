@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame onboarding-frame--company">
+      <section class="form-pane" aria-labelledby="agent-title">
+        <div class="page">
+          <header class="product-header product-header--company">
+            <div class="step-progress" aria-label="Onboarding progress: step 2 of 4">
+              <span class="step-progress__segment is-complete"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" data-icon-system="figma-export" data-icon-name="ChatBubbleOutline" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="company-step" id="agent-form">
+            <div class="company-step__fields">
+              <div class="company-heading">
+                <h1 id="agent-title">Meet your AI support agent</h1>
+              </div>
+
+              <div class="agent-fields">
+                <div class="field-group">
+                  <label class="field-label" for="agent-name-input">AI agent name</label>
+                  <div class="agent-field">
+                    <span class="agent-field__icon" aria-hidden="true">
+                      <span class="agent-field__sparkle">
+                        <span class="agent-field__sparkle-stack">
+                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--a" src="./assets/spinner/ellipse206.svg" alt="" />
+                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--b" src="./assets/spinner/ellipse208.svg" alt="" />
+                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--c" src="./assets/spinner/ellipse207.svg" alt="" />
+                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--d" src="./assets/spinner/ellipse209.svg" alt="" />
+                          <img class="agent-field__sparkle-blob agent-field__sparkle-blob--e" src="./assets/spinner/ellipse203.svg" alt="" />
+                        </span>
+                      </span>
+                    </span>
+                    <input type="text" id="agent-name-input" name="agentName" placeholder="e.g., Ava, Hivey, or Max" autocomplete="off" />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="agent-trained-preview">AI agent trained on</label>
+                  <div class="agent-trained" id="agent-trained-preview">
+                    <p>Product support: pages and help-center articles from <span id="agent-trained-domain">your site</span>, covering setup, features, and troubleshooting.</p>
+                    <p>Common topics: getting started, account &amp; billing, common issues, and how-to guides.</p>
+                    <p>We&rsquo;ll keep learning as more pages get indexed.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="company-step__footer">
+              <div class="form-footer--split">
+                <button class="back-button" type="button" id="back-button" aria-label="Back">
+                  <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </button>
+                <button class="continue-button" type="submit" id="continue-button">Continue</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="landscape-pane landscape-pane--framed" aria-label="Preview your AI agent">
+        <div class="video-card">
+        <img class="landscape-image" src="./assets/agent/backdrop.png" alt="" />
+
+        <div class="chat-stage">
+          <div class="chat-widget" id="chat-widget" role="group" aria-label="AI agent preview">
+            <div class="chat-widget__header">
+              <div class="chat-widget__identity">
+                <img class="chat-widget__brand-icon" src="./assets/widget/brand-mark.svg" alt="" />
+                <div class="chat-widget__identity-text">
+                  <strong id="chat-brand-name">your business</strong>
+                </div>
+              </div>
+              <div class="chat-widget__orb-wrap">
+                <div class="chat-widget__orb" id="chat-widget-orb" aria-hidden="true">
+                  <img class="chat-widget__orb-base" src="./assets/widget/orb-base.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--1" src="./assets/widget/orb-blob1.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--2" src="./assets/widget/orb-blob2.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--3" src="./assets/widget/orb-blob3.svg" alt="" />
+                </div>
+                <img class="chat-widget__online" src="./assets/widget/online-dot.svg" alt="" />
+              </div>
+            </div>
+
+            <div class="chat-widget__body" id="chat-body">
+              <div class="learning-stage__collapse" id="chat-typing-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row">
+                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                    <div class="chat-widget__bubbles">
+                      <div class="chat-widget__bubble" data-visible="true">
+                        <span class="chat-widget__typing-dots" aria-label="Agent is typing">
+                          <span></span><span></span><span></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="learning-stage__collapse" id="chat-message-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row">
+                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                    <div class="chat-widget__bubbles">
+                      <p class="chat-widget__bubble" id="chat-bubble-1">Welcome aboard!</p>
+                      <p class="chat-widget__bubble" id="chat-bubble-2">How can I help you today?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="learning-stage__collapse" id="chat-sent-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row chat-widget__row--user">
+                    <div class="chat-widget__bubbles chat-widget__bubbles--user">
+                      <p class="chat-widget__bubble chat-widget__bubble--user" id="chat-sent-bubble" data-visible="true">Battery issue with iPhone 16 pro max</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="learning-stage__collapse" id="chat-reply-typing-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row">
+                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                    <div class="chat-widget__bubbles">
+                      <div class="chat-widget__bubble" data-visible="true">
+                        <span class="chat-widget__typing-dots" aria-label="Agent is typing">
+                          <span></span><span></span><span></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="learning-stage__collapse" id="chat-reply-collapse">
+                <div class="learning-stage__collapse-inner">
+                  <div class="chat-widget__row">
+                    <img class="chat-widget__avatar" src="./assets/widget/orb-static.svg" alt="" />
+                    <div class="chat-widget__bubbles">
+                      <p class="chat-widget__bubble" id="chat-reply-1">Try restarting your iPhone, then go to Settings &gt; Battery and check which apps are using the most power. Disable Background App Refresh for any you don&rsquo;t need.</p>
+                      <p class="chat-widget__bubble" id="chat-reply-2">If the issue persists, don&rsquo;t hesitate to reach out. I&rsquo;m always here to help!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chat-widget__suggestions" id="chat-suggestions">
+                <button class="chat-widget__suggestion" type="button" id="suggestion-1" data-visible="false">Battery issue with iPhone 16 pro max</button>
+                <button class="chat-widget__suggestion" type="button" id="suggestion-2" data-visible="false">Camera difference between iPhone 15 &amp; 16?</button>
+              </div>
+            </div>
+
+            <div class="chat-widget__composer" id="chat-composer">
+              <div class="chat-widget__composer-box">
+                <span class="chat-widget__composer-placeholder" id="chat-composer-placeholder">Ask me anything</span>
+                <div class="chat-widget__composer-actions">
+                  <button class="chat-widget__attach-btn" type="button" aria-label="Attach a file">
+                    <img src="./assets/widget/attachment.svg" alt="" />
+                  </button>
+                  <button class="chat-widget__send-btn" type="button" aria-label="Send message">
+                    <img src="./assets/widget/send.svg" alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="agent-sources-card" id="agent-sources-card">
+            <div class="agent-sources-card__inner">
+              <div class="agent-sources-card__header">
+                <span class="agent-sources-card__orb" aria-hidden="true">
+                  <img class="chat-widget__orb-base" src="./assets/widget/orb-base.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--1" src="./assets/widget/orb-blob1.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--2" src="./assets/widget/orb-blob2.svg" alt="" />
+                  <img class="chat-widget__orb-blob chat-widget__orb-blob--3" src="./assets/widget/orb-blob3.svg" alt="" />
+                </span>
+                <span>AI agent sources</span>
+              </div>
+              <div class="agent-sources-card__divider"></div>
+              <div class="agent-sources-card__link">
+                <svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10m0-20a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/></svg>
+                <span>https://apple.com/</span>
+              </div>
+              <div class="agent-sources-card__link">
+                <svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10m0-20a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/></svg>
+                <span>https://apple.com/help-article/regular-battery-drain</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./agent.js"></script>
+  </body>
+</html>
