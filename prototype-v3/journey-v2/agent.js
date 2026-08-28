@@ -121,7 +121,7 @@ function runWidgetSequence() {
 const QUESTIONS = {
   [suggestion1.id]: {
     match: ["battery"],
-    reply1: "Try restarting your iPhone, then go to Settings &gt; Battery and check which apps are using the most power. Disable Background App Refresh for any you don&rsquo;t need.",
+    reply1: "Try restarting your iPhone. Then go to Settings &gt; Battery and check which apps are using the most power. Disable Background App Refresh for any you don&rsquo;t need.",
     reply2: "If the issue persists, don&rsquo;t hesitate to reach out. I&rsquo;m always here to help!",
     sources: [
       "https://apple.com/",
@@ -130,7 +130,7 @@ const QUESTIONS = {
   },
   [suggestion2.id]: {
     match: ["camera"],
-    reply1: "The iPhone 16 Pro Max steps up to a 48MP Ultra Wide camera and adds a 5x telephoto lens, both exclusive to the Pro line. Low-light photos and 4K video stabilization are noticeably sharper too.",
+    reply1: "The iPhone 16 Pro Max steps up to a 48MP Ultra Wide camera and adds a 5x telephoto lens, both exclusive to the Pro line. Low-light photos and 4K video stabilization are noticeably better too.",
     reply2: "Both phones support Night mode and Cinematic mode, but the 16 Pro Max adds macro photography and a longer zoom range.",
     sources: [
       "https://apple.com/iphone-16-pro/",

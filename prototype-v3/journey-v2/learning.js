@@ -17,7 +17,7 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const CAPTIONS = [
   "Analyzing your site…",
   "Importing assets…",
-  "Learning your brand's voice…",
+  "Learning your brand’s voice…",
   "Mapping your help center…",
   "Understanding common questions…",
   "Fine-tuning responses…",
