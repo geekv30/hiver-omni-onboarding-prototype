@@ -28,7 +28,10 @@
 ### 2026-08-31 (pm) · step chain, then four animation studies published as routes
 **Did:** Replaced `learning.html`'s single swapping caption with a persistent step chain (all six steps on screen, determinate per-step ring, mid-step detail line, links drawn between markers) — Geeky kept it. Then four standalone studies of the 30s agent-creation wait, all live at `/animation-0`…`/animation-4` and listed on the hub. `/animation-4` is the strongest brief-fit: research showed the most-copied B2B pattern of 2026 is *showing the product working* (Linear, Attio) and the dominant visual language is kinetic typography, so it is one standing sentence rewriting its own subject, decoded with GSAP ScrambleText.
 **Mistakes:** Built a luminous orb with orbiting particles — rejected as "are we a planetarium company," deleted whole. Before that, darkened the wave to near-black so white particles would read, burying the brand's hero visual. Also boxed an animation inside the two-pane layout when a standalone full-bleed piece was wanted. Now rules 2 and 3.
-**Open / next:** `learning.html` still shows its right-side metrics column — Geeky asked for it removed and the steps aligned to the header; done in the studies, **not** in the shipping screen. Geeky has not picked a winner among the five routes.
+**Open / next:** Geeky has not picked a winner among the five routes.
+
+### 2026-08-31 (later) · removed learning.html's step-chain result column
+**Did:** Dropped `result` from `STEPS` and the third grid column/`.learning-step__result` rule in the shipping `learning.html`, matching what the studies already did. The fit-content chain recenters under the heading on its own once the lopsided column is gone — verified with Playwright screenshots at the active-step and all-done states. Pushed.
 
 ### 2026-08-31 (am) · invite.html right-pane
 **Did:** `invite.html`'s right pane is now byte-for-byte `index.html`'s video + `hero-copy`/logo-wall block (Geeky's call — custom mockup dropped entirely). Deleted the unused `team-hero.png`/`team-mockup.png` and their CSS.
