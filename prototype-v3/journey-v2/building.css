@@ -1,0 +1,309 @@
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("./assets/hanken-grotesk-400.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("./assets/hanken-grotesk-500.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  --bld-ink: #f4f8ff;
+  --bld-quiet: rgba(226, 236, 255, 0.66);
+  --bld-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --bld-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bld-body {
+  margin: 0;
+  overflow: hidden;
+  background: #04060d;
+  color: var(--bld-ink);
+  font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bld {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 560px;
+  overflow: hidden;
+}
+
+/* The ground is CSS, not canvas: a full-screen radial repaint every frame buys
+   nothing when the gradient never changes, and it lets the canvas stay
+   transparent so motes can blend additively with each other only. */
+.bld__field {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 78% 68% at 50% 46%, #12203c 0%, #0a1226 42%, #050912 72%, #04060d 100%),
+    #04060d;
+}
+
+.bld__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Grain does two jobs: it hides the banding a wide dark gradient always shows
+   on 8-bit displays, and it gives the piece a photographic surface. Stepped
+   background-position keeps it off the main thread. */
+.bld__grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  animation: bld-grain 700ms steps(6) infinite;
+}
+
+@keyframes bld-grain {
+  0% { transform: translate3d(0, 0, 0); }
+  16% { transform: translate3d(-3%, 2%, 0); }
+  33% { transform: translate3d(2%, -3%, 0); }
+  50% { transform: translate3d(-2%, -2%, 0); }
+  66% { transform: translate3d(3%, 1%, 0); }
+  83% { transform: translate3d(-1%, 3%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.bld__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 66% 60% at 50% 48%, rgba(4, 6, 13, 0) 40%, rgba(4, 6, 13, 0.55) 78%, rgba(4, 6, 13, 0.86) 100%);
+  pointer-events: none;
+}
+
+/* The core sits exactly where the canvas draws its own core glow, so the badge
+   reads as the thing the motes are collapsing into. */
+.bld__core {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.bld__core-badge {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(226, 236, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(9, 17, 36, 0.72);
+  box-shadow: 0 0 0 1px rgba(4, 6, 13, 0.5), 0 18px 44px rgba(4, 10, 26, 0.7);
+  opacity: 0;
+  place-items: center;
+  filter: blur(6px);
+  transform: scale(0.82);
+  transition: opacity 900ms var(--bld-ease-out), filter 900ms var(--bld-ease-out), transform 900ms var(--bld-ease-out);
+}
+
+.bld__core[data-visible="true"] .bld__core-badge {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+.bld__core-badge img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.bld__core-badge span {
+  color: var(--bld-ink);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.bld__eyebrow {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  margin: 0;
+  color: rgba(226, 236, 255, 0.55);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  transition: opacity 1200ms var(--bld-ease-out), transform 1200ms var(--bld-ease-out);
+}
+
+.bld__eyebrow[data-visible="true"] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Pinned to the field's centre rather than the viewport floor, so the line
+   stays tied to the visual mass instead of drifting away from it on tall
+   windows. The min() keeps it off the bottom edge on short ones. */
+.bld__narration {
+  position: absolute;
+  top: min(calc(46% + 296px), calc(100% - 104px));
+  left: 50%;
+  width: min(560px, 86vw);
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+/* Blur-through swap: without it a crossfade shows two legible strings at once
+   and reads as a glitch rather than one line becoming the next. */
+.bld__line {
+  position: relative;
+  display: inline-block;
+  color: var(--bld-quiet);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  line-height: 22px;
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: opacity 320ms var(--bld-ease-out), filter 320ms var(--bld-ease-out), transform 320ms var(--bld-ease-out);
+}
+
+.bld__line.is-swapping {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(-7px);
+}
+
+/* A highlight band swept across the glyphs — the texture of work in progress,
+   with no spinner anywhere in the composition. */
+.bld__line::after {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 36%,
+    rgba(244, 248, 255, 0.92) 50%,
+    transparent 64%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 300% 100%;
+  color: transparent;
+  content: attr(data-text);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: bld-shimmer 2600ms linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes bld-shimmer {
+  from { background-position: 128% 0; }
+  to { background-position: -28% 0; }
+}
+
+.bld__finale {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: min(620px, 88vw);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, calc(-50% + 96px));
+  transition: opacity 1100ms var(--bld-ease-out), transform 1100ms var(--bld-ease-out);
+}
+
+.bld__finale[data-visible="true"] {
+  opacity: 1;
+  transform: translate(-50%, calc(-50% + 78px));
+}
+
+.bld__title {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 10px;
+  gap: 2px;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 36px;
+}
+
+.bld__subtitle {
+  margin: 0;
+  color: rgba(226, 236, 255, 0.46);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+@media (max-width: 560px) {
+  .bld__title {
+    font-size: 23px;
+    letter-spacing: -0.3px;
+    line-height: 28px;
+  }
+
+  .bld__narration {
+    top: min(calc(46% + 232px), calc(100% - 84px));
+  }
+
+  .bld__line {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bld__grain {
+    animation: none;
+  }
+
+  .bld__line::after {
+    display: none;
+  }
+
+  .bld__core-badge,
+  .bld__eyebrow,
+  .bld__finale,
+  .bld__line {
+    transition-duration: 200ms;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* transform is nulled above, so these two need their centring restored. */
+  .bld__core {
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .bld__eyebrow,
+  .bld__narration,
+  .bld__finale {
+    transform: translateX(-50%) !important;
+  }
+
+  .bld__finale {
+    top: auto;
+    bottom: 22%;
+  }
+}
