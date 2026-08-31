@@ -933,10 +933,39 @@ label {
   background: #166534;
 }
 
+/*
+  Every interactive control in the journey gets the same keyboard ring. Only
+  Continue and the support button had one, so tabbing through a step lost the
+  cursor entirely at the Back button and at every chat control. :focus-visible
+  rather than :focus, so a mouse press never paints a ring.
+
+  The text inputs are deliberately absent: their wrappers already answer to
+  :focus-within with a border and shadow treatment, which is the stronger signal.
+*/
 .continue-button:focus-visible,
-.support-button:focus-visible {
+.support-button:focus-visible,
+.back-button:focus-visible,
+.chat-widget__suggestion:focus-visible,
+.chat-widget__send-btn:focus-visible,
+.chat-widget__attach-btn:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+/*
+  Step 1's Continue label crossfades to "Saved" instead of popping — the
+  text-swap token set (150ms, 4px, 2px blur, ease-in-out). app.js pins the
+  button's width before swapping, so the shorter word cannot make it flinch.
+*/
+.continue-button__label {
+  display: inline-block;
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out, filter 150ms ease-in-out;
+}
+
+.continue-button__label.is-swapping {
+  opacity: 0;
+  filter: blur(2px);
+  transform: translateY(-4px);
 }
 
 .landscape-pane {
