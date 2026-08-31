@@ -1068,6 +1068,23 @@ label {
   transform: scaleY(-1);
 }
 
+/*
+  Opt-in only, set by learning.js from ?fit=rotated (the /backdrop-sharp route).
+  A quarter turn maps the clip's 1280px dimension across the viewport's width
+  instead of its 720px one: 1.25x upscale using 90% of the frame, against 2.0x
+  using 35%. `inset: auto` has to come before top/left — it is a shorthand and
+  would otherwise reset them.
+*/
+.learning-video-bg[data-fit="rotated"] .learning-video-bg__video {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: 100dvh;
+  height: 100vw;
+  object-position: 50% 50%;
+  transform: translate(-50%, -50%) rotate(90deg) scaleY(-1);
+}
+
 .learning-video-bg__tint {
   position: absolute;
   inset: 0;
