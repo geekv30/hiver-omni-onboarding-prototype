@@ -962,6 +962,11 @@ label {
   animation: landscape-breathe 18s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
 }
 
+.landscape-image--contain {
+  object-fit: contain;
+  animation: none;
+}
+
 .radial-ring {
   position: absolute;
   left: 50%;
