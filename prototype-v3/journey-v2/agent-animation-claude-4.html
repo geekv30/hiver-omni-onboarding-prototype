@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8fc" />
+    <title>Hiver Omni — building your AI support agent</title>
+    <!--
+      Fourth study. Theme picked from research rather than taste.
+
+      Two findings drove it. First, the most-copied B2B SaaS pattern of 2026 is
+      showing the product actually working — Linear's hero runs a Codex agent
+      picking up a real issue, Attio runs "Ask Attio" live, ElevenLabs plays a
+      real voice sample. Second, the dominant visual language on the award sites
+      is kinetic typography: Linear's headline swaps words in and out of a
+      standing sentence.
+
+      So: one large standing sentence whose subject keeps being rewritten as the
+      agent learns, with a thin strip of the crawler's real output underneath to
+      keep it honest. Big type does the visual work; the evidence keeps it B2B.
+
+      Deliberate divergence from the research: 60%+ of AI landing pages in 2026
+      are dark-dominant. This stays light, because the journey's own wave and
+      white surfaces are the brand and a dark hero would read as a different
+      product.
+
+      Nothing here is hand-rolled motion. GSAP went 100% free in 2025 including
+      the plugins that used to be paid, so the decode effect is ScrambleTextPlugin
+      and the finale reveal is SplitText — both production-grade and both tuned
+      here rather than invented.
+    -->
+    <link rel="stylesheet" href="./agent-animation-claude-4.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrambleTextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"></script>
+  </head>
+  <body class="kt-body">
+    <main class="kt">
+      <video class="kt__wave" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+      <div class="kt__tint" aria-hidden="true"></div>
+      <div class="kt__veil" aria-hidden="true"></div>
+
+      <div class="kt__stage">
+        <p class="kt__eyebrow" id="kt-eyebrow">
+          <span class="kt__dot" aria-hidden="true"></span>Building your AI support agent
+        </p>
+
+        <h1 class="kt__head" aria-live="polite">
+          <span class="kt__stem" id="kt-stem">Connecting to</span>
+          <span class="kt__subject" id="kt-subject">your website</span>
+        </h1>
+
+        <!-- The honest half: whatever the crawler is on right now, and what it
+             has produced so far. Without this the piece is just nice type. -->
+        <div class="kt__evidence" id="kt-evidence">
+          <span class="kt__url" id="kt-url">&nbsp;</span>
+          <span class="kt__counts">
+            <b id="kt-pages">0</b> pages
+            <i aria-hidden="true">·</i>
+            <b id="kt-articles">0</b> articles
+            <i aria-hidden="true">·</i>
+            <b id="kt-topics">0</b> topics
+          </span>
+        </div>
+      </div>
+
+      <div class="kt__bar" aria-hidden="true"><span class="kt__bar-fill" id="kt-bar"></span></div>
+
+      <div class="kt__finale" id="kt-finale">
+        <span class="kt__badge" id="kt-badge"></span>
+        <p class="kt__ready"><strong id="kt-ready-name">Your support agent</strong> is ready to test</p>
+      </div>
+    </main>
+
+    <script src="./agent-animation-claude-4.js"></script>
+  </body>
+</html>
