@@ -244,8 +244,13 @@
   transform: translateY(-7px);
 }
 
-/* A highlight band swept across the glyphs — the texture of work in progress,
-   with no spinner anywhere in the composition. */
+/* A band swept across the glyphs — the texture of work in progress, with no
+   spinner anywhere in the composition.
+
+   Inverted with everything else, and it had to be: the band is clipped into the
+   glyphs over a base line already at 0.68, so a near-white one on this ground
+   made each swept word *drop out* rather than lift. It read as a render fault.
+   Deepening past the base alpha turns it back into a highlight. */
 .bld__line::after {
   position: absolute;
   inset: 0;
@@ -253,7 +258,7 @@
     90deg,
     transparent 0%,
     transparent 36%,
-    rgba(244, 248, 255, 0.92) 50%,
+    rgba(9, 24, 36, 0.96) 50%,
     transparent 64%,
     transparent 100%
   );
