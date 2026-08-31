@@ -4,51 +4,74 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f6f8fc" />
-    <title>Agent animation — theme studio</title>
+    <title>Hiver Omni — indexing your knowledge base</title>
+    <!--
+      Third animation. The previous attempt was a glowing sphere with orbiting
+      particles — a screensaver, not a support tool. This one shows the work
+      instead of illustrating it.
+
+      The premise: for thirty seconds a crawler is running against the customer's
+      site, so show the crawler. Real URLs resolve one by one, topics get
+      discovered and counted, three figures tick up, and the panel ends as the
+      agent's finished knowledge base. Everything on screen is an artifact the
+      product would genuinely produce, which is what makes the wait credible
+      rather than decorative.
+
+      No canvas, no particles, no glow. One product surface — the same white,
+      16px-radius, layered-shadow panel the sources card on step 2 uses —
+      assembling itself over the journey's own wave.
+    -->
     <link rel="stylesheet" href="./agent-animation-claude-3.css" />
   </head>
-  <body class="aac3-body">
-    <!--
-      Standalone and full-bleed. No form pane, no header, no steps — the
-      animation is the whole screen.
+  <body class="ix-body">
+    <main class="ix">
+      <video class="ix__wave" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+      <div class="ix__tint" aria-hidden="true"></div>
+      <div class="ix__veil" aria-hidden="true"></div>
 
-      The wave stays. It is the journey's hero visual and the previous pass
-      buried it under a near-black scrim to make white particles legible, which
-      was solving the wrong problem: on a high-key ground the marks have to be
-      dark, not the ground.
+      <section class="ix-panel" id="ix-panel" aria-label="Building your knowledge base">
+        <header class="ix-panel__head">
+          <span class="ix-badge" id="ix-badge"></span>
+          <div class="ix-panel__id">
+            <p class="ix-panel__domain" id="ix-domain">your site</p>
+            <p class="ix-panel__sub">Knowledge base</p>
+          </div>
+          <span class="ix-status" id="ix-status" data-state="idle">
+            <span class="ix-status__dot" aria-hidden="true"></span>
+            <span id="ix-status-text">Connecting</span>
+          </span>
+        </header>
 
-      Two canvases, because the piece needs both kinds of mark:
-        .aac3-ink  mix-blend-mode: multiply — anything dark stains the silk and
-                   reads on both the white field and the blue fold; white drawn
-                   here is simply invisible, which is what makes soft falloff work
-        .aac3-lit  normal compositing — for opaque, luminous things (the orb)
-                   that have to sit on top rather than tint what is under them
+        <div class="ix-bar" aria-hidden="true"><span class="ix-bar__fill" id="ix-bar"></span></div>
 
-      ?theme=orb|ink|contour|cards switches the study. ?t=0.5 slows it down.
-    -->
-    <div class="aac3-stage">
-      <video class="aac3-wave" id="aac3-wave" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
-      <div class="aac3-tint" aria-hidden="true"></div>
+        <div class="ix-body-grid">
+          <section class="ix-block">
+            <p class="ix-block__label">Sources</p>
+            <!-- Fixed window with the list translated upward, so it reads as a
+                 live feed rather than a growing list that shoves the panel about. -->
+            <div class="ix-log">
+              <ul class="ix-log__list" id="ix-log-list"></ul>
+            </div>
+          </section>
 
-      <canvas class="aac3-ink" id="aac3-ink" aria-hidden="true"></canvas>
-      <canvas class="aac3-lit" id="aac3-lit" aria-hidden="true"></canvas>
+          <section class="ix-block ix-block--topics" id="ix-topics-block">
+            <p class="ix-block__label">Topics found</p>
+            <div class="ix-chips" id="ix-chips"></div>
+          </section>
+        </div>
 
-      <div class="aac3-narration" id="aac3-narration" aria-live="polite">
-        <span class="aac3-line" id="aac3-line" data-text=""></span>
-      </div>
+        <footer class="ix-stats" id="ix-stats">
+          <div class="ix-stat"><strong id="ix-pages">0</strong><span>pages</span></div>
+          <div class="ix-stat"><strong id="ix-articles">0</strong><span>articles</span></div>
+          <div class="ix-stat"><strong id="ix-topics">0</strong><span>topics</span></div>
+          <p class="ix-stats__note" id="ix-note">Reading your website</p>
+        </footer>
+      </section>
 
-      <!-- The company mark belongs in the finale lockup, not pasted on the orb.
-           The orb is the agent's own face — the same one the chat widget uses —
-           and covering its centre with a white tile was the worst moment in the
-           first pass of this study. -->
-      <div class="aac3-finale" id="aac3-finale">
-        <span class="aac3-finale__badge" id="aac3-core-badge"></span>
-        <p class="aac3-finale__name" id="aac3-agent-name">Your support agent</p>
-        <p class="aac3-finale__meta" id="aac3-agent-meta">is ready to test</p>
-      </div>
-
-      <p class="aac3-tag" id="aac3-tag"></p>
-    </div>
+      <p class="ix-ready" id="ix-ready">
+        <span id="ix-ready-name">Your support agent</span> is ready to test
+      </p>
+    </main>
 
     <script src="./agent-animation-claude-3.js"></script>
   </body>

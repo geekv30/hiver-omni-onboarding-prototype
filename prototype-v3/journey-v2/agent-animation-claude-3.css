@@ -14,22 +14,16 @@
   font-display: swap;
 }
 
-/*
-  Palette is the design system's own AI motif — the orb gradient behind the chat
-  avatar (assets/widget/orb-base.svg) and the page blobs. Nothing invented:
-    #FAE8BF sand   #C2D6E0 haze   #8CC7E0 sky
-    #6B9EBD blue   #386B8F deep   #26526B ink
-  Type, easing and radii come from styles.css unchanged.
-*/
+/* Tokens are the journey's own, copied rather than reinvented. */
 :root {
-  --aac3-sand: #fae8bf;
-  --aac3-haze: #c2d6e0;
-  --aac3-sky: #8cc7e0;
-  --aac3-blue: #6b9ebd;
-  --aac3-deep: #386b8f;
-  --aac3-ink: #26526b;
-  --aac3-text: #0f172a;
-  --aac3-muted: #334155;
+  --ink: #3e4c5a;
+  --muted: #4d596c;
+  --subtle: #94a3b8;
+  --navy: #334155;
+  --near: #0f172a;
+  --line: #e2e8f0;
+  --pill: #f8fafc;
+  --ok: #166534;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -38,29 +32,32 @@
   box-sizing: border-box;
 }
 
-.aac3-body {
+.ix-body {
   margin: 0;
   overflow: hidden;
   background: #f6f8fc;
-  color: var(--aac3-text);
+  color: var(--ink);
   font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-.aac3-stage {
+.ix {
   position: relative;
+  display: grid;
   width: 100%;
   height: 100dvh;
-  min-height: 560px;
+  min-height: 620px;
   overflow: hidden;
-  isolation: isolate;
+  align-content: center;
+  justify-items: center;
+  gap: 20px;
 }
 
-/* Untouched from the sibling steps: same source, same flip, same framing, so
-   the wave the user has been looking at simply keeps going. */
-.aac3-wave {
+/* The wave stays exactly as steps 1 and 3 show it. */
+.ix__wave {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -68,190 +65,448 @@
   transform: scaleY(-1);
 }
 
-.aac3-tint {
+.ix__tint {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background: #7bc4ff;
   mix-blend-mode: hue;
   pointer-events: none;
 }
 
-.aac3-ink,
-.aac3-lit {
+/* A light veil, not a dark one: it lifts the wave away from the panel so dense
+   dark text stays readable, without burying the brand visual. */
+.ix__veil {
   position: absolute;
   inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
+  z-index: 0;
+  background: radial-gradient(ellipse 80% 74% at 50% 50%, rgba(246, 248, 252, 0.82) 0%, rgba(246, 248, 252, 0.62) 52%, rgba(246, 248, 252, 0.3) 100%);
   pointer-events: none;
 }
 
-/* Dark marks stain the silk and stay legible over both the white field and the
-   blue fold; white drawn on this layer disappears, which is exactly what gives
-   every mark a free soft falloff. */
-.aac3-ink {
-  mix-blend-mode: multiply;
+/* ------------------------------------------------------------------ panel -- */
+
+.ix-panel {
+  position: relative;
+  z-index: 1;
+  width: min(720px, 92vw);
+  padding: 6px;
+  border: 1.3px solid rgba(243, 243, 245, 0.7);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 25px 55px rgba(100, 116, 139, 0.14), 0 80px 120px rgba(100, 116, 139, 0.12);
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(10px) scale(0.985);
+  transition: opacity 520ms var(--ease-out), filter 520ms var(--ease-out), transform 520ms var(--ease-out);
 }
 
-.aac3-lit {
-  mix-blend-mode: normal;
+.ix-panel[data-in="true"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
 }
 
-/* The sources-card treatment from step 2 — 16px radius, near-white, layered
-   shadow — so the mark reads as product chrome on any part of the wave. */
-.aac3-finale__badge {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 14px;
-  border: 1.3px solid rgba(243, 243, 245, 0.9);
-  border-radius: 17px;
+/* The double-surface treatment from the sources card on step 2. */
+.ix-panel > .ix-panel__head,
+.ix-panel > .ix-bar,
+.ix-panel > .ix-body-grid,
+.ix-panel > .ix-stats {
   background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06), 0 18px 40px rgba(38, 82, 107, 0.18), 0 60px 99px rgba(38, 82, 107, 0.14);
+}
+
+.ix-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px 12px;
+  border-radius: 15px 15px 0 0;
+}
+
+.ix-badge {
+  display: grid;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
   place-items: center;
 }
 
-.aac3-finale__badge img,
-.aac3-finale__badge svg {
+.ix-badge img,
+.ix-badge svg {
   grid-area: 1 / 1;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
+  width: 19px;
+  height: 19px;
+  border-radius: 4px;
   object-fit: contain;
-  color: var(--aac3-text);
+  color: var(--near);
 }
 
-.aac3-core__initial {
+.ix-badge__initial {
   grid-area: 1 / 1;
-  color: var(--aac3-text);
-  font-size: 22px;
+  color: var(--near);
+  font-size: 15px;
   font-weight: 500;
 }
 
-.aac3-core__initial[hidden] {
+.ix-badge__initial[hidden] {
   display: none;
 }
 
-/*
-  Dark type on a light ground, like every other screen in the journey — the
-  previous pass used white text because it had darkened the world to suit it.
-  The chip is a hairline surface so the line stays legible when the blue fold
-  drifts underneath it.
-*/
-.aac3-narration {
-  position: absolute;
-  bottom: 88px;
-  left: 50%;
-  z-index: 3;
-  transform: translateX(-50%);
+.ix-panel__id {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.aac3-line {
-  position: relative;
-  display: inline-block;
-  padding: 9px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 18px 40px rgba(38, 82, 107, 0.12);
-  color: var(--aac3-muted);
+.ix-panel__domain {
+  margin: 0;
+  overflow: hidden;
+  color: var(--near);
   font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 0.1px;
-  line-height: 20px;
-  white-space: nowrap;
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-  transition: opacity 320ms var(--ease-out), filter 320ms var(--ease-out), transform 320ms var(--ease-out);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
-
-.aac3-line.is-swapping {
-  opacity: 0;
-  filter: blur(5px);
-  transform: translateY(-7px);
-}
-
-.aac3-narration[data-visible="false"] {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 400ms var(--ease-out);
-}
-
-.aac3-finale {
-  position: absolute;
-  /* Clears the orb at its widest (radius ~205px at the swell) — at 176 the
-     badge sat on the rim. */
-  top: calc(50% + 236px);
-  left: 50%;
-  z-index: 3;
-  width: min(560px, 88vw);
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, 12px);
-  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
-}
-
-.aac3-finale[data-visible="true"] {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-
-.aac3-finale__name {
-  margin: 0 0 2px;
-  color: var(--aac3-text);
-  font-size: 22px;
   font-weight: 500;
-  letter-spacing: -0.2px;
-  line-height: 28px;
-}
-
-.aac3-finale__meta {
-  margin: 0;
-  color: var(--aac3-muted);
-  font-size: 14px;
-  font-weight: 400;
   line-height: 20px;
-  opacity: 0.72;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Study label only — not part of the design. */
-.aac3-tag {
-  position: absolute;
-  top: 20px;
-  left: 24px;
-  z-index: 4;
+.ix-panel__sub {
   margin: 0;
-  color: var(--aac3-muted);
+  color: var(--subtle);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.ix-status {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
+  border-radius: 999px;
+  background: var(--pill);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  transition: background-color 300ms var(--ease-out), color 300ms var(--ease-out);
+}
+
+.ix-status__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--subtle);
+  transition: background-color 300ms var(--ease-out);
+}
+
+/* Working, not spinning — a slow opacity pulse reads as a live process without
+   putting a rotating spinner in a professional surface. */
+.ix-status[data-state="run"] .ix-status__dot {
+  background: #2563eb;
+  animation: ix-pulse 1600ms var(--ease-in-out) infinite;
+}
+
+.ix-status[data-state="done"] {
+  background: #ecfdf3;
+  color: var(--ok);
+}
+
+.ix-status[data-state="done"] .ix-status__dot {
+  background: var(--ok);
+  animation: none;
+}
+
+@keyframes ix-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Full-bleed black at 2px read as a heavy rule dividing the panel rather than
+   as progress. Inset, rounded, on a visible track, in the same blue as the
+   working dot, it reads as the one thing it is. */
+.ix-bar {
+  position: relative;
+  height: 13px;
+}
+
+.ix-bar::before {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  left: 18px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--line);
+  content: "";
+}
+
+.ix-bar__fill {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  left: 18px;
+  height: 3px;
+  border-radius: 999px;
+  background: #2563eb;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 600ms var(--ease-out);
+}
+
+/* -------------------------------------------------------------- log + chips -- */
+
+.ix-body-grid {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr;
+}
+
+.ix-block {
+  padding: 14px 18px 16px;
+}
+
+.ix-block--topics {
+  border-top: 1px solid var(--line);
+}
+
+.ix-block__label {
+  margin: 0 0 10px;
+  color: var(--subtle);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 1.4px;
-  opacity: 0.45;
+  letter-spacing: 0.9px;
   text-transform: uppercase;
 }
 
-@media (max-width: 560px) {
-  .aac3-line { font-size: 14px; }
-  .aac3-narration { bottom: 56px; }
-  .aac3-finale__name { font-size: 19px; line-height: 24px; }
+/* Six rows tall, masked at the top so retired rows leave rather than pop. */
+.ix-log {
+  height: 168px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 26px, #000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 26px, #000 100%);
+}
+
+.ix-log__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateY(0);
+  transition: transform 460ms var(--ease-out);
+}
+
+.ix-row {
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  height: 28px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 280ms var(--ease-out), transform 280ms var(--ease-out);
+}
+
+.ix-row[data-in="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.ix-row__mark {
+  position: relative;
+  display: grid;
+  width: 14px;
+  height: 14px;
+  place-items: center;
+}
+
+.ix-row__mark svg {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
+.ix-row__spin { color: var(--subtle); }
+.ix-row__tick { color: var(--ok); }
+
+.ix-row[data-state="fetch"] .ix-row__spin,
+.ix-row[data-state="done"] .ix-row__tick {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ix-row[data-state="fetch"] .ix-row__spin {
+  animation: ix-spin 900ms linear infinite;
+}
+
+@keyframes ix-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ix-row__url {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.ix-row[data-state="done"] .ix-row__url {
+  color: var(--navy);
+}
+
+.ix-row__meta {
+  color: var(--subtle);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  line-height: 18px;
+  opacity: 0;
+  transition: opacity 260ms var(--ease-out);
+}
+
+.ix-row[data-state="done"] .ix-row__meta {
+  opacity: 1;
+}
+
+.ix-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 62px;
+  align-content: flex-start;
+}
+
+.ix-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--navy);
+  font-size: 13px;
+  line-height: 18px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
+}
+
+.ix-chip[data-in="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.ix-chip__n {
+  color: var(--subtle);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ stats -- */
+
+.ix-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 26px;
+  padding: 14px 18px 16px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 15px 15px;
+}
+
+.ix-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.ix-stat strong {
+  color: var(--near);
+  font-size: 19px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 24px;
+}
+
+.ix-stat span {
+  color: var(--subtle);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.ix-stats__note {
+  margin: 0 0 0 auto;
+  color: var(--subtle);
+  font-size: 13px;
+  line-height: 18px;
+  opacity: 1;
+  transition: opacity 240ms var(--ease-out);
+}
+
+.ix-stats__note.is-swapping {
+  opacity: 0;
+}
+
+.ix-ready {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 20px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
+}
+
+.ix-ready[data-in="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.ix-ready strong,
+.ix-ready #ix-ready-name {
+  color: var(--near);
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .ix-panel { width: 94vw; }
+  .ix-log { height: 140px; }
+  .ix-stats { gap: 16px; }
+  .ix-stats__note { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aac3-wave { display: none; }
+  .ix__wave { display: none; }
 
-  .aac3-stage {
-    background: linear-gradient(160deg, #ffffff 0%, #eaf2f8 46%, #dbe9f2 100%);
+  .ix {
+    background: linear-gradient(160deg, #ffffff 0%, #eef4f9 48%, #e3ecf4 100%);
   }
 
-  .aac3-line,
-  .aac3-finale {
-    transition-duration: 200ms;
+  .ix-status[data-state="run"] .ix-status__dot,
+  .ix-row[data-state="fetch"] .ix-row__spin {
+    animation: none;
+  }
+
+  .ix-panel,
+  .ix-row,
+  .ix-chip,
+  .ix-ready,
+  .ix-log__list {
+    transition-duration: 140ms;
     filter: none !important;
+    transform: none !important;
   }
 
-  .aac3-narration,
-  .aac3-finale { transform: translateX(-50%) !important; }
+  /* The bar is the progress read, not decoration, so it still moves. */
+  .ix-bar__fill {
+    transition-duration: 200ms;
+  }
 }
