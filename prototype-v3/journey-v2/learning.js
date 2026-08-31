@@ -89,7 +89,7 @@ const STEPS = [
 const CHAIN_SEEN_KEY = "hiver-omni-learning-seen-v2";
 let chainSeen = false;
 try { chainSeen = sessionStorage.getItem(CHAIN_SEEN_KEY) === "1"; } catch {}
-const PACE = chainSeen && !REVIEW_LOOP ? 0.34 : 1;
+const PACE = chainSeen && !REVIEW_LOOP ? 0.45 : 1;
 const paced = (ms) => Math.round(ms * PACE);
 const STEP_MS = STEPS.map((step) => paced(step.ms));
 
@@ -102,9 +102,10 @@ const SWAP_MS = 150;
 
 /*
   Reduced motion drops the sweeps, shimmers and blurs (see styles.css) but does
-  NOT compress the step durations: the honest span of visible work is the point
-  of this screen, not the motion layered on top. Only the pre-roll shortens,
-  since the chip no longer travels and there is nothing to watch during it.
+  NOT compress the step durations on a first viewing: the honest span of visible
+  work is the point of this screen, not the motion layered on top. Only the
+  pre-roll shortens, since the chip no longer travels and there is nothing to
+  watch during it. A repeat pass is scaled by PACE above, independently of this.
 */
 const RAW_T = prefersReducedMotion
   ? { bob: 300, stageIn: 700, resolve: 1100, steps: 1500, firstStep: 2100, stagger: 0, readyIn: 400, hold: 1000 }
@@ -272,13 +273,24 @@ function swapLabel(row, value) {
   }, SWAP_MS);
 }
 
+/*
+  How long the detail line is actually readable once it has finished swapping in
+  and before it starts swapping back. Below about 400ms it registers as a flicker
+  rather than as a second beat, which is worse than not showing it — so on a
+  compressed pass the shortest steps keep their label and simply run.
+*/
+const MIN_DETAIL_LEGIBLE_MS = 400;
+const detailIsLegible = (ms) => ms * (1 - DETAIL_AT) - SWAP_MS >= MIN_DETAIL_LEGIBLE_MS;
+
 function activate(index) {
   const step = STEPS[index];
   const row = rows[index];
   const ms = STEP_MS[index];
   row.dataset.state = "active";
 
-  window.setTimeout(() => swapLabel(row, resolveDetail(step.detail)), Math.round(ms * DETAIL_AT));
+  if (detailIsLegible(ms)) {
+    window.setTimeout(() => swapLabel(row, resolveDetail(step.detail)), Math.round(ms * DETAIL_AT));
+  }
   window.setTimeout(() => complete(index), ms);
 }
 

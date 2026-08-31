@@ -55,6 +55,22 @@ function swapLabel(value) {
   }, SWAP_MS);
 }
 
+/*
+  Coming back to this step, the button must be ready to press again. A history
+  traversal can restore the page from the back/forward cache exactly as it was
+  left — green, reading "Saved", with the width pinned — which looks like the
+  step has already been submitted and cannot be redone. Reset it on restore.
+*/
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) return;
+  window.clearTimeout(savedTimer);
+  continueLabel.classList.remove("is-swapping");
+  continueLabel.textContent = "Continue";
+  delete continueButton.dataset.state;
+  continueButton.style.minWidth = "";
+  status.textContent = "";
+});
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   persist();

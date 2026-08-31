@@ -356,11 +356,25 @@ composerInput.addEventListener("keydown", (event) => {
 
 sendButton.addEventListener("click", submitComposer);
 
-// Backward moves replace rather than push, so retreating never grows the
-// history stack — Back stays a reliable "one step back".
-backButton.addEventListener("click", () => {
-  window.location.replace("./index.html");
-});
+/*
+  A real history traversal, not a replace(). Replacing swapped our own entry for
+  the previous screen and left a duplicate behind it, so the very next press of
+  the browser's Back button appeared to do nothing — it "went back" to the
+  screen you were already on. Traversing keeps our Back button and the browser's
+  pointing at the same place.
+
+  The fallback covers a deep link straight into this step, where there is no
+  journey entry behind us to return to.
+*/
+function goBack(fallback) {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.replace(fallback);
+}
+
+backButton.addEventListener("click", () => goBack("./index.html"));
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -372,5 +386,15 @@ form.addEventListener("submit", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") window.location.replace("./index.html");
+  if (event.key === "Escape") goBack("./index.html");
+});
+
+/*
+  Restored from the back/forward cache, the page keeps whatever DOM state it had
+  when the user left — including a half-finished intro whose timers resume at odd
+  offsets. Snapping to rest is both correct and what a return visit would have
+  done anyway.
+*/
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) snapWidgetToRest();
 });

@@ -18,11 +18,21 @@ function pulse(el) {
   );
 }
 
-// Backward moves replace rather than push, so retreating never grows the
-// history stack — Back stays a reliable "one step back".
-backButton.addEventListener("click", () => {
-  window.location.replace("./agent.html");
-});
+/*
+  A real history traversal, not a replace(). Replacing swapped our own entry for
+  the previous screen and left a duplicate behind it, so the next press of the
+  browser's Back button appeared to do nothing. The fallback covers a deep link
+  straight into this step.
+*/
+function goBack(fallback) {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.replace(fallback);
+}
+
+backButton.addEventListener("click", () => goBack("./agent.html"));
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -31,5 +41,5 @@ form.addEventListener("submit", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") window.location.replace("./agent.html");
+  if (event.key === "Escape") goBack("./agent.html");
 });
