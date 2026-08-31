@@ -38,6 +38,11 @@
 4. **Component states.** The stylesheet had *three* `:focus-visible` rules — Back and every chat control had none. Continue's "Saved" now crossfades on the text-swap token set with its width pinned.
 5. **Token pass, narrow.** `.chat-collapse` (agent-only, safe) given open/close asymmetry 400/350ms and its 80ms delay removed from the close; agent.js's hard-coded 650ms scroll waits now derive from constants mirroring the CSS. `SWAP_MS` 220→150, step stagger 55→40.
 
+6. **Back buttons corrected + bfcache.** First attempt used `replace()` for the in-UI Back buttons, which left a *duplicate* entry — after an in-UI Back, the browser's Back appeared to do nothing. Now a real `history.back()` with a `replace()` fallback for deep links. `pageshow`/`persisted` handlers added: step 1 could be restored green and reading "Saved" with its width pinned; `agent.html` could be restored mid-intro.
+7. **Compressed pass flicker.** At 0.45 pace now, and the mid-step detail swap is skipped on any step too short to read it (was legible for only ~240ms on the shortest step at 0.34). Details that show now dwell 600-850ms.
+
+**Standing rule earned:** verify a back/forward fix by pressing the *browser's* Back after using the *in-UI* Back — testing only the forward flow hid a duplicate history entry for a whole round of review.
+
 **Measured and deliberately left alone:** frame timing is clean (p95 ~14ms, zero >33ms frames, CLS 0). The `mix-blend-mode: hue` tint costs ~20% of frame budget but still runs ~97fps and *is* the brand tint — `isolation: isolate` gave zero gain and changed pixels, so rejected. Narrative beats (3400/2200/4200ms steps, the 30s arc, 1950/2550/3250ms chat pacing) match no motion token and were not touched.
 
 **Open / next:** **`/backdrop-sharp` is waiting on Geeky's call.** The clip is 720x1280 portrait; as a landscape full-bleed it upscales 2.0x using only 35% of the frame — that is why it looks soft, and there is no higher-res master in the repo. A quarter turn gives 1.25x using 90%, free. Left opt-in because it recomposes the hero wave and lightens the centre where the heading sits. Scrim untouched per rule 3. If Geeky takes it, the heading treatment is the thing to solve, not the scrim.
