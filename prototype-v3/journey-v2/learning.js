@@ -29,20 +29,21 @@ const REVIEW_LOOP = new URLSearchParams(window.location.search).get("loop") === 
   number of "something just happened" beats across the wait, which is what
   makes a long wait read as work rather than as a stall.
 
-  `result` is deliberately missing on the two qualitative steps. Inventing a
-  tidy number for "learning your brand's voice" would expose every other number
-  as filler — only steps with a genuinely countable artifact report one.
+  No result metrics: a number beside each row put the evidence in a column of
+  its own, far from the label it belonged to, and two of the six steps had
+  nothing countable to report anyway — the asymmetry made the real numbers
+  look like filler. The detail line does that job instead, in place.
 
   Durations are hand-authored and uneven on purpose, including one short step.
   A metronome reads as a fake progress animation, which is exactly how the
   previous fixed 3700ms caption interval read.
 */
 const STEPS = [
-  { label: "Analyzing your site", detail: "Crawling {domain}", result: "128 pages", ms: 3400 },
-  { label: "Importing your assets", detail: "Reading docs and PDFs", result: "34 files", ms: 2200 },
+  { label: "Analyzing your site", detail: "Crawling {domain}", ms: 3400 },
+  { label: "Importing your assets", detail: "Reading docs and PDFs", ms: 2200 },
   { label: "Learning your brand’s voice", detail: "Matching tone and phrasing", ms: 4200 },
-  { label: "Mapping your help center", detail: "Grouping articles by topic", result: "62 articles", ms: 3300 },
-  { label: "Grouping common questions", detail: "Finding repeat themes", result: "216 topics", ms: 4000 },
+  { label: "Mapping your help center", detail: "Grouping articles by topic", ms: 3300 },
+  { label: "Grouping common questions", detail: "Finding repeat themes", ms: 4000 },
   { label: "Fine-tuning responses", detail: "Testing sample replies", ms: 2800 },
 ];
 
@@ -146,11 +147,7 @@ function buildStep(step, index) {
   setLabelText(labelText, step.label);
   label.appendChild(labelText);
 
-  const result = document.createElement("span");
-  result.className = "learning-step__result";
-  result.textContent = step.result || "";
-
-  row.append(marker, label, result);
+  row.append(marker, label);
   return row;
 }
 
@@ -170,8 +167,8 @@ rows.forEach((row) => {
 /*
   Pin the label column to the widest string it will ever hold — labels and
   mid-step details alike. Without this the column is sized by whatever text is
-  currently in it, so a longer detail swapping in would shove the result column
-  sideways mid-sequence.
+  currently in it, so a longer detail swapping in would shift the row's width
+  and re-center the whole (fit-content) chain sideways mid-sequence.
 */
 function sizeLabelColumn() {
   const sample = rows[0].querySelector(".learning-step__label-text");

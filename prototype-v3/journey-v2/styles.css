@@ -1427,7 +1427,7 @@ label {
   display: grid;
   align-items: center;
   gap: 12px;
-  grid-template-columns: 16px var(--label-col, 190px) auto;
+  grid-template-columns: 16px var(--label-col, 190px);
   min-height: 20px;
   opacity: 0;
   filter: blur(4px);
@@ -1637,27 +1637,6 @@ label {
 @keyframes learning-step-shimmer {
   from { background-position: 130% 0; }
   to { background-position: -30% 0; }
-}
-
-/* The evidence: what the step actually produced. Only ever appears after the
-   check, so it reads as a result rather than a promise. */
-.learning-step__result {
-  color: #e2e8f0;
-  text-shadow: 0 1px 10px rgba(4, 9, 20, 0.4);
-  font-size: 12px;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.1px;
-  line-height: 20px;
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out);
-}
-
-.learning-step[data-state="done"] .learning-step__result {
-  opacity: 0.5;
-  transform: translateX(0);
-  transition-delay: 140ms;
 }
 
 .try-heading {
@@ -2753,8 +2732,7 @@ label {
   .learning-step__live,
   .learning-step__check,
   .learning-step__label,
-  .learning-step__label-text,
-  .learning-step__result {
+  .learning-step__label-text {
     transition-duration: 120ms;
     transition-delay: 0ms !important;
   }
@@ -2766,8 +2744,7 @@ label {
   .learning-step__pending,
   .learning-step__live,
   .learning-step__check,
-  .learning-step__label-text,
-  .learning-step__result {
+  .learning-step__label-text {
     transform: none !important;
     filter: none !important;
   }
