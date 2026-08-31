@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8fc" />
+    <title>Hiver Omni — building your agent (wave, light marks)</title>
+    <link rel="preload" href="./assets/hanken-grotesk-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/hanken-grotesk-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./agent-animation-claude-5.css" />
+  </head>
+  <body class="bld-body">
+    <!--
+      Variant 5 of the agent-creation wait: the same five-act constellation as
+      /animation-1, but standing on the journey's own rotated wave backdrop
+      instead of its private cosmic gradient — so the 30s wait belongs to the
+      same film as index.html, learning.html and agent.html.
+
+      The marks stay white and additive, over learning.html's scrim at its exact
+      values. That is the treatment already shipping on learning.html, so this is
+      the variant that is consistent with what is live. It also reads faint,
+      because a scrim that only reaches 0.66 over a mostly-white clip leaves a
+      mid gray-blue centre, and additive white on mid gray-blue has nowhere to
+      go. Deepening the scrim would fix it and is exactly what standing rule 3
+      forbids, so it is left alone and the faintness is the finding.
+
+      /animation-6 is the other half of this question.
+    -->
+    <main class="bld" aria-label="Building your AI support agent">
+      <div class="bld__field">
+        <div class="bld__bg" aria-hidden="true">
+          <video class="bld__bg-video" src="./assets/video/company-backdrop.mp4" poster="./assets/video/company-backdrop-poster.jpg" preload="auto" data-continuous autoplay muted loop playsinline disablepictureinpicture></video>
+          <div class="bld__bg-tint"></div>
+          <div class="bld__bg-scrim"></div>
+        </div>
+
+        <canvas class="bld__canvas" id="bld-canvas" aria-hidden="true"></canvas>
+        <div class="bld__grain" id="bld-grain" aria-hidden="true"></div>
+
+        <div class="bld__core" id="bld-core" aria-hidden="true">
+          <span class="bld__core-badge" id="bld-core-badge"></span>
+        </div>
+      </div>
+
+      <div class="bld__narration" id="bld-narration" aria-live="polite">
+        <span class="bld__line" id="bld-line" data-text=""></span>
+      </div>
+
+      <div class="bld__finale" id="bld-finale">
+        <h1 class="bld__title" id="bld-agent-name">Your Support</h1>
+        <p class="bld__subtitle" id="bld-subtitle">Your AI agent</p>
+      </div>
+    </main>
+
+    <script src="./backdrop.js"></script>
+    <script src="./agent-animation-claude-5.js"></script>
+  </body>
+</html>
