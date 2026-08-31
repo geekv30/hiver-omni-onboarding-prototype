@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <!--
+      Version 2 of the agent-creation wait, written against the journey's own
+      design language rather than as a full-screen cutscene.
+
+      What the three built steps have in common, and what this keeps:
+        - the two-pane frame: white form pane left, one 22px-radius media card
+          right, inset 32px top/bottom and 78px from the viewport edge
+        - the product header on every step: four progress segments plus the round
+          support button, never hidden
+        - "Let's ..." sentence-case H1 at 20/24/500, labels at 14/20/400
+        - the media card is the only dark surface in the whole journey
+        - one entrance gesture everywhere: opacity + translateY(12px) +
+          blur(3px), ~500ms on --ease-out
+
+      Version 1 broke all of that — full-bleed near-black, 30px type, its own
+      stylesheet. It reads as a beautiful interruption. This one reads as the
+      product still running, which is the argument for it: the wait becomes a
+      step of the journey instead of a cutaway from it, and the existing
+      hero-media view transition carries the card in and out.
+
+      styles.css is loaded read-only for the shared frame. Everything new is
+      prefixed aac2- in its own sheet, so no built screen can be disturbed.
+    -->
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./agent-animation-claude-2.css" />
+  </head>
+  <body>
+    <main class="onboarding-frame onboarding-frame--company">
+      <section class="form-pane" aria-labelledby="aac2-title">
+        <div class="page">
+          <header class="product-header product-header--company">
+            <div class="step-progress" aria-label="Onboarding progress: step 2 of 4">
+              <span class="step-progress__segment is-complete"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="company-step" id="aac2-form">
+            <div class="company-step__fields">
+              <div class="company-heading">
+                <h1 id="aac2-title">We&rsquo;re building your AI support agent!</h1>
+              </div>
+
+              <div class="aac2-panel">
+                <span class="field-label" id="aac2-source-label">Learning from your website</span>
+                <ol class="aac2-steps" id="aac2-steps"></ol>
+              </div>
+            </div>
+
+            <div class="company-step__footer">
+              <button class="continue-button" type="submit" id="aac2-continue" disabled>Continue</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="landscape-pane landscape-pane--framed" aria-label="Building your AI support agent">
+        <div class="video-card aac2-card">
+          <!-- Same backdrop asset as steps 1 and 3, so the card the user has
+               been looking at simply carries on into the wait. -->
+          <video class="landscape-video" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+          <div class="video-tint" aria-hidden="true"></div>
+          <div class="aac2-scrim" aria-hidden="true"></div>
+
+          <canvas class="aac2-canvas" id="aac2-canvas" aria-hidden="true"></canvas>
+
+          <div class="aac2-core" id="aac2-core" aria-hidden="true">
+            <span class="aac2-core__badge" id="aac2-core-badge"></span>
+          </div>
+
+          <!-- Echoes .hero-copy's position and rhythm on the sibling steps. -->
+          <div class="aac2-lockup" id="aac2-lockup">
+            <p class="aac2-lockup__name" id="aac2-agent-name">Your support agent</p>
+            <p class="aac2-lockup__meta" id="aac2-agent-meta">is ready</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./agent-animation-claude-2.js"></script>
+  </body>
+</html>
