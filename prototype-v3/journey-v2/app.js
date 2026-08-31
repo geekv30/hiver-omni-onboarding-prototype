@@ -1,3 +1,13 @@
+// A view transition interrupted by the next navigation rejects with "Transition
+// was skipped". It is benign — the navigation still happens — but it surfaces as
+// an uncaught error, so it is swallowed here the same way agent.js and invite.js
+// already do.
+window.addEventListener("unhandledrejection", (event) => {
+  if (event.reason && String(event.reason.message).includes("Transition was skipped")) {
+    event.preventDefault();
+  }
+});
+
 const NAME_KEY = "hiver-omni-company-name-v2";
 const WEBSITE_KEY = "hiver-omni-knowledge-onboarding-v2";
 

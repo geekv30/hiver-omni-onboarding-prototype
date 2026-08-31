@@ -2649,6 +2649,25 @@ label {
   gap: 16px;
 }
 
+/*
+  Re-entry snap. On a return visit agent.js paints the widget already finished
+  rather than replaying its ~4.4s intro, and this kills every transition and
+  animation inside the widget for the one frame that takes — otherwise the
+  header, bubbles, composer and suggestions all animate in at once, which reads
+  worse than the sequence it was meant to skip.
+
+  Attribute-scoped and set only by agent.js, so summary.html and try.html —
+  which render against the same .chat-widget base rules — never see it. Declared
+  after those base rules so source order keeps it winning.
+*/
+.chat-widget[data-instant="true"],
+.chat-widget[data-instant="true"] *,
+.chat-widget[data-instant="true"] *::before,
+.chat-widget[data-instant="true"] *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

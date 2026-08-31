@@ -87,6 +87,42 @@ function pulse(el) {
   );
 }
 
+/*
+  The intro is a one-time reveal, not a gate. Replaying its ~4.4s every time the
+  user steps back to index.html and forward again made the screen feel broken —
+  you could see the widget you had already met being assembled a second time,
+  with nothing clickable until it finished. Session-scoped, so a fresh demo run
+  still gets the full reveal.
+*/
+const INTRO_SEEN_KEY = "hiver-omni-agent-intro-seen-v2";
+
+function restWidgetState() {
+  widget.dataset.visible = "true";
+  widget.dataset.header = "true";
+  setCollapse(typingCollapse, false);
+  setCollapse(messageCollapse, true);
+  bubble1.dataset.visible = "true";
+  bubble2.dataset.visible = "true";
+  widget.dataset.composer = "true";
+  suggestion1.dataset.visible = "true";
+  suggestion2.dataset.visible = "true";
+}
+
+function snapWidgetToRest() {
+  // data-instant suppresses every transition inside the widget while the rest
+  // state is committed, then hands motion back so the exchange still animates.
+  widget.dataset.instant = "true";
+  restWidgetState();
+  scrollChatToBottom(true);
+  // Two frames: one to paint the committed state with motion off, one before
+  // re-enabling, so nothing back-animates from the values we just skipped past.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      delete widget.dataset.instant;
+    });
+  });
+}
+
 function runWidgetSequence() {
   const t = prefersReducedMotion
     ? { frame: 60, header: 200, typing: 340, messages: 840, bubble2: 1140, composer: 1440, suggestions: 1700 }
@@ -115,7 +151,17 @@ function runWidgetSequence() {
   window.setTimeout(() => {
     suggestion1.dataset.visible = "true";
     suggestion2.dataset.visible = "true";
+    // Only a sequence that actually finished counts as seen — leaving mid-intro
+    // should still replay it.
+    try { sessionStorage.setItem(INTRO_SEEN_KEY, "1"); } catch {}
   }, t.suggestions);
+}
+
+function startWidget() {
+  let seen = false;
+  try { seen = sessionStorage.getItem(INTRO_SEEN_KEY) === "1"; } catch {}
+  if (seen) return snapWidgetToRest();
+  runWidgetSequence();
 }
 
 const QUESTIONS = {
@@ -279,7 +325,7 @@ function submitComposer() {
   runExchange(text, matchQuestionKey(text));
 }
 
-runWidgetSequence();
+startWidget();
 suggestion1.addEventListener("click", () => handleSuggestionClick(suggestion1));
 suggestion2.addEventListener("click", () => handleSuggestionClick(suggestion2));
 

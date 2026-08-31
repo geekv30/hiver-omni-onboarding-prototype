@@ -1,3 +1,12 @@
+// A view transition interrupted by the next navigation rejects with "Transition
+// was skipped". Benign — the navigation still happens — but it surfaces as an
+// uncaught error, so it is swallowed the same way the other steps do.
+window.addEventListener("unhandledrejection", (event) => {
+  if (event.reason && String(event.reason.message).includes("Transition was skipped")) {
+    event.preventDefault();
+  }
+});
+
 const STORAGE_KEY = "hiver-omni-knowledge-onboarding-v2";
 
 const chip = document.querySelector("#source-chip");
@@ -47,11 +56,30 @@ const STEPS = [
   { label: "Fine-tuning responses", detail: "Testing sample replies", ms: 2800 },
 ];
 
+/*
+  A repeat pass through the journey must not hold the user for another ~30s. The
+  honest-span argument applies to the first viewing; the second time you are
+  editing your answers, not learning what the product does, and with Back now
+  landing on index.html a re-submit is a normal thing to do.
+
+  Every beat is scaled by the same factor rather than clamped, so the uneven
+  rhythm that makes this read as real work survives intact at a third of the
+  length. The review route (/animation-0) is exempt in both directions: it
+  reloads on purpose and must always show the full-length piece.
+*/
+const CHAIN_SEEN_KEY = "hiver-omni-learning-seen-v2";
+let chainSeen = false;
+try { chainSeen = sessionStorage.getItem(CHAIN_SEEN_KEY) === "1"; } catch {}
+const PACE = chainSeen && !REVIEW_LOOP ? 0.34 : 1;
+const paced = (ms) => Math.round(ms * PACE);
+const STEP_MS = STEPS.map((step) => paced(step.ms));
+
 // A breath between a step finishing and the next starting, so each completion
 // lands instead of being rushed off the screen by the next row lighting up.
-const BEAT = prefersReducedMotion ? 200 : 420;
+const BEAT = paced(prefersReducedMotion ? 200 : 420);
 const DETAIL_AT = 0.48;
-const SWAP_MS = 220;
+// Text swap — the label crossfading to its mid-step detail and back.
+const SWAP_MS = 150;
 
 /*
   Reduced motion drops the sweeps, shimmers and blurs (see styles.css) but does
@@ -59,9 +87,16 @@ const SWAP_MS = 220;
   of this screen, not the motion layered on top. Only the pre-roll shortens,
   since the chip no longer travels and there is nothing to watch during it.
 */
-const T = prefersReducedMotion
+const RAW_T = prefersReducedMotion
   ? { bob: 300, stageIn: 700, resolve: 1100, steps: 1500, firstStep: 2100, stagger: 0, readyIn: 400, hold: 1000 }
-  : { bob: 1000, stageIn: 2200, resolve: 3000, steps: 3800, firstStep: 4600, stagger: 55, readyIn: 700, hold: 1300 };
+  : { bob: 1000, stageIn: 2200, resolve: 3000, steps: 3800, firstStep: 4600, stagger: 40, readyIn: 700, hold: 1300 };
+
+// `stagger` is a per-item offset, not a beat in the arc — 6 rows x 40ms keeps
+// the whole reveal inside ~240ms, so the last row never feels late. It is the
+// one value here that must not scale with the pace.
+const T = Object.fromEntries(
+  Object.entries(RAW_T).map(([key, value]) => [key, key === "stagger" ? value : paced(value)]),
+);
 
 const CHECK_PATH = "M1.5 6.3 4.6 9.4 10.5 2.6";
 
@@ -119,7 +154,7 @@ function buildStep(step, index) {
   row.className = "learning-step";
   row.dataset.state = "pending";
   row.style.setProperty("--stagger", `${index * T.stagger}ms`);
-  row.style.setProperty("--step-duration", `${step.ms}ms`);
+  row.style.setProperty("--step-duration", `${STEP_MS[index]}ms`);
 
   const marker = document.createElement("span");
   marker.className = "learning-step__marker";
@@ -221,10 +256,11 @@ function swapLabel(row, value) {
 function activate(index) {
   const step = STEPS[index];
   const row = rows[index];
+  const ms = STEP_MS[index];
   row.dataset.state = "active";
 
-  window.setTimeout(() => swapLabel(row, resolveDetail(step.detail)), Math.round(step.ms * DETAIL_AT));
-  window.setTimeout(() => complete(index), step.ms);
+  window.setTimeout(() => swapLabel(row, resolveDetail(step.detail)), Math.round(ms * DETAIL_AT));
+  window.setTimeout(() => complete(index), ms);
 }
 
 function complete(index) {
@@ -246,6 +282,12 @@ function complete(index) {
 function finish() {
   headingBuilding.dataset.active = "false";
   headingReady.dataset.active = "true";
+
+  // Only a run that reached the end counts as seen, so leaving mid-chain still
+  // replays it at full length.
+  if (!REVIEW_LOOP) {
+    try { sessionStorage.setItem(CHAIN_SEEN_KEY, "1"); } catch {}
+  }
 
   /*
     The list is deliberately NOT collapsed here. A fully-checked chain sitting
