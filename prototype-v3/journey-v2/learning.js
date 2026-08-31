@@ -15,6 +15,10 @@ const headingReady = document.querySelector("#learning-heading-ready");
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// Opt-in review mode (the /animation-0 route). Off by default, so the journey
+// itself is untouched: this screen still advances to agent.html as it always has.
+const REVIEW_LOOP = new URLSearchParams(window.location.search).get("loop") === "1";
+
 /*
   The step chain replaces a single caption line that swapped six times. That
   version made the earlier work unrecoverable — by step 4 there was no way to
@@ -255,6 +259,11 @@ function finish() {
     animation competing with the navigation.
   */
   window.setTimeout(() => {
+    // A full reload rather than an in-place reset: this file is a live journey
+    // step, and replaying it by hand would mean unwinding row states, labels,
+    // links, the chip and the heading — a lot of surface to get subtly wrong for
+    // a review-only convenience.
+    if (REVIEW_LOOP) return window.location.reload();
     window.location.href = "./agent.html";
   }, T.hold);
 }

@@ -56,8 +56,8 @@
         max-width: 700px;
       }
       .cards--three {
-        grid-template-columns: repeat(3, minmax(200px, 1fr));
-        max-width: 940px;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        max-width: 1180px;
       }
       .section-label {
         margin: 44px 0 18px;
@@ -67,8 +67,11 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
-      @media (max-width: 900px) {
-        .cards--three { grid-template-columns: minmax(0, 1fr); max-width: 700px; }
+      @media (max-width: 1240px) {
+        .cards--three { grid-template-columns: repeat(2, minmax(220px, 1fr)); max-width: 700px; }
+      }
+      @media (max-width: 600px) {
+        .cards--three { grid-template-columns: minmax(0, 1fr); }
       }
       @media (max-width: 600px) {
         .cards { grid-template-columns: minmax(0, 1fr); }
@@ -146,9 +149,15 @@
       </a>
     </div>
 
-    <p class="section-label">Agent-creation animation &mdash; three takes on the same 30s wait</p>
+    <p class="section-label">Agent-creation animation &mdash; the one shipping, plus three explorations</p>
 
     <div class="cards cards--three">
+      <a class="card" href="/animation-0">
+        <span class="card__tag">Original</span>
+        <p class="card__title">The step chain</p>
+        <p class="card__desc">The one running in the journey today. Steps stay on screen and check off in place.</p>
+        <span class="card__arrow">Open &rarr;</span>
+      </a>
       <a class="card" href="/animation-1">
         <span class="card__tag">Animation 1</span>
         <p class="card__title">Full-screen constellation</p>
