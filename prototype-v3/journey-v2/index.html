@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
     <title>Hiver Omni onboarding</title>
+    <!-- The two woff2 faces are 13KB each, but without an explicit preload they
+         were requested only once the CSS matched text — landing behind the 1.6MB
+         backdrop video in the queue. crossorigin is required even same-origin:
+         without it the preload is discarded and the font is fetched twice. -->
+    <link rel="preload" href="./assets/hanken-grotesk-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/hanken-grotesk-500.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -74,7 +80,7 @@
 
       <aside class="landscape-pane landscape-pane--framed" aria-label="Companies already using Hiver">
         <div class="video-card">
-          <video class="landscape-video" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+          <video class="landscape-video" src="./assets/video/company-backdrop.mp4" poster="./assets/video/company-backdrop-poster.jpg" preload="auto" data-continuous autoplay muted loop playsinline disablepictureinpicture></video>
           <div class="video-tint" aria-hidden="true"></div>
 
           <div class="hero-copy">
@@ -128,6 +134,7 @@
       </aside>
     </main>
 
+    <script src="./backdrop.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
