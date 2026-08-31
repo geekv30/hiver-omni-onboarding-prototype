@@ -1,6 +1,15 @@
 /*
   Agent creation, as a ~30s five-act piece.
 
+  The ink is deep blue-greys drawn source-over onto a transparent canvas that
+  the stylesheet multiplies down onto the wave backdrop. Additive `lighter` —
+  what this drew while it stood on its own near-black field — is wrong on that
+  ground in the most literal way: it sums toward brighter, so dense clusters of
+  dark ink would come out pale exactly where they should be strongest.
+
+  Palette is the orb's own deep end (#386B8F / #26526B), so the piece is tinted
+  by the same tokens as the chat widget it is building.
+
   The wait is real and unavoidable, so the animation has to earn it rather than
   fill it. The metaphor is literal: the company's knowledge arrives as scattered
   motes, finds itself, organises into clusters, then collapses into the agent.
@@ -203,8 +212,8 @@ function makeGlow(radius, rgb) {
   return c;
 }
 
-const moteGlow = makeGlow(64, "196, 222, 255");
-const coreGlow = makeGlow(128, "150, 205, 255");
+const moteGlow = makeGlow(64, "38, 82, 107");
+const coreGlow = makeGlow(128, "56, 107, 143");
 
 // The bloom drawn as a scaled shell sprite rather than ctx.stroke(): a stroked
 // circle whose lineWidth shrinks as it grows reads as a hard geometric outline,
@@ -215,12 +224,12 @@ function makeShell(radius) {
   c.width = c.height = radius * 2;
   const g = c.getContext("2d");
   const grad = g.createRadialGradient(radius, radius, 0, radius, radius, radius);
-  grad.addColorStop(0, "rgba(168, 212, 255, 0)");
-  grad.addColorStop(0.58, "rgba(168, 212, 255, 0)");
-  grad.addColorStop(0.79, "rgba(168, 212, 255, 0.5)");
-  grad.addColorStop(0.88, "rgba(190, 226, 255, 0.9)");
-  grad.addColorStop(0.95, "rgba(168, 212, 255, 0.22)");
-  grad.addColorStop(1, "rgba(168, 212, 255, 0)");
+  grad.addColorStop(0, "rgba(56, 107, 143, 0)");
+  grad.addColorStop(0.58, "rgba(56, 107, 143, 0)");
+  grad.addColorStop(0.79, "rgba(56, 107, 143, 0.5)");
+  grad.addColorStop(0.88, "rgba(38, 82, 107, 0.9)");
+  grad.addColorStop(0.95, "rgba(56, 107, 143, 0.22)");
+  grad.addColorStop(1, "rgba(56, 107, 143, 0)");
   g.fillStyle = grad;
   g.fillRect(0, 0, radius * 2, radius * 2);
   return c;
@@ -431,7 +440,9 @@ function draw(t) {
   const arrivedK = arrived / MOTES;
   const absorbedK = absorbed / MOTES;
 
-  ctx.globalCompositeOperation = "lighter";
+  // source-over, not lighter: see the file header. The canvas is transparent and
+  // the stylesheet multiplies the whole layer down onto the clip.
+  ctx.globalCompositeOperation = "source-over";
 
   /* --- links ---------------------------------------------------------- */
   // No edge bookkeeping: proximity IS the edge, so the web forms and dissolves
@@ -480,7 +491,7 @@ function draw(t) {
     for (let b = 0; b < ALPHA_BUCKETS; b += 1) {
       // Iteration 1 ran these at 0.018-0.118 and the web simply was not there.
       ctx.globalAlpha = 0.05 + (b / ALPHA_BUCKETS) * 0.34;
-      ctx.strokeStyle = "rgb(163, 203, 255)";
+      ctx.strokeStyle = "rgb(56, 107, 143)";
       ctx.stroke(paths[b]);
     }
   }
@@ -490,11 +501,18 @@ function draw(t) {
   // brightest thing on screen even while three clusters are at their busiest.
   const coreLift = 0.2 + arrivedK * 0.34 + clusterP * 0.3 + absorbedK * 0.5 + Math.pow(collapseP, 1.4) * 1.1;
   const coreSize = (32 + arrivedK * 22 + absorbedK * 34 + Math.pow(collapseP, 1.3) * 88) * fit * camScale;
-  ctx.globalAlpha = Math.min(1, coreLift);
+  /*
+    Damped hard against the original. coreLift is authored to run past 1 and
+    clamp, because on a black field an over-bright core just blooms. Multiplied
+    onto a light one the same clamp is a solid near-black disc that swallows the
+    badge it is supposed to be lighting — so the whole core reads at roughly
+    half weight, and the collapse still resolves as the darkest point on screen.
+  */
+  ctx.globalAlpha = Math.min(0.62, coreLift * 0.5);
   ctx.drawImage(coreGlow, cx - coreSize, cy - coreSize, coreSize * 2, coreSize * 2);
 
   const hot = coreSize * 0.32;
-  ctx.globalAlpha = Math.min(1, 0.34 + clusterP * 0.2 + collapseP * 0.6);
+  ctx.globalAlpha = Math.min(0.5, (0.34 + clusterP * 0.2 + collapseP * 0.6) * 0.5);
   ctx.drawImage(coreGlow, cx - hot, cy - hot, hot * 2, hot * 2);
 
   /* --- motes ---------------------------------------------------------- */
@@ -508,7 +526,7 @@ function draw(t) {
     ctx.drawImage(moteGlow, m.px - g, m.py - g, g * 2, g * 2);
   }
 
-  ctx.fillStyle = "rgb(232, 242, 255)";
+  ctx.fillStyle = "rgb(19, 46, 64)";
   for (const m of motes) {
     if (m.alpha < 0.01) continue;
     ctx.globalAlpha = Math.min(1, m.alpha * (0.35 + m.z * 0.65) * densityGuard);
@@ -525,7 +543,9 @@ function draw(t) {
     const ringP = phase(t, ACT.ring[0] + offset, ACT.ring[1] + offset);
     if (ringP <= 0 || ringP >= 1) continue;
     const r = Math.max(1, easeOutQuint(ringP) * Math.max(w, h) * 0.5);
-    ctx.globalAlpha = Math.pow(1 - ringP, 1.7) * (offset ? 0.3 : 0.5);
+    // Halved too: a dark shell sweeping the full frame is a far heavier event
+    // than a bright one, and at the original alphas it read as a wipe.
+    ctx.globalAlpha = Math.pow(1 - ringP, 1.7) * (offset ? 0.15 : 0.25);
     ctx.drawImage(shell, cx - r, cy - r, r * 2, r * 2);
   }
 

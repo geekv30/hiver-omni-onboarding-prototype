@@ -60,16 +60,6 @@
       "source": "/animation-5/",
       "destination": "/journey-v2/agent-animation-claude-5.html",
       "permanent": false
-    },
-    {
-      "source": "/animation-6",
-      "destination": "/journey-v2/agent-animation-claude-6.html",
-      "permanent": false
-    },
-    {
-      "source": "/animation-6/",
-      "destination": "/journey-v2/agent-animation-claude-6.html",
-      "permanent": false
     }
   ]
 }

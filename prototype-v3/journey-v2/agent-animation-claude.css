@@ -19,8 +19,9 @@
      element in the composition hangs off this, including the ground gradient,
      so the glow the canvas paints stays under the badge the CSS places. */
   --bld-centre: 51%;
-  --bld-ink: #f4f8ff;
-  --bld-quiet: rgba(226, 236, 255, 0.66);
+  /* Inverted. Everything the piece draws is now dark on a light field. */
+  --bld-ink: #0d1f2e;
+  --bld-quiet: rgba(13, 31, 46, 0.68);
   --bld-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --bld-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -32,7 +33,7 @@
 .bld-body {
   margin: 0;
   overflow: hidden;
-  background: #04060d;
+  background: #f6f8fc;
   color: var(--bld-ink);
   font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -46,23 +47,76 @@
   overflow: hidden;
 }
 
-/* The ground is CSS, not canvas: a full-screen radial repaint every frame buys
-   nothing when the gradient never changes, and it lets the canvas stay
-   transparent so motes can blend additively with each other only. */
+/* The ground is the journey's own backdrop clip, not a private gradient — the
+   whole point of this variant. Everything below is learning.html's treatment
+   copied under bld__ names rather than linked from styles.css: standing rule 4
+   keeps a study off any class a shipping screen still renders against. */
 .bld__field {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 78% 68% at 50% var(--bld-centre), #12203c 0%, #0a1226 42%, #050912 72%, #04060d 100%),
-    #04060d;
+  background: #f6f8fc;
 }
 
+.bld__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/*
+  The clip runs a quarter turn round. The source is 720x1280 portrait; spanning
+  it across a landscape viewport the natural way upscales it 2.0x and crops away
+  65% of the frame, which is the entire reason it reads soft. Rotated, the
+  1280px dimension covers the viewport's width instead: 1.25x using 90% of it.
+
+  `inset: auto` must come before top/left — it is a shorthand and would
+  otherwise reset them.
+*/
+.bld__bg-video {
+  position: absolute;
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: 100dvh;
+  height: 100vw;
+  object-fit: cover;
+  object-position: 50% 50%;
+  transform: translate(-50%, -50%) rotate(90deg) scaleY(-1);
+}
+
+.bld__bg-tint {
+  position: absolute;
+  inset: 0;
+  background: #7bc4ff;
+  mix-blend-mode: hue;
+  pointer-events: none;
+}
+
+/* learning.html's scrim geometry and alphas, inverted in colour: it lifts the
+   centre toward the page white so the dark marks have somewhere to read,
+   instead of pushing it dark so white marks do. The wave survives at the edges
+   either way — this is the same move, not a dimming of the clip. */
+.bld__bg-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 62% 58% at 50% var(--bld-centre), rgba(246, 248, 252, 0.72) 0%, rgba(246, 248, 252, 0.46) 46%, rgba(246, 248, 252, 0) 78%);
+  pointer-events: none;
+}
+
+/*
+  multiply is what makes this variant work at all. The canvas paints deep ink on
+  transparency; multiplied down onto the clip, the filaments darken the white
+  field and disappear into the blue folds the way ink on wet paper would — which
+  is the effect standing rule 3 describes, and the reason nothing here needs the
+  video dimmed.
+*/
 .bld__canvas {
   position: absolute;
   inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+  mix-blend-mode: multiply;
 }
 
 /* Grain does two jobs: it hides the banding a wide dark gradient always shows
@@ -87,12 +141,9 @@
   100% { transform: translate3d(0, 0, 0); }
 }
 
-.bld__vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 66% 60% at 50% var(--bld-centre), rgba(4, 6, 13, 0) 40%, rgba(4, 6, 13, 0.55) 78%, rgba(4, 6, 13, 0.86) 100%);
-  pointer-events: none;
-}
+/* No vignette in this variant. It existed to close a private gradient down to
+   black at the corners; here the corners are the wave, which is the thing being
+   kept. Darkening them would delete it. */
 
 /* The core sits exactly where the canvas draws its own core glow, so the badge
    reads as the thing the motes are collapsing into. */
@@ -114,14 +165,17 @@
   display: grid;
   width: 56px;
   height: 56px;
-  border: 1px solid rgba(226, 236, 255, 0.22);
+  /* Stays a dark tile with a light mark on it — the same object as the brand
+     chip in learning.html's heading. Only the shadow is retuned: the original's
+     0.7-alpha 44px drop was sized for a near-black ground and reads as a smear
+     on a light one. */
+  border: 1px solid rgba(226, 236, 255, 0.18);
   border-radius: 17px;
-  background: rgba(9, 17, 36, 0.78);
+  background: rgba(15, 32, 48, 0.9);
   box-shadow:
-    inset 0 1px 0 rgba(244, 248, 255, 0.14),
-    0 0 0 1px rgba(4, 6, 13, 0.55),
-    0 0 34px rgba(120, 180, 255, 0.16),
-    0 18px 44px rgba(4, 10, 26, 0.7);
+    inset 0 1px 0 rgba(244, 248, 255, 0.16),
+    0 2px 6px rgba(13, 31, 46, 0.14),
+    0 14px 34px rgba(13, 31, 46, 0.22);
   opacity: 0;
   place-items: center;
   filter: blur(6px);
@@ -143,9 +197,10 @@
   object-fit: contain;
 }
 
+/* The one thing that does not invert: it sits on the dark tile, not the field. */
 .bld__core-initial {
   grid-area: 1 / 1;
-  color: var(--bld-ink);
+  color: #f4f8ff;
   font-size: 21px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -189,8 +244,13 @@
   transform: translateY(-7px);
 }
 
-/* A highlight band swept across the glyphs — the texture of work in progress,
-   with no spinner anywhere in the composition. */
+/* A band swept across the glyphs — the texture of work in progress, with no
+   spinner anywhere in the composition.
+
+   Inverted with everything else, and it had to be: the band is clipped into the
+   glyphs over a base line already at 0.68, so a near-white one on this ground
+   made each swept word *drop out* rather than lift. It read as a render fault.
+   Deepening past the base alpha turns it back into a highlight. */
 .bld__line::after {
   position: absolute;
   inset: 0;
@@ -198,7 +258,7 @@
     90deg,
     transparent 0%,
     transparent 36%,
-    rgba(244, 248, 255, 0.92) 50%,
+    rgba(9, 24, 36, 0.96) 50%,
     transparent 64%,
     transparent 100%
   );
@@ -246,7 +306,7 @@
 
 .bld__subtitle {
   margin: 0;
-  color: rgba(226, 236, 255, 0.46);
+  color: rgba(13, 31, 46, 0.52);
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;

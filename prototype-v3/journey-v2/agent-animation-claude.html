@@ -3,22 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#050a16" />
+    <meta name="theme-color" content="#f6f8fc" />
     <title>Hiver Omni — building your agent</title>
+    <link rel="preload" href="./assets/hanken-grotesk-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/hanken-grotesk-500.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./agent-animation-claude.css" />
   </head>
   <body class="bld-body">
     <!--
-      A standalone exploration of the agent-creation wait: a ~30s five-act piece
-      where the company's knowledge condenses into the agent. Deliberately not
-      wired into styles.css — it shares no layout classes with the journey, so
-      keeping it in its own stylesheet means it cannot disturb a built screen.
+      The agent-creation wait, as a ~30s five-act piece, standing on the
+      journey's own rotated wave backdrop — the same clip index.html,
+      learning.html and invite.html run, carried across navigations by
+      backdrop.js so the 30s wait belongs to the same take as the screens either
+      side of it.
+
+      The constellation is inverted to suit that ground: deep ink on a
+      mix-blend-mode: multiply canvas, over a scrim with learning.html's
+      geometry inverted in colour so it lifts the centre light rather than
+      pushing it dark. That is standing rule 3's treatment, and the reason
+      nothing here needs the video dimmed. It does turn the type dark, which is
+      the question the handoff has standing open on learning.html.
+
+      /animation-5 is the same piece with the marks left white and additive over
+      learning.html's scrim unchanged — the treatment currently shipping. It
+      reads only where the clip's own fold happens to be dark.
     -->
     <main class="bld" aria-label="Building your AI support agent">
       <div class="bld__field">
+        <div class="bld__bg" aria-hidden="true">
+          <video class="bld__bg-video" src="./assets/video/company-backdrop.mp4" poster="./assets/video/company-backdrop-poster.jpg" preload="auto" data-continuous autoplay muted loop playsinline disablepictureinpicture></video>
+          <div class="bld__bg-tint"></div>
+          <div class="bld__bg-scrim"></div>
+        </div>
+
         <canvas class="bld__canvas" id="bld-canvas" aria-hidden="true"></canvas>
         <div class="bld__grain" id="bld-grain" aria-hidden="true"></div>
-        <div class="bld__vignette" aria-hidden="true"></div>
 
         <div class="bld__core" id="bld-core" aria-hidden="true">
           <span class="bld__core-badge" id="bld-core-badge"></span>
@@ -35,6 +54,7 @@
       </div>
     </main>
 
+    <script src="./backdrop.js"></script>
     <script src="./agent-animation-claude.js"></script>
   </body>
 </html>
