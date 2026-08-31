@@ -38,7 +38,10 @@ const NARRATION = [
 ];
 
 const EYEBROW_AT = 1000;
-const BADGE_AT = 8800;
+// The company's mark is the seed the whole piece grows from, so it lands in the
+// first act rather than arriving late — it answers "whose agent is this?" before
+// anything else happens.
+const BADGE_AT = 1400;
 const FINALE_AT = 27400;
 
 const MOTES = 148;
@@ -91,18 +94,63 @@ function deriveBrand(raw) {
 }
 
 const brand = deriveBrand(localStorage.getItem(STORAGE_KEY));
-subtitle.textContent = `Trained on ${brand.host || "your site"}`;
 
-if (brand.isApple) {
-  const img = document.createElement("img");
-  img.src = "./assets/favicon/apple-white.svg";
-  img.alt = "";
-  coreBadge.appendChild(img);
-} else {
+// The mark sitting directly above this line is what turns the finale from a
+// status message into the agent's identity. With no domain on record there is
+// no name to give it, so it stays generic rather than reading "your business
+// Support".
+document.querySelector("#bld-agent-name").textContent = brand.host
+  ? `${brand.label} Support`
+  : "Your support agent";
+subtitle.textContent = brand.host
+  ? `Your AI agent, trained on ${brand.host}`
+  : "Your AI agent is ready";
+
+/*
+  Logo resolution, best source first:
+    1. a bundled mark, so the Apple demo needs no network at all
+    2. the domain's own favicon, so any company typed on step 1 shows its real
+       logo — worth it because a stakeholder demo lives or dies on that
+    3. the initial on a tile, if both fail
+  Every step degrades silently; the tile is always in the DOM underneath.
+*/
+function mountLogo() {
   const initial = document.createElement("span");
-  initial.textContent = brand.label.charAt(0) || "?";
+  initial.className = "bld__core-initial";
+  initial.textContent = (brand.label.charAt(0) || "?").toUpperCase();
   coreBadge.appendChild(initial);
+
+  const show = (src, minSize) => {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.addEventListener("load", () => {
+      /*
+        The favicon service answers 200 with a generic 16px globe for domains it
+        has never seen, so an error handler alone never fires and every unknown
+        company gets a blurry world icon. We asked for 128; anything that comes
+        back small is that placeholder, and the initial tile is the better
+        answer.
+      */
+      if (minSize && img.naturalWidth < minSize) {
+        img.remove();
+        return;
+      }
+      initial.hidden = true;
+      coreBadge.dataset.logo = "true";
+    });
+    img.addEventListener("error", () => img.remove());
+    img.src = src;
+    coreBadge.appendChild(img);
+  };
+
+  if (brand.isApple) {
+    show("./assets/favicon/apple-white.svg");
+  } else if (brand.host) {
+    show(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(brand.host)}&sz=128`, 32);
+  }
 }
+
+mountLogo();
 
 /* ----------------------------------------------------------------- maths ---- */
 
