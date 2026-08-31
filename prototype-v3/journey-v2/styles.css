@@ -1200,16 +1200,32 @@ label {
   under a shorter one, which is what read as "cramped." Grid rows fit
   whatever content is inside, at any height, with the same smooth feel.
 */
+/*
+  Open and close are deliberately asymmetric now: opening is an invitation, and
+  a close should get out of the way. The single 520ms both directions made the
+  typing-dots-to-reply handoff mushy — the dots were still leaving while the
+  reply was already arriving.
+
+  The 80ms delay is the bigger fix. It was declared on the base rule, so it
+  applied to the close as well, and a dismissal that waits before it starts
+  reads as lag. It now sequences the open only.
+
+  Used by agent.html alone (markup and agent.js), so retuning it cannot reach
+  summary.html or try.html.
+*/
 .chat-collapse {
   display: grid;
   width: 100%;
   flex-shrink: 0;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 520ms var(--ease-out);
+  /* closing — panel close */
+  transition: grid-template-rows 350ms var(--ease-out);
 }
 
 .chat-collapse[data-visible="true"] {
   grid-template-rows: 1fr;
+  /* opening — panel open */
+  transition: grid-template-rows 400ms var(--ease-out);
 }
 
 .chat-collapse-inner {
@@ -1220,13 +1236,15 @@ label {
   overflow: hidden;
   opacity: 0;
   transform: translateY(-10px) scale(0.9);
-  transition: opacity 460ms var(--ease-out), transform 460ms var(--ease-out);
-  transition-delay: 80ms;
+  transition: opacity 350ms var(--ease-out), transform 350ms var(--ease-out);
+  transition-delay: 0ms;
 }
 
 .chat-collapse[data-visible="true"] .chat-collapse-inner {
   opacity: 1;
   transform: translateY(0) scale(1);
+  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+  transition-delay: 80ms;
 }
 
 .learning-stage__collapse-inner {

@@ -53,6 +53,19 @@ function scrollChatToBottom(force = false) {
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/*
+  Mirrors .chat-collapse in styles.css: a row opens over 400ms with its content
+  sequenced 80ms behind. The scroll has to land after the row has reached full
+  height or it clips the newest message, so it waits one settle plus a frame's
+  grace. Kept as named constants because the two files have to agree — the old
+  hard-coded 650ms was tuned against a 520ms open and silently drifted late.
+*/
+const COLLAPSE_OPEN_MS = 400;
+const COLLAPSE_CONTENT_DELAY_MS = 80;
+const SETTLE_MS = prefersReducedMotion ? 40 : COLLAPSE_OPEN_MS + COLLAPSE_CONTENT_DELAY_MS + 20;
+// A bubble revealing inside an already-open row only fades; no height change.
+const BUBBLE_SETTLE_MS = prefersReducedMotion ? 40 : 350;
+
 function deriveBrand(rawDomain) {
   const value = (rawDomain || "").trim();
   if (!value) return { label: "your business", host: "" };
@@ -136,12 +149,12 @@ function runWidgetSequence() {
     setCollapse(typingCollapse, false);
     setCollapse(messageCollapse, true);
     bubble1.dataset.visible = "true";
-    window.setTimeout(() => scrollChatToBottom(true), 650);
+    window.setTimeout(() => scrollChatToBottom(true), SETTLE_MS);
   }, t.messages);
 
   window.setTimeout(() => {
     bubble2.dataset.visible = "true";
-    window.setTimeout(() => scrollChatToBottom(true), 350);
+    window.setTimeout(() => scrollChatToBottom(true), BUBBLE_SETTLE_MS);
   }, t.bubble2);
 
   window.setTimeout(() => {
@@ -272,25 +285,25 @@ function runExchange(questionText, key) {
 
   window.setTimeout(() => {
     setCollapse(sentRow, true);
-    window.setTimeout(() => scrollChatToBottom(true), 650);
+    window.setTimeout(() => scrollChatToBottom(true), SETTLE_MS);
   }, t.sent);
 
   window.setTimeout(() => {
     setCollapse(typingRow, true);
-    window.setTimeout(() => scrollChatToBottom(), 650);
+    window.setTimeout(() => scrollChatToBottom(), SETTLE_MS);
   }, t.replyTyping);
 
   window.setTimeout(() => {
     setCollapse(typingRow, false);
     setCollapse(replyRow, true);
     reply1El.dataset.visible = "true";
-    window.setTimeout(() => scrollChatToBottom(), 650);
+    window.setTimeout(() => scrollChatToBottom(), SETTLE_MS);
   }, t.reply1);
 
   if (reply2El) {
     window.setTimeout(() => {
       reply2El.dataset.visible = "true";
-      window.setTimeout(() => scrollChatToBottom(), 350);
+      window.setTimeout(() => scrollChatToBottom(), BUBBLE_SETTLE_MS);
     }, t.reply2);
   }
 
@@ -301,7 +314,7 @@ function runExchange(questionText, key) {
       widget.dataset.shift = "true";
       sourcesCard.dataset.visible = "true";
     }
-    window.setTimeout(() => scrollChatToBottom(), 350);
+    window.setTimeout(() => scrollChatToBottom(), BUBBLE_SETTLE_MS);
     setComposerBusy(false);
   }, t.sources);
 }
