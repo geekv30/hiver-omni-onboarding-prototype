@@ -1305,11 +1305,7 @@ label {
   gap: 2px;
   margin: 0;
   color: #f8fafc;
-  /* Layered rather than one wide glow: the tight 2px pass gives the glyph edges
-     definition against a light frame, the wide passes carry the halo. The
-     backdrop's centre now runs lighter (see the rotated fit above), and the
-     video itself is never dimmed to compensate. */
-  text-shadow: 0 1px 2px rgba(4, 9, 20, 0.8), 0 3px 18px rgba(4, 9, 20, 0.7), 0 0 48px rgba(4, 9, 20, 0.55);
+  text-shadow: 0 2px 14px rgba(4, 9, 20, 0.45);
   font-size: 24px;
   font-weight: 500;
   line-height: 28px;
@@ -1645,7 +1641,12 @@ label {
 .learning-step__label {
   min-width: 0;
   color: #f8fafc;
-  text-shadow: 0 1px 2px rgba(4, 9, 20, 0.75), 0 2px 14px rgba(4, 9, 20, 0.65), 0 0 34px rgba(4, 9, 20, 0.5);
+  /* One soft pass, deliberately narrow. Wide shadow passes were tried here and
+     reverted: .learning-step__label-text needs overflow:hidden for its ellipsis,
+     which clips a wide shadow into a hard-edged dark slab the width of the span
+     — clearly visible behind the active row. They also bought only ~0.1 of
+     contrast, so there was nothing to trade for the artifact. */
+  text-shadow: 0 1px 10px rgba(4, 9, 20, 0.45);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;

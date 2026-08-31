@@ -70,7 +70,15 @@ const STEPS = [
 const CHAIN_SEEN_KEY = "hiver-omni-learning-seen-v2";
 let chainSeen = false;
 try { chainSeen = sessionStorage.getItem(CHAIN_SEEN_KEY) === "1"; } catch {}
-const PACE = chainSeen && !REVIEW_LOOP ? 0.45 : 1;
+
+/*
+  A reload always runs full length, whatever has been seen before: reloading is
+  how this screen gets reviewed, and compressing it there would mean the piece
+  could only ever be watched properly once per tab. Only a re-submit from step 1
+  — a fresh forward navigation onto a chain already watched — compresses.
+*/
+const navigationType = performance.getEntriesByType("navigation")[0]?.type || "navigate";
+const PACE = chainSeen && !REVIEW_LOOP && navigationType !== "reload" ? 0.45 : 1;
 const paced = (ms) => Math.round(ms * PACE);
 const STEP_MS = STEPS.map((step) => paced(step.ms));
 

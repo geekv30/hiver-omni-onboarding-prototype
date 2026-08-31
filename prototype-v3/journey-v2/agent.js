@@ -100,15 +100,6 @@ function pulse(el) {
   );
 }
 
-/*
-  The intro is a one-time reveal, not a gate. Replaying its ~4.4s every time the
-  user steps back to index.html and forward again made the screen feel broken —
-  you could see the widget you had already met being assembled a second time,
-  with nothing clickable until it finished. Session-scoped, so a fresh demo run
-  still gets the full reveal.
-*/
-const INTRO_SEEN_KEY = "hiver-omni-agent-intro-seen-v2";
-
 function restWidgetState() {
   widget.dataset.visible = "true";
   widget.dataset.header = "true";
@@ -164,16 +155,25 @@ function runWidgetSequence() {
   window.setTimeout(() => {
     suggestion1.dataset.visible = "true";
     suggestion2.dataset.visible = "true";
-    // Only a sequence that actually finished counts as seen — leaving mid-intro
-    // should still replay it.
-    try { sessionStorage.setItem(INTRO_SEEN_KEY, "1"); } catch {}
   }, t.suggestions);
 }
 
+/*
+  Whether to reveal or to snap is decided by HOW the user got here, not by
+  whether they have been here before.
+
+  The assembly is the content of this screen, so a fresh visit and a reload both
+  play it in full — a reload is how the screen gets reviewed, and an earlier
+  version of this gated on a session flag, which silently killed the reveal on
+  every reload after the first. Only a genuine backwards traversal snaps: there
+  the user is returning to a widget they have already watched build, and
+  rebuilding it in front of them reads as the screen having lost its place.
+*/
+const navigationType = () =>
+  performance.getEntriesByType("navigation")[0]?.type || "navigate";
+
 function startWidget() {
-  let seen = false;
-  try { seen = sessionStorage.getItem(INTRO_SEEN_KEY) === "1"; } catch {}
-  if (seen) return snapWidgetToRest();
+  if (navigationType() === "back_forward") return snapWidgetToRest();
   runWidgetSequence();
 }
 
