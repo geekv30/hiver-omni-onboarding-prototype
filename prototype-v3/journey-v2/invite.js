@@ -18,8 +18,10 @@ function pulse(el) {
   );
 }
 
+// Backward moves replace rather than push, so retreating never grows the
+// history stack — Back stays a reliable "one step back".
 backButton.addEventListener("click", () => {
-  window.location.href = "./agent.html";
+  window.location.replace("./agent.html");
 });
 
 form.addEventListener("submit", (event) => {
@@ -29,5 +31,5 @@ form.addEventListener("submit", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") window.location.href = "./agent.html";
+  if (event.key === "Escape") window.location.replace("./agent.html");
 });

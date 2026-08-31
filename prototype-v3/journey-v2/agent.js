@@ -297,8 +297,10 @@ composerInput.addEventListener("keydown", (event) => {
 
 sendButton.addEventListener("click", submitComposer);
 
+// Backward moves replace rather than push, so retreating never grows the
+// history stack — Back stays a reliable "one step back".
 backButton.addEventListener("click", () => {
-  window.location.href = "./index.html";
+  window.location.replace("./index.html");
 });
 
 form.addEventListener("submit", (event) => {
@@ -311,5 +313,5 @@ form.addEventListener("submit", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") window.location.href = "./index.html";
+  if (event.key === "Escape") window.location.replace("./index.html");
 });

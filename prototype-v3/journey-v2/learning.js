@@ -261,7 +261,14 @@ function finish() {
     // links, the chip and the heading — a lot of surface to get subtly wrong for
     // a review-only convenience.
     if (REVIEW_LOOP) return window.location.reload();
-    window.location.href = "./agent.html";
+    /*
+      replace(), not href: this screen is an interstitial, and leaving it in the
+      history stack made Back from agent.html land here, replay the whole 30s
+      chain, and then force the user forward to agent.html again — a trap with no
+      way out but waiting it out. Replacing our own entry means Back from
+      agent.html goes where the user expects, to index.html.
+    */
+    window.location.replace("./agent.html");
   }, T.hold);
 }
 
@@ -291,6 +298,9 @@ function runSequence() {
 
 runSequence();
 
+// Backward moves replace rather than push, so retreating through the journey
+// never grows the history stack — Back stays a reliable "one step back" instead
+// of walking a lengthening chain of screens the user already left.
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") window.location.href = "./index.html";
+  if (event.key === "Escape") window.location.replace("./index.html");
 });
