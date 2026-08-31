@@ -24,28 +24,9 @@ const headingReady = document.querySelector("#learning-heading-ready");
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const params = new URLSearchParams(window.location.search);
-
 // Opt-in review mode (the /animation-0 route). Off by default, so the journey
 // itself is untouched: this screen still advances to agent.html as it always has.
-const REVIEW_LOOP = params.get("loop") === "1";
-
-/*
-  Opt-in backdrop comparison (the /backdrop-sharp route), for judging one
-  question only: the source clip is 720x1280 portrait, and using it as a
-  landscape full-bleed upscales it 2x while throwing away 65% of the frame.
-  Rotating it a quarter turn drops that to 1.25x and uses 90% of the frame —
-  measurably sharper, for free, with no new asset.
-
-  It is a comparison and not the default because it recomposes the brand's hero
-  visual: the wave reads as a horizontal sweep rather than a vertical fold, and
-  the centre of the frame lands lighter, which is where the heading sits. The
-  scrim is deliberately left alone — brightening marks is never paid for by
-  dimming this video.
-*/
-if (params.get("fit") === "rotated") {
-  document.querySelector(".learning-video-bg").dataset.fit = "rotated";
-}
+const REVIEW_LOOP = new URLSearchParams(window.location.search).get("loop") === "1";
 
 /*
   The step chain replaces a single caption line that swapped six times. That

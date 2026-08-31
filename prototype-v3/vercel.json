@@ -50,16 +50,6 @@
       "source": "/animation-4/",
       "destination": "/journey-v2/agent-animation-claude-4.html",
       "permanent": false
-    },
-    {
-      "source": "/backdrop-sharp",
-      "destination": "/journey-v2/learning.html?fit=rotated&loop=1",
-      "permanent": false
-    },
-    {
-      "source": "/backdrop-sharp/",
-      "destination": "/journey-v2/learning.html?fit=rotated&loop=1",
-      "permanent": false
     }
   ]
 }
