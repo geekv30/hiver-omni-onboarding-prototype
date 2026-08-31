@@ -37,7 +37,6 @@ const NARRATION = [
   [23400, "Shaping your agent’s voice"],
 ];
 
-const EYEBROW_AT = 1000;
 // The company's mark is the seed the whole piece grows from, so it lands in the
 // first act rather than arriving late — it answers "whose agent is this?" before
 // anything else happens.
@@ -45,6 +44,21 @@ const BADGE_AT = 1400;
 const FINALE_AT = 27400;
 
 const MOTES = 148;
+
+/*
+  Vertical centre of the whole composition — the core, the halo it draws, the
+  narration line and the finale all hang off this one number.
+
+  It was 0.46 while an eyebrow sat at top: 44px: the label was absolutely
+  positioned and so never part of the centred mass, but it filled the space the
+  high placement left. With the eyebrow gone, measuring the ink at 1440x900 gave
+  a 72px top gap against a 168px bottom one. 0.51 balances them at ~120 each.
+
+  MUST stay in step with --bld-centre in the stylesheet: the badge is a DOM
+  element positioned by CSS while its glow is painted by the canvas, and the
+  piece only works because they sit on exactly the same point.
+*/
+const CENTRE = 0.51;
 
 /*
   Four unequal clusters at irregular angles, not evenly-spaced ones. Even
@@ -69,7 +83,6 @@ const ctx = canvas.getContext("2d", { alpha: true });
 const grain = document.querySelector("#bld-grain");
 const core = document.querySelector("#bld-core");
 const coreBadge = document.querySelector("#bld-core-badge");
-const eyebrow = document.querySelector("#bld-eyebrow");
 const line = document.querySelector("#bld-line");
 const finale = document.querySelector("#bld-finale");
 const subtitle = document.querySelector("#bld-subtitle");
@@ -248,7 +261,7 @@ function resize() {
   canvas.height = Math.round(h * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   cx = w / 2;
-  cy = h * 0.46;
+  cy = h * CENTRE;
   // Composition is authored against a 1440x900 frame; scale the whole geometry
   // rather than letting the halo run off the edge of a laptop window.
   fit = Math.min(1, Math.min(w / 1180, h / 760));
@@ -582,7 +595,6 @@ function setLine(text) {
 let finaleShown = false;
 
 function cues(t) {
-  eyebrow.dataset.visible = t >= EYEBROW_AT ? "true" : "false";
   core.dataset.visible = t >= BADGE_AT ? "true" : "false";
 
   let next = -1;
@@ -597,7 +609,6 @@ function cues(t) {
   if (t >= FINALE_AT && !finaleShown) {
     finaleShown = true;
     finale.dataset.visible = "true";
-    eyebrow.dataset.visible = "false";
     line.classList.add("is-swapping");
   }
 }
@@ -663,7 +674,7 @@ function renderStatic(t) {
 }
 
 function runStatic() {
-  const marks = [0, EYEBROW_AT, ...NARRATION.map(([at]) => at), BADGE_AT, FINALE_AT, DURATION]
+  const marks = [0, ...NARRATION.map(([at]) => at), BADGE_AT, FINALE_AT, DURATION]
     .sort((a, b) => a - b)
     .filter((v, i, arr) => i === 0 || v !== arr[i - 1]);
 

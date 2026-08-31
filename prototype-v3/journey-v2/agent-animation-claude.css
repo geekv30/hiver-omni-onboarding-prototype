@@ -15,6 +15,10 @@
 }
 
 :root {
+  /* Mirrors CENTRE in agent-animation-claude.js — see the comment there. Every
+     element in the composition hangs off this, including the ground gradient,
+     so the glow the canvas paints stays under the badge the CSS places. */
+  --bld-centre: 51%;
   --bld-ink: #f4f8ff;
   --bld-quiet: rgba(226, 236, 255, 0.66);
   --bld-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -49,7 +53,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 78% 68% at 50% 46%, #12203c 0%, #0a1226 42%, #050912 72%, #04060d 100%),
+    radial-gradient(ellipse 78% 68% at 50% var(--bld-centre), #12203c 0%, #0a1226 42%, #050912 72%, #04060d 100%),
     #04060d;
 }
 
@@ -86,7 +90,7 @@
 .bld__vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 66% 60% at 50% 48%, rgba(4, 6, 13, 0) 40%, rgba(4, 6, 13, 0.55) 78%, rgba(4, 6, 13, 0.86) 100%);
+  background: radial-gradient(ellipse 66% 60% at 50% var(--bld-centre), rgba(4, 6, 13, 0) 40%, rgba(4, 6, 13, 0.55) 78%, rgba(4, 6, 13, 0.86) 100%);
   pointer-events: none;
 }
 
@@ -94,7 +98,7 @@
    reads as the thing the motes are collapsing into. */
 .bld__core {
   position: absolute;
-  top: 46%;
+  top: var(--bld-centre);
   left: 50%;
   display: grid;
   width: 76px;
@@ -151,32 +155,12 @@
   display: none;
 }
 
-.bld__eyebrow {
-  position: absolute;
-  top: 44px;
-  left: 50%;
-  margin: 0;
-  color: rgba(226, 236, 255, 0.55);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translate(-50%, 6px);
-  transition: opacity 1200ms var(--bld-ease-out), transform 1200ms var(--bld-ease-out);
-}
-
-.bld__eyebrow[data-visible="true"] {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-
 /* Pinned to the field's centre rather than the viewport floor, so the line
    stays tied to the visual mass instead of drifting away from it on tall
    windows. The min() keeps it off the bottom edge on short ones. */
 .bld__narration {
   position: absolute;
-  top: min(calc(46% + 296px), calc(100% - 104px));
+  top: min(calc(var(--bld-centre) + 296px), calc(100% - 104px));
   left: 50%;
   width: min(560px, 86vw);
   text-align: center;
@@ -237,7 +221,7 @@
 
 .bld__finale {
   position: absolute;
-  top: 46%;
+  top: var(--bld-centre);
   left: 50%;
   width: min(620px, 88vw);
   text-align: center;
@@ -276,7 +260,7 @@
   }
 
   .bld__narration {
-    top: min(calc(46% + 232px), calc(100% - 84px));
+    top: min(calc(var(--bld-centre) + 232px), calc(100% - 84px));
   }
 
   .bld__line {
@@ -294,7 +278,6 @@
   }
 
   .bld__core-badge,
-  .bld__eyebrow,
   .bld__finale,
   .bld__line {
     transition-duration: 200ms;
@@ -307,7 +290,6 @@
     transform: translate(-50%, -50%) !important;
   }
 
-  .bld__eyebrow,
   .bld__narration,
   .bld__finale {
     transform: translateX(-50%) !important;
