@@ -1,0 +1,257 @@
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("./assets/hanken-grotesk-400.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("./assets/hanken-grotesk-500.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+/*
+  Palette is the design system's own AI motif — the orb gradient behind the chat
+  avatar (assets/widget/orb-base.svg) and the page blobs. Nothing invented:
+    #FAE8BF sand   #C2D6E0 haze   #8CC7E0 sky
+    #6B9EBD blue   #386B8F deep   #26526B ink
+  Type, easing and radii come from styles.css unchanged.
+*/
+:root {
+  --aac3-sand: #fae8bf;
+  --aac3-haze: #c2d6e0;
+  --aac3-sky: #8cc7e0;
+  --aac3-blue: #6b9ebd;
+  --aac3-deep: #386b8f;
+  --aac3-ink: #26526b;
+  --aac3-text: #0f172a;
+  --aac3-muted: #334155;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.aac3-body {
+  margin: 0;
+  overflow: hidden;
+  background: #f6f8fc;
+  color: var(--aac3-text);
+  font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.aac3-stage {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Untouched from the sibling steps: same source, same flip, same framing, so
+   the wave the user has been looking at simply keeps going. */
+.aac3-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45.4%;
+  transform: scaleY(-1);
+}
+
+.aac3-tint {
+  position: absolute;
+  inset: 0;
+  background: #7bc4ff;
+  mix-blend-mode: hue;
+  pointer-events: none;
+}
+
+.aac3-ink,
+.aac3-lit {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Dark marks stain the silk and stay legible over both the white field and the
+   blue fold; white drawn on this layer disappears, which is exactly what gives
+   every mark a free soft falloff. */
+.aac3-ink {
+  mix-blend-mode: multiply;
+}
+
+.aac3-lit {
+  mix-blend-mode: normal;
+}
+
+/* The sources-card treatment from step 2 — 16px radius, near-white, layered
+   shadow — so the mark reads as product chrome on any part of the wave. */
+.aac3-finale__badge {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border: 1.3px solid rgba(243, 243, 245, 0.9);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06), 0 18px 40px rgba(38, 82, 107, 0.18), 0 60px 99px rgba(38, 82, 107, 0.14);
+  place-items: center;
+}
+
+.aac3-finale__badge img,
+.aac3-finale__badge svg {
+  grid-area: 1 / 1;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  object-fit: contain;
+  color: var(--aac3-text);
+}
+
+.aac3-core__initial {
+  grid-area: 1 / 1;
+  color: var(--aac3-text);
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.aac3-core__initial[hidden] {
+  display: none;
+}
+
+/*
+  Dark type on a light ground, like every other screen in the journey — the
+  previous pass used white text because it had darkened the world to suit it.
+  The chip is a hairline surface so the line stays legible when the blue fold
+  drifts underneath it.
+*/
+.aac3-narration {
+  position: absolute;
+  bottom: 88px;
+  left: 50%;
+  z-index: 3;
+  transform: translateX(-50%);
+}
+
+.aac3-line {
+  position: relative;
+  display: inline-block;
+  padding: 9px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 18px 40px rgba(38, 82, 107, 0.12);
+  color: var(--aac3-muted);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  line-height: 20px;
+  white-space: nowrap;
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: opacity 320ms var(--ease-out), filter 320ms var(--ease-out), transform 320ms var(--ease-out);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.aac3-line.is-swapping {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(-7px);
+}
+
+.aac3-narration[data-visible="false"] {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.aac3-finale {
+  position: absolute;
+  /* Clears the orb at its widest (radius ~205px at the swell) — at 176 the
+     badge sat on the rim. */
+  top: calc(50% + 236px);
+  left: 50%;
+  z-index: 3;
+  width: min(560px, 88vw);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+}
+
+.aac3-finale[data-visible="true"] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.aac3-finale__name {
+  margin: 0 0 2px;
+  color: var(--aac3-text);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  line-height: 28px;
+}
+
+.aac3-finale__meta {
+  margin: 0;
+  color: var(--aac3-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  opacity: 0.72;
+}
+
+/* Study label only — not part of the design. */
+.aac3-tag {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 4;
+  margin: 0;
+  color: var(--aac3-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.4px;
+  opacity: 0.45;
+  text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+  .aac3-line { font-size: 14px; }
+  .aac3-narration { bottom: 56px; }
+  .aac3-finale__name { font-size: 19px; line-height: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aac3-wave { display: none; }
+
+  .aac3-stage {
+    background: linear-gradient(160deg, #ffffff 0%, #eaf2f8 46%, #dbe9f2 100%);
+  }
+
+  .aac3-line,
+  .aac3-finale {
+    transition-duration: 200ms;
+    filter: none !important;
+  }
+
+  .aac3-narration,
+  .aac3-finale { transform: translateX(-50%) !important; }
+}

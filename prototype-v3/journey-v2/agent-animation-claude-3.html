@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8fc" />
+    <title>Agent animation — theme studio</title>
+    <link rel="stylesheet" href="./agent-animation-claude-3.css" />
+  </head>
+  <body class="aac3-body">
+    <!--
+      Standalone and full-bleed. No form pane, no header, no steps — the
+      animation is the whole screen.
+
+      The wave stays. It is the journey's hero visual and the previous pass
+      buried it under a near-black scrim to make white particles legible, which
+      was solving the wrong problem: on a high-key ground the marks have to be
+      dark, not the ground.
+
+      Two canvases, because the piece needs both kinds of mark:
+        .aac3-ink  mix-blend-mode: multiply — anything dark stains the silk and
+                   reads on both the white field and the blue fold; white drawn
+                   here is simply invisible, which is what makes soft falloff work
+        .aac3-lit  normal compositing — for opaque, luminous things (the orb)
+                   that have to sit on top rather than tint what is under them
+
+      ?theme=orb|ink|contour|cards switches the study. ?t=0.5 slows it down.
+    -->
+    <div class="aac3-stage">
+      <video class="aac3-wave" id="aac3-wave" src="./assets/video/company-backdrop.mp4" autoplay muted loop playsinline></video>
+      <div class="aac3-tint" aria-hidden="true"></div>
+
+      <canvas class="aac3-ink" id="aac3-ink" aria-hidden="true"></canvas>
+      <canvas class="aac3-lit" id="aac3-lit" aria-hidden="true"></canvas>
+
+      <div class="aac3-narration" id="aac3-narration" aria-live="polite">
+        <span class="aac3-line" id="aac3-line" data-text=""></span>
+      </div>
+
+      <!-- The company mark belongs in the finale lockup, not pasted on the orb.
+           The orb is the agent's own face — the same one the chat widget uses —
+           and covering its centre with a white tile was the worst moment in the
+           first pass of this study. -->
+      <div class="aac3-finale" id="aac3-finale">
+        <span class="aac3-finale__badge" id="aac3-core-badge"></span>
+        <p class="aac3-finale__name" id="aac3-agent-name">Your support agent</p>
+        <p class="aac3-finale__meta" id="aac3-agent-meta">is ready to test</p>
+      </div>
+
+      <p class="aac3-tag" id="aac3-tag"></p>
+    </div>
+
+    <script src="./agent-animation-claude-3.js"></script>
+  </body>
+</html>
