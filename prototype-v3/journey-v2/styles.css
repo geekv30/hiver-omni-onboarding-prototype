@@ -1047,10 +1047,13 @@ label {
   pointer-events: none;
 }
 
+/* Ellipse rather than a circle: the stage is now a tall block (heading plus a
+   six-row chain), so the dark core has to reach further down the frame to keep
+   the lower rows legible over the moving video. */
 .learning-video-bg__scrim {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(6, 12, 26, 0.62) 0%, rgba(6, 12, 26, 0.34) 38%, rgba(6, 12, 26, 0) 68%);
+  background: radial-gradient(ellipse 62% 58% at 50% 50%, rgba(6, 12, 26, 0.66) 0%, rgba(6, 12, 26, 0.44) 46%, rgba(6, 12, 26, 0) 78%);
   pointer-events: none;
 }
 
@@ -1320,28 +1323,341 @@ label {
   transform: scale(1);
 }
 
-.learning-caption {
-  margin: 0;
-  color: #e2e8f0;
-  text-shadow: 0 1px 10px rgba(4, 9, 20, 0.4);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-  transition: opacity 260ms var(--ease-out), filter 260ms var(--ease-out), transform 260ms var(--ease-out);
-}
-
-.learning-caption.is-swapping {
-  opacity: 0;
-  filter: blur(4px);
-  transform: translateY(8px);
-}
-
 @keyframes skeleton-shimmer {
   from { background-position: 200% 0; }
   to { background-position: -200% 0; }
+}
+
+/* ---------------------------------------------------------------------------
+   Learning steps chain
+
+   Replaces the single swapping caption. Every step is on screen for the whole
+   sequence so the user can still read step 1 while step 4 runs, and the links
+   drawn between the markers double as the progress indicator — the chain itself
+   reports how far along we are, so nothing competes with the list.
+
+   The collapse gets its own --steps modifier: try.html still renders against
+   the base .learning-stage__collapse rules, which must keep their max-height
+   behaviour untouched.
+--------------------------------------------------------------------------- */
+.learning-stage__collapse--steps {
+  display: grid;
+  max-height: none;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 700ms var(--ease-in-out);
+}
+
+.learning-stage__collapse--steps[data-visible="true"] {
+  max-height: none;
+  grid-template-rows: 1fr;
+}
+
+/* The container's own growth supplies the vertical motion, so the inner
+   wrapper stays put — otherwise the rows travel twice on reveal. */
+.learning-stage__collapse--steps .learning-stage__collapse-inner {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Sizes itself to the copy. --label-col is measured once in learning.js from
+   every label AND every mid-step detail, so the column is wide enough for the
+   longest string either can ever hold — a max-content column would resize
+   mid-sequence the moment a longer detail swapped in. */
+.learning-steps {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.learning-steps__list {
+  --row-gap: 15px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  gap: var(--row-gap);
+  list-style: none;
+}
+
+/* The chain is drawn as links BETWEEN markers, not as one rail behind them —
+   a continuous line runs straight through the checkmarks and turns the column
+   into a smear. ::before is the dormant link, ::after the drawn one, and the
+   height derives from --row-gap so the breakpoint can retune the rhythm
+   without re-deriving pixel offsets.
+   Marker box is 16px in a 20px row, so marker-bottom to next-marker-top is
+   (20 - 16) + gap = gap + 4. The glyphs are only ~13px inside that 16px box, so
+   1px of box clearance still leaves ~2.5px of visual air; anything more and the
+   links read as dashes instead of one chain. */
+.learning-step__marker::before,
+.learning-step__marker::after {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 7px;
+  width: 2px;
+  height: calc(var(--row-gap) + 2px);
+  border-radius: 1px;
+  content: "";
+}
+
+.learning-step__marker::before {
+  background: rgba(226, 232, 240, 0.2);
+}
+
+.learning-step__marker::after {
+  background: rgba(248, 250, 252, 0.62);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 620ms var(--ease-in-out);
+  will-change: transform;
+}
+
+.learning-step[data-linked="true"] .learning-step__marker::after {
+  transform: scaleY(1);
+}
+
+.learning-step:last-child .learning-step__marker::before,
+.learning-step:last-child .learning-step__marker::after {
+  display: none;
+}
+
+.learning-step {
+  display: grid;
+  align-items: center;
+  gap: 12px;
+  grid-template-columns: 16px var(--label-col, 190px) auto;
+  min-height: 20px;
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 460ms var(--ease-out), filter 460ms var(--ease-out);
+  transition-delay: var(--stagger, 0ms);
+}
+
+.learning-step[data-enter="true"] {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.learning-step__marker {
+  position: relative;
+  display: grid;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+}
+
+/* The three marker states stack in one cell and cross-blur between each
+   other, so the swap reads as one object changing rather than two icons
+   trading places. */
+.learning-step__pending,
+.learning-step__live,
+.learning-step__check {
+  position: absolute;
+  display: grid;
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  filter: blur(3px);
+  transform: scale(0.7);
+  place-items: center;
+  transition: opacity 340ms var(--ease-out), filter 340ms var(--ease-out), transform 340ms var(--ease-out);
+}
+
+.learning-step__pending::after {
+  width: 6px;
+  height: 6px;
+  border: 1.4px solid rgba(226, 232, 240, 0.7);
+  border-radius: 50%;
+  content: "";
+}
+
+/* Determinate, not a spinner. Each step's real duration is authored in
+   learning.js and written onto this ring's animation-duration, so the sweep is
+   an honest readout of how far THIS step has got. An indeterminate spinner
+   carries no information and makes the same wait feel longer.
+   stroke-dashoffset paints rather than composites — acceptable here: one 16px
+   ring animates at a time, and an arc has no transform equivalent. */
+.learning-step__ring {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transform: rotate(-90deg);
+}
+
+.learning-step__ring circle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+.learning-step__ring-track {
+  stroke: rgba(226, 232, 240, 0.28);
+}
+
+.learning-step__ring-fill {
+  stroke: #f8fafc;
+  stroke-dasharray: 39;
+  stroke-dashoffset: 39;
+}
+
+.learning-step[data-state="active"] .learning-step__ring-fill {
+  animation: learning-step-ring var(--step-duration, 3400ms) linear forwards;
+}
+
+/* Near-linear, but the last stretch closes faster — decelerating into 100% is
+   the stuck-at-99% progress bar this is meant to avoid. */
+@keyframes learning-step-ring {
+  from { stroke-dashoffset: 39; }
+  88% { stroke-dashoffset: 5.5; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Reduced-motion stand-in for the ring: says "the work is here" without a
+   sweep. Hidden the rest of the time. */
+.learning-step__core {
+  display: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f8fafc;
+  box-shadow: 0 0 10px rgba(248, 250, 252, 0.55);
+}
+
+/* 15px, not 16: the tick's ink fills only ~57% of its own viewBox height, so a
+   box matched to the 12.4px ring would read markedly lighter than it. */
+.learning-step__check {
+  width: 15px;
+  height: 15px;
+  color: #f8fafc;
+}
+
+.learning-step__check svg {
+  display: block;
+  overflow: visible;
+  width: 15px;
+  height: 15px;
+}
+
+/* stroke-dasharray / dashoffset are written from path.getTotalLength() in
+   learning.js, so the draw neither pre-reveals nor overshoots. */
+.learning-step__check path {
+  stroke-dashoffset: var(--check-length, 16);
+}
+
+.learning-step[data-state="pending"] .learning-step__pending,
+.learning-step[data-state="active"] .learning-step__live,
+.learning-step[data-state="done"] .learning-step__check {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+/* Barely-there settle, not a bounce — a jubilant pop six times in 28 seconds
+   reads as a gamified to-do list rather than calm competence. */
+.learning-step[data-state="done"] .learning-step__check {
+  opacity: 0.78;
+  transition: opacity 340ms var(--ease-out), filter 340ms var(--ease-out), transform 340ms cubic-bezier(0.34, 1.15, 0.64, 1);
+}
+
+.learning-step[data-state="done"] .learning-step__check path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 300ms var(--ease-out) 70ms;
+}
+
+.learning-step__label {
+  min-width: 0;
+  color: #f8fafc;
+  text-shadow: 0 1px 10px rgba(4, 9, 20, 0.45);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  opacity: 0.36;
+  transition: opacity 420ms var(--ease-out);
+}
+
+.learning-step[data-state="active"] .learning-step__label { opacity: 1; }
+.learning-step[data-state="done"] .learning-step__label { opacity: 0.62; }
+
+/* The swap lives on the inner span so it never fights the row-state opacity
+   above, and so the shimmer — a ::after on this same span — fades out with the
+   text it is highlighting instead of hanging behind a blurred-out line. */
+.learning-step__label-text {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  opacity: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
+.learning-step__label-text.is-swapping {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(-6px);
+}
+
+/* A highlight band swept across the glyphs of the active label only — the
+   texture of work in progress, without an indeterminate spinner competing
+   with the determinate ring. The base label keeps its colour underneath. */
+.learning-step__label-text::after {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(255, 255, 255, 0.95) 50%,
+    transparent 62%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 320% 100%;
+  color: transparent;
+  content: attr(data-text);
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: none;
+  white-space: nowrap;
+  transition: opacity 300ms var(--ease-out);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.learning-step[data-state="active"] .learning-step__label-text::after {
+  opacity: 1;
+  animation: learning-step-shimmer 2400ms linear infinite;
+}
+
+@keyframes learning-step-shimmer {
+  from { background-position: 130% 0; }
+  to { background-position: -30% 0; }
+}
+
+/* The evidence: what the step actually produced. Only ever appears after the
+   check, so it reads as a result rather than a promise. */
+.learning-step__result {
+  color: #e2e8f0;
+  text-shadow: 0 1px 10px rgba(4, 9, 20, 0.4);
+  font-size: 12px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1px;
+  line-height: 20px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out);
+}
+
+.learning-step[data-state="done"] .learning-step__result {
+  opacity: 0.5;
+  transform: translateX(0);
+  transition-delay: 140ms;
 }
 
 .try-heading {
@@ -2365,10 +2681,25 @@ label {
   .radial-ring__spin,
   .ai-preview__orb-blob,
   .learning-brand-icon__placeholder,
+  .learning-step__ring-fill,
+  .learning-step__label-text::after,
   .chat-widget__orb-blob,
   .chat-widget__typing-dots span,
   .setup-orb__blob {
     animation: none !important;
+  }
+
+  /* The sweep and the shimmer are the two motion-heavy pieces. Drop both and
+     stand a plain dot in for the ring — the step timings themselves are NOT
+     compressed, because the honest ~28s of visible work is the point of the
+     screen, not the motion on top of it. */
+  .learning-step__ring,
+  .learning-step__label-text::after {
+    display: none !important;
+  }
+
+  .learning-step__core {
+    display: block;
   }
 
   .chat-widget,
@@ -2417,21 +2748,39 @@ label {
   .learning-brand-icon__resolved,
   .learning-stage__collapse,
   .learning-stage__collapse-inner,
-  .learning-caption {
+  .learning-step,
+  .learning-step__pending,
+  .learning-step__live,
+  .learning-step__check,
+  .learning-step__label,
+  .learning-step__label-text,
+  .learning-step__result {
     transition-duration: 120ms;
     transition-delay: 0ms !important;
   }
 
   .learning-stage,
   .learning-heading__state,
-  .learning-stage__collapse-inner {
+  .learning-stage__collapse-inner,
+  .learning-step,
+  .learning-step__pending,
+  .learning-step__live,
+  .learning-step__check,
+  .learning-step__label-text,
+  .learning-step__result {
     transform: none !important;
     filter: none !important;
   }
 
-  .learning-caption.is-swapping {
-    transform: none;
-    filter: none;
+  /* The links still have to draw — they are the progress read, not
+     decoration. Only their easing is shortened. */
+  .learning-step__marker::after {
+    transition-duration: 200ms !important;
+  }
+
+  .learning-step__check path {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
   }
 }
 
@@ -2443,6 +2792,10 @@ label {
   .learning-heading__state {
     font-size: 19px;
     line-height: 24px;
+  }
+
+  .learning-steps__list {
+    --row-gap: 12px;
   }
 }
 
