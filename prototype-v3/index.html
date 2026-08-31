@@ -55,6 +55,21 @@
         width: 100%;
         max-width: 700px;
       }
+      .cards--three {
+        grid-template-columns: repeat(3, minmax(200px, 1fr));
+        max-width: 940px;
+      }
+      .section-label {
+        margin: 44px 0 18px;
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      @media (max-width: 900px) {
+        .cards--three { grid-template-columns: minmax(0, 1fr); max-width: 700px; }
+      }
       @media (max-width: 600px) {
         .cards { grid-template-columns: minmax(0, 1fr); }
       }
@@ -128,6 +143,29 @@
         <p class="card__title">Rebuilt against Figma</p>
         <p class="card__desc">Company setup, live knowledge-learning, and AI agent creation with sourced replies.</p>
         <span class="card__arrow">Open journey &rarr;</span>
+      </a>
+    </div>
+
+    <p class="section-label">Agent-creation animation &mdash; three takes on the same 30s wait</p>
+
+    <div class="cards cards--three">
+      <a class="card" href="/animation-1">
+        <span class="card__tag">Animation 1</span>
+        <p class="card__title">Full-screen constellation</p>
+        <p class="card__desc">Cinematic five-act piece. Knowledge condenses out of a dark field into the agent.</p>
+        <span class="card__arrow">Open &rarr;</span>
+      </a>
+      <a class="card" href="/animation-2">
+        <span class="card__tag">Animation 2</span>
+        <p class="card__title">Inside the journey frame</p>
+        <p class="card__desc">The wait as step 2 of 4 &mdash; step chain on the left, animation in the media card.</p>
+        <span class="card__arrow">Open &rarr;</span>
+      </a>
+      <a class="card" href="/animation-3">
+        <span class="card__tag">Animation 3</span>
+        <p class="card__title">Indexing your knowledge base</p>
+        <p class="card__desc">The crawler, shown. URLs resolve, topics are found, counts tick up.</p>
+        <span class="card__arrow">Open &rarr;</span>
       </a>
     </div>
   </body>

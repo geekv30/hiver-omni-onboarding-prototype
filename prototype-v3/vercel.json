@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/animation-1", "destination": "/journey-v2/agent-animation-claude.html", "permanent": false },
+    { "source": "/animation-1/", "destination": "/journey-v2/agent-animation-claude.html", "permanent": false },
+    { "source": "/animation-2", "destination": "/journey-v2/agent-animation-claude-2.html", "permanent": false },
+    { "source": "/animation-2/", "destination": "/journey-v2/agent-animation-claude-2.html", "permanent": false },
+    { "source": "/animation-3", "destination": "/journey-v2/agent-animation-claude-3.html", "permanent": false },
+    { "source": "/animation-3/", "destination": "/journey-v2/agent-animation-claude-3.html", "permanent": false }
+  ]
+}
