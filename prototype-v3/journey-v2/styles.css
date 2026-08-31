@@ -962,22 +962,6 @@ label {
   animation: landscape-breathe 18s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
 }
 
-.invite-mockup-stage {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 2;
-  transform: translate(-50%, -50%);
-  width: min(87%, 780px);
-  height: min(91%, 760px);
-}
-
-.invite-mockup {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
 
 .radial-ring {
   position: absolute;
