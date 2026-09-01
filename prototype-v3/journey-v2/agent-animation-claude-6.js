@@ -17,9 +17,6 @@ const AGENT_NAME_KEY = "hiver-omni-agent-name-v2";
 
 const stem = document.querySelector("#aac6-stem");
 const subject = document.querySelector("#aac6-subject");
-const urlRow = document.querySelector("#aac6-url");
-const urlText = document.querySelector("#aac6-url-text");
-const barFill = document.querySelector("#aac6-bar");
 const finale = document.querySelector("#aac6-finale");
 const badge = document.querySelector("#aac6-badge");
 const readyName = document.querySelector("#aac6-ready-name");
@@ -27,11 +24,6 @@ const sourceLabel = document.querySelector("#aac6-source-label");
 const list = document.querySelector("#aac6-steps");
 const form = document.querySelector("#aac6-form");
 const continueButton = document.querySelector("#aac6-continue");
-const counts = {
-  pages: document.querySelector("#aac6-pages"),
-  articles: document.querySelector("#aac6-articles"),
-  topics: document.querySelector("#aac6-topics"),
-};
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const shouldAdvance = new URLSearchParams(window.location.search).get("next") === "agent";
@@ -188,13 +180,6 @@ requestAnimationFrame(() => {
 
 /* ------------------------------------------------------------- the script -- */
 
-const PATHS = [
-  "/support", "/help/getting-started", "/support/billing", "/docs/setup",
-  "/support/returns", "/help/account", "/docs/troubleshooting", "/support/shipping",
-  "/faq", "/help/orders", "/support/warranty", "/docs/integrations",
-  "/help/payments", "/support/refunds", "/docs/api", "/help/security",
-];
-
 /*
   Beats, in order. `stem` is the standing half; `subject` is the half that gets
   rewritten. Holding one stem across several subjects is what makes it read as a
@@ -213,7 +198,6 @@ const BEATS = [
   { at: 26.4, stem: "Testing answers against", subject: "62 help articles", accent: false },
 ];
 
-const TOTALS = { pages: 128, articles: 62, topics: 8 };
 const DURATION = 30;
 const FINALE_AT = 28.4;
 const READY_AT = 29.2;
@@ -273,15 +257,9 @@ let tl = null;
 */
 function resetState() {
   gsap.set(finale, { opacity: 0, y: 10 });
-  gsap.set(barFill, { scaleX: 0 });
   gsap.set(stem, { opacity: 0.62, y: 0, filter: "blur(0px)" });
-  urlRow.dataset.done = "false";
-  urlText.textContent = "";
   stem.textContent = "Connecting to";
   subject.textContent = "";
-  counts.pages.textContent = "0";
-  counts.articles.textContent = "0";
-  counts.topics.textContent = "0";
   continueButton.disabled = true;
 
   window.clearTimeout(swapTimer);
@@ -351,31 +329,7 @@ function build() {
     cursor += BEAT;
   });
 
-  // The URL ticks faster than the headline so the two read as different rates of
-  // the same job, rather than one caption in two sizes.
-  PATHS.forEach((path, i) => {
-    tl.add(() => (urlText.textContent = `${host}${path}`), 3.4 + i * 1.45);
-  });
-
-  const counter = { pages: 0, articles: 0, topics: 0 };
-  tl.to(counter, {
-    duration: 22,
-    ease: "power1.out",
-    pages: TOTALS.pages,
-    articles: TOTALS.articles,
-    topics: TOTALS.topics,
-    onUpdate: () => {
-      counts.pages.textContent = Math.round(counter.pages);
-      counts.articles.textContent = Math.round(counter.articles);
-      counts.topics.textContent = Math.round(counter.topics);
-    },
-  }, 3.4);
-
-  tl.to(barFill, { duration: DURATION - 1.2, scaleX: 1, ease: "power1.inOut" }, 0.8);
-
   tl.add(() => {
-    urlRow.dataset.done = "true";
-    urlText.textContent = `Trained on ${TOTALS.pages} pages from ${host}`;
     setStem("Your agent is trained on");
     gsap.delayedCall(0.42, () => setSubject(host, true));
   }, FINALE_AT);
@@ -402,21 +356,16 @@ function fallback() {
     stem.textContent = BEATS[i].stem;
     subject.textContent = BEATS[i].subject;
     subject.dataset.accent = BEATS[i].accent ? "true" : "false";
-    urlText.textContent = `${host}${PATHS[i % PATHS.length]}`;
   };
   apply();
   window.setInterval(() => {
     i = (i + 1) % BEATS.length;
     apply();
   }, 2800);
-  counts.pages.textContent = TOTALS.pages;
-  counts.articles.textContent = TOTALS.articles;
-  counts.topics.textContent = TOTALS.topics;
   rows.forEach((row) => {
     row.dataset.state = "done";
     row.dataset.linked = "true";
   });
-  barFill.style.transform = "scaleX(1)";
   finale.style.opacity = "1";
   finale.style.transform = "translate(-50%, 0)";
   continueButton.disabled = false;
