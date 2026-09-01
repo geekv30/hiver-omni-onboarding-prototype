@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hiver Omni onboarding</title>
+    <!--
+      Sixth study: study 4's kinetic headline, staged inside study 2's journey
+      frame. Neither piece is re-invented — this is the mapping between them.
+
+      Study 4 shows five things. Each one lands somewhere the frame already has
+      a slot for it, rather than being dropped on top of the layout:
+
+        eyebrow   "Building your AI support agent"  -> the left pane's H1. The
+                  frame already opens every step with a sentence-case H1, so the
+                  eyebrow's job is already done by a real heading.
+        headline  the standing sentence, subject rewritten -> the media card,
+                  floated over the shared backdrop. It is the one big gesture.
+        evidence  live URL + running counts -> left pane, as product UI under
+                  the heading. In study 4 it is a caption; here it is the screen.
+        progress  the hairline -> directly above Continue, so the bar filling and
+                  the button unlocking are visibly the same fact.
+        finale    the ready pill -> where .hero-copy sits on steps 1 and 3.
+
+      The card keeps the journey's own video, radius and inset, and study 4's
+      light veil rather than study 2's near-night scrim: study 4's whole argument
+      is that dark type on the white field is the brand, and inverting it here
+      would throw that away. Per the standing rule, the headline floats over the
+      backdrop as its own layer and is never fused into it.
+
+      styles.css is loaded read-only for the frame. Everything new is aac6-
+      prefixed in its own sheet, so no built screen can be disturbed.
+    -->
+    <link rel="preload" href="./assets/hanken-grotesk-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/hanken-grotesk-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./agent-animation-claude-6.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrambleTextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"></script>
+  </head>
+  <body>
+    <main class="onboarding-frame onboarding-frame--company">
+      <section class="form-pane" aria-labelledby="aac6-title">
+        <div class="page">
+          <header class="product-header product-header--company">
+            <div class="step-progress" aria-label="Onboarding progress: step 2 of 4">
+              <span class="step-progress__segment is-complete"></span>
+              <span class="step-progress__segment is-active"></span>
+              <span class="step-progress__segment"></span>
+              <span class="step-progress__segment"></span>
+            </div>
+
+            <button class="support-button" type="button" aria-label="Get help">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M13.3333 1.33333H2.66667C1.93333 1.33333 1.33333 1.93333 1.33333 2.66667V14.6667L4 12H13.3333C14.0667 12 14.6667 11.4 14.6667 10.6667V2.66667C14.6667 1.93333 14.0667 1.33333 13.3333 1.33333ZM13.3333 10.6667H4L2.66667 12V2.66667H13.3333V10.6667Z" fill="currentColor" />
+              </svg>
+            </button>
+          </header>
+
+          <form class="company-step" id="aac6-form">
+            <div class="company-step__fields">
+              <div class="company-heading">
+                <h1 id="aac6-title">We&rsquo;re building your AI support agent!</h1>
+              </div>
+
+              <!-- Study 4's evidence strip, promoted from caption to product UI.
+                   Without it the piece is just nice type. -->
+              <div class="aac6-evidence">
+                <span class="field-label" id="aac6-source-label">Learning from your website</span>
+
+                <p class="aac6-url" id="aac6-url">
+                  <span class="aac6-url__dot" aria-hidden="true"></span>
+                  <span class="aac6-url__text" id="aac6-url-text">&nbsp;</span>
+                </p>
+
+                <dl class="aac6-counts">
+                  <div class="aac6-count">
+                    <dt class="aac6-count__label">Pages read</dt>
+                    <dd class="aac6-count__value" id="aac6-pages">0</dd>
+                  </div>
+                  <div class="aac6-count">
+                    <dt class="aac6-count__label">Articles</dt>
+                    <dd class="aac6-count__value" id="aac6-articles">0</dd>
+                  </div>
+                  <div class="aac6-count">
+                    <dt class="aac6-count__label">Topics</dt>
+                    <dd class="aac6-count__value" id="aac6-topics">0</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+
+            <div class="company-step__footer">
+              <!-- The bar filling and the button unlocking are the same fact, so
+                   they are stacked rather than placed at opposite ends. -->
+              <div class="aac6-bar" aria-hidden="true"><span class="aac6-bar__fill" id="aac6-bar"></span></div>
+              <button class="continue-button" type="submit" id="aac6-continue" disabled>Continue</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="landscape-pane landscape-pane--framed" aria-label="Building your AI support agent">
+        <div class="video-card aac6-card">
+          <video class="landscape-video" src="./assets/video/company-backdrop.mp4" poster="./assets/video/company-backdrop-poster.jpg" preload="auto" data-continuous autoplay muted loop playsinline disablepictureinpicture></video>
+          <div class="video-tint" aria-hidden="true"></div>
+          <div class="aac6-veil" aria-hidden="true"></div>
+
+          <!-- The centring translate lives on the outer box and GSAP never
+               touches it. Animating the element that owns a percentage transform
+               makes the plugin resolve that percentage to pixels once, while the
+               headline is still one line tall — it then stays 21px low for every
+               two-line beat after. The inner span carries the entrance instead. -->
+          <h2 class="aac6-head" aria-live="polite">
+            <span class="aac6-head__inner" id="aac6-head-inner">
+              <span class="aac6-head__stem" id="aac6-stem">Connecting to</span>
+              <span class="aac6-head__subject" id="aac6-subject">your website</span>
+            </span>
+          </h2>
+
+          <!-- Sits where .hero-copy sits on steps 1 and 3. -->
+          <div class="aac6-finale" id="aac6-finale">
+            <span class="aac6-finale__badge" id="aac6-badge"></span>
+            <p class="aac6-finale__text"><strong id="aac6-ready-name">Your support agent</strong> is ready to test</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./backdrop.js"></script>
+    <script src="./agent-animation-claude-6.js"></script>
+  </body>
+</html>

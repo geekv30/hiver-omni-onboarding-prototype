@@ -1,0 +1,292 @@
+/*
+  Study 6 additions only. Everything here is aac6-prefixed; the frame, header,
+  H1, field label and Continue button all come from styles.css unmodified, which
+  is the point of staging the kinetic headline inside the journey rather than
+  beside it.
+*/
+
+/* ---------------------------------------------------------------- left pane -- */
+
+.aac6-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/*
+  The crawler's current path. It ticks faster than the headline so the two read
+  as different rates of one job rather than the same caption in two sizes.
+*/
+.aac6-url {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.aac6-url__dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  animation: aac6-pulse 1600ms var(--ease-in-out) infinite;
+}
+
+.aac6-url[data-done="true"] .aac6-url__dot {
+  background: #166534;
+  animation: none;
+}
+
+@keyframes aac6-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Reserves its line before the first path arrives. Left to collapse, the row is
+   7px tall for the first 3.4s and everything under it — counts, bar, button —
+   drops 13px the moment the crawler reports. */
+.aac6-url {
+  min-height: 20px;
+}
+
+.aac6-url__text {
+  min-width: 0;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+  Study 4 ran the three counts inline as one caption, where the numbers read as
+  filler beside the type. Given the pane to themselves they are the evidence the
+  screen is actually reporting, so each gets its own labelled column.
+*/
+.aac6-counts {
+  display: grid;
+  margin: 8px 0 0;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aac6-count {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--checkbox-border);
+  border-radius: 10px;
+  background: var(--pill-bg);
+}
+
+.aac6-count__label {
+  color: var(--subtle);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.aac6-count__value {
+  margin: 0;
+  color: #0f172a;
+  font-size: 22px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 28px;
+}
+
+/* The bar filling and the button unlocking are one fact, so the hairline sits
+   directly above Continue inside the same 78px gutter. */
+.aac6-bar {
+  overflow: hidden;
+  width: 100%;
+  height: 2px;
+  margin-bottom: 20px;
+  border-radius: 1px;
+  background: var(--progress-inactive);
+}
+
+.aac6-bar__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #1d4ed8;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* -------------------------------------------------------------- media card -- */
+
+/*
+  Sized in container units, not vw. The headline is study 4's at full-viewport
+  scale; here it lives in a card that is 743px wide at 1440 but 1030px at 1728,
+  so a vw-based clamp would under-fill the wide case and overflow the narrow one.
+*/
+.aac6-card {
+  container-type: inline-size;
+}
+
+/*
+  Study 4's light veil, kept deliberately. Its argument is that dark type on the
+  journey's white field is the brand and a dark hero would read as a different
+  product — inverting it to study 2's near-night scrim would throw that away.
+  Slightly stronger than study 4's because the card is a smaller frame carrying
+  the same fold.
+*/
+.aac6-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(246, 248, 252, 0.5) 0%, rgba(246, 248, 252, 0.72) 46%, rgba(246, 248, 252, 0.54) 100%);
+  pointer-events: none;
+}
+
+/*
+  Floated over the shared backdrop as its own layer, never fused into it, so the
+  card underneath stays byte-for-byte the one the sibling steps show.
+*/
+.aac6-head {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: min(86cqw, 640px);
+  margin: 0;
+  /* Optical sizing: the journey's 20px H1 sits near zero tracking, but the same
+     tracking reads loose at display size. */
+  font-size: clamp(24px, 5.4cqw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 1.06;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+/* Carries the entrance so GSAP never writes to the box that owns the centring
+   percentage — see the note in the markup. */
+.aac6-head__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aac6-head__stem {
+  display: block;
+  color: #334155;
+  opacity: 0.62;
+}
+
+/* The half that keeps being rewritten, given the one accent in the palette so
+   the eye knows which line is changing without any extra chrome. */
+.aac6-head__subject {
+  display: block;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.aac6-head__subject[data-accent="true"] {
+  color: #1d4ed8;
+}
+
+/* Sits where .hero-copy sits on steps 1 and 3. */
+.aac6-finale {
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 10px;
+  border: 1.3px solid rgba(243, 243, 245, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 18px 40px rgba(100, 116, 139, 0.16);
+  opacity: 0;
+  transform: translate(-50%, 10px);
+}
+
+.aac6-finale__badge {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--checkbox-border);
+  border-radius: 9px;
+  background: #fff;
+  place-items: center;
+}
+
+.aac6-finale__badge img,
+.aac6-finale__badge svg {
+  grid-area: 1 / 1;
+  width: 19px;
+  height: 19px;
+  border-radius: 4px;
+  object-fit: contain;
+  /* Inlined rather than loaded through <img>, so the mark takes the badge's own
+     colour — a white-filled asset on a white badge is invisible. */
+  color: #0f172a;
+}
+
+.aac6-finale__badge-initial {
+  grid-area: 1 / 1;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.aac6-finale__badge-initial[hidden] {
+  display: none;
+}
+
+.aac6-finale__text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.aac6-finale__text strong {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+/*
+  Below 900px styles.css turns the frame into a block, at which point
+  .landscape-pane's height: 100% resolves against an auto-height parent and
+  collapses to zero — its own breakpoint rule only sizes panes containing a chat
+  stage. Give this pane a height of its own and keep the card inset.
+*/
+@media (max-width: 900px) {
+  .landscape-pane:has(.aac6-card) {
+    display: block;
+    height: min(460px, 56dvh);
+    min-height: 320px;
+  }
+
+  .aac6-card {
+    inset: 16px;
+  }
+
+  .aac6-head__subject {
+    white-space: normal;
+  }
+
+  .aac6-finale {
+    bottom: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aac6-url__dot {
+    animation: none;
+  }
+}
