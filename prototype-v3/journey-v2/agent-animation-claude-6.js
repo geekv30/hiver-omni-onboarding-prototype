@@ -24,6 +24,7 @@ const finale = document.querySelector("#aac6-finale");
 const badge = document.querySelector("#aac6-badge");
 const readyName = document.querySelector("#aac6-ready-name");
 const sourceLabel = document.querySelector("#aac6-source-label");
+const list = document.querySelector("#aac6-steps");
 const form = document.querySelector("#aac6-form");
 const continueButton = document.querySelector("#aac6-continue");
 const counts = {
@@ -85,6 +86,105 @@ const APPLE_MARK =
   img.src = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(brand.host)}&sz=128`;
   badge.appendChild(img);
 })();
+
+/* ------------------------------------------------------------- the chain --- */
+
+/*
+  Study 2's chain, kept as it was: same six steps, same authored durations, same
+  detail swap at 48% of each step. It is the coarsest of the three rates on this
+  pane — the phase the build is in, where the URL is the page it is on right now
+  and the counts are the running total.
+*/
+const STEPS = [
+  { label: "Analyzing your site", detail: "Crawling {domain}", ms: 3500 },
+  { label: "Importing your assets", detail: "Reading docs and PDFs", ms: 2700 },
+  { label: "Learning your brand\u2019s voice", detail: "Matching tone and phrasing", ms: 4400 },
+  { label: "Mapping your help center", detail: "Grouping articles by topic", ms: 3400 },
+  { label: "Grouping common questions", detail: "Finding repeat themes", ms: 4200 },
+  { label: "Fine-tuning responses", detail: "Testing sample replies", ms: 2900 },
+];
+
+const CHAIN_START = 3;
+const BEAT = 0.42;
+const DETAIL_AT = 0.48;
+const SWAP_MS = 220;
+const STAGGER = 55;
+const CHECK_PATH = "M1.5 6.3 4.6 9.4 10.5 2.6";
+
+const resolveDetail = (d) => d.replace("{domain}", brand.host || "your site");
+
+function setLabelText(el, value) {
+  el.textContent = value;
+  el.dataset.text = value;
+}
+
+function buildStep(s, index) {
+  const row = document.createElement("li");
+  row.className = "aac6-step";
+  row.dataset.state = "pending";
+  row.style.setProperty("--stagger", `${index * (prefersReducedMotion ? 0 : STAGGER)}ms`);
+  row.style.setProperty("--step-duration", `${s.ms}ms`);
+
+  const marker = document.createElement("span");
+  marker.className = "aac6-step__marker";
+  marker.setAttribute("aria-hidden", "true");
+  marker.innerHTML = `
+    <span class="aac6-step__pending"></span>
+    <span class="aac6-step__live">
+      <svg class="aac6-step__ring" viewBox="0 0 16 16">
+        <circle class="aac6-step__ring-track" cx="8" cy="8" r="6.2" />
+        <circle class="aac6-step__ring-fill" cx="8" cy="8" r="6.2" />
+      </svg>
+      <span class="aac6-step__core"></span>
+    </span>
+    <span class="aac6-step__check">
+      <svg viewBox="0 0 12 12">
+        <path d="${CHECK_PATH}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+  `;
+
+  const label = document.createElement("span");
+  label.className = "aac6-step__label";
+  const text = document.createElement("span");
+  text.className = "aac6-step__label-text";
+  setLabelText(text, s.label);
+  label.appendChild(text);
+
+  row.append(marker, label);
+  return row;
+}
+
+const rows = STEPS.map(buildStep);
+list.append(...rows);
+
+// Measured after mounting: getTotalLength() is unreliable on a detached SVG.
+rows.forEach((row) => {
+  const path = row.querySelector(".aac6-step__check path");
+  const length = Math.ceil(path.getTotalLength()) + 1;
+  path.style.strokeDasharray = String(length);
+  row.style.setProperty("--check-length", String(length));
+});
+
+let swapTimer = 0;
+
+function swapLabel(row, value) {
+  const el = row.querySelector(".aac6-step__label-text");
+  if (el.textContent === value) return;
+  if (prefersReducedMotion) return setLabelText(el, value);
+  el.classList.add("is-swapping");
+  swapTimer = window.setTimeout(() => {
+    setLabelText(el, value);
+    el.classList.remove("is-swapping");
+  }, SWAP_MS);
+}
+
+// The rows enter with the journey's standard opacity + rise + de-blur, staggered.
+requestAnimationFrame(() => {
+  rows.forEach((row) => {
+    row.dataset.enter = "true";
+  });
+});
 
 /* ------------------------------------------------------------- the script -- */
 
@@ -183,6 +283,15 @@ function resetState() {
   counts.articles.textContent = "0";
   counts.topics.textContent = "0";
   continueButton.disabled = true;
+
+  window.clearTimeout(swapTimer);
+  rows.forEach((row, i) => {
+    row.dataset.state = "pending";
+    delete row.dataset.linked;
+    const el = row.querySelector(".aac6-step__label-text");
+    el.classList.remove("is-swapping");
+    setLabelText(el, STEPS[i].label);
+  });
 }
 
 function build() {
@@ -220,6 +329,26 @@ function build() {
         setSubject(beat.subject, beat.accent);
       }
     }, beat.at);
+  });
+
+  /*
+    The chain runs on this same timeline rather than its own clock, so the phase
+    on the left and the sentence on the right cannot drift apart over 30s. Cues
+    are built from the authored durations, exactly as study 2 built them.
+  */
+  let cursor = CHAIN_START;
+  STEPS.forEach((s, i) => {
+    const row = rows[i];
+    const at = cursor;
+    tl.add(() => (row.dataset.state = "active"), at);
+    tl.add(() => swapLabel(row, resolveDetail(s.detail)), at + s.ms * DETAIL_AT / 1000);
+    cursor += s.ms / 1000;
+    tl.add(() => {
+      swapLabel(row, s.label);
+      row.dataset.state = "done";
+      row.dataset.linked = "true";
+    }, cursor);
+    cursor += BEAT;
   });
 
   // The URL ticks faster than the headline so the two read as different rates of
@@ -283,6 +412,10 @@ function fallback() {
   counts.pages.textContent = TOTALS.pages;
   counts.articles.textContent = TOTALS.articles;
   counts.topics.textContent = TOTALS.topics;
+  rows.forEach((row) => {
+    row.dataset.state = "done";
+    row.dataset.linked = "true";
+  });
   barFill.style.transform = "scaleX(1)";
   finale.style.opacity = "1";
   finale.style.transform = "translate(-50%, 0)";

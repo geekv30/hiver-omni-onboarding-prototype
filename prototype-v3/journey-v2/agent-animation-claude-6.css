@@ -15,6 +15,231 @@
 }
 
 /*
+  Set below the chain rather than continuing it. Sharing the marker column made
+  the URL read as a seventh step that never completes — its dot sat at the same
+  78px as every marker, and the eye counted it into the list. Indented to the
+  label column instead, and given more air than the chain's own 18px row gap so
+  it separates as the finer-grained line it is.
+*/
+.aac6-steps + .aac6-url {
+  margin-top: 4px;
+  padding-left: 28px;
+}
+
+/*
+  The learning chain, lifted from study 2 unchanged apart from its prefix — same
+  six steps, same authored durations, same marker states and link-draw. Reused
+  rather than rebuilt: it is a sibling step's asset doing exactly this job.
+*/
+.aac6-steps {
+  --aac6-gap: 18px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  gap: var(--aac6-gap);
+  list-style: none;
+}
+
+.aac6-step {
+  display: grid;
+  align-items: center;
+  gap: 12px;
+  grid-template-columns: 16px minmax(0, 1fr);
+  min-height: 20px;
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateY(12px);
+  transition: opacity 500ms var(--ease-out), filter 500ms var(--ease-out), transform 500ms var(--ease-out);
+  transition-delay: var(--stagger, 0ms);
+}
+
+.aac6-step[data-enter="true"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.aac6-step__marker {
+  position: relative;
+  display: grid;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+}
+
+/* The chain, drawn between markers rather than as one rail behind them — a
+   continuous line runs straight through the ticks and smears the column. */
+.aac6-step__marker::before,
+.aac6-step__marker::after {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 7px;
+  width: 2px;
+  height: calc(var(--aac6-gap) + 2px);
+  border-radius: 1px;
+  content: "";
+}
+
+.aac6-step__marker::before {
+  background: var(--checkbox-border);
+}
+
+.aac6-step__marker::after {
+  background: #94a3b8;
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 620ms var(--ease-in-out);
+}
+
+.aac6-step[data-linked="true"] .aac6-step__marker::after {
+  transform: scaleY(1);
+}
+
+.aac6-step:last-child .aac6-step__marker::before,
+.aac6-step:last-child .aac6-step__marker::after {
+  display: none;
+}
+
+.aac6-step__pending,
+.aac6-step__live,
+.aac6-step__check {
+  position: absolute;
+  display: grid;
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  filter: blur(3px);
+  transform: scale(0.7);
+  place-items: center;
+  transition: opacity 340ms var(--ease-out), filter 340ms var(--ease-out), transform 340ms var(--ease-out);
+}
+
+.aac6-step__pending::after {
+  width: 6px;
+  height: 6px;
+  border: 1.4px solid var(--subtle);
+  border-radius: 50%;
+  content: "";
+}
+
+/* Determinate: each step's authored duration is written onto this ring, so the
+   sweep reports how far THIS step has got rather than spinning for its own sake. */
+.aac6-step__ring {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transform: rotate(-90deg);
+}
+
+.aac6-step__ring circle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+.aac6-step__ring-track { stroke: var(--checkbox-border); }
+
+.aac6-step__ring-fill {
+  stroke: #0f172a;
+  stroke-dasharray: 39;
+  stroke-dashoffset: 39;
+}
+
+.aac6-step[data-state="active"] .aac6-step__ring-fill {
+  animation: aac6-ring var(--step-duration, 3400ms) linear forwards;
+}
+
+/* Near-linear, closing faster at the end — decelerating into 100% is the
+   stuck-at-99% progress bar this exists to avoid. */
+@keyframes aac6-ring {
+  from { stroke-dashoffset: 39; }
+  88% { stroke-dashoffset: 5.5; }
+  to { stroke-dashoffset: 0; }
+}
+
+.aac6-step__core {
+  display: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0f172a;
+}
+
+.aac6-step__check {
+  width: 15px;
+  height: 15px;
+  color: #166534;
+}
+
+.aac6-step__check svg {
+  display: block;
+  overflow: visible;
+  width: 15px;
+  height: 15px;
+}
+
+.aac6-step__check path {
+  stroke-dashoffset: var(--check-length, 16);
+}
+
+.aac6-step[data-state="pending"] .aac6-step__pending,
+.aac6-step[data-state="active"] .aac6-step__live,
+.aac6-step[data-state="done"] .aac6-step__check {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+/* A settle, not a bounce: six pops in thirty seconds reads as a to-do app. */
+.aac6-step[data-state="done"] .aac6-step__check {
+  transition: opacity 340ms var(--ease-out), filter 340ms var(--ease-out), transform 340ms cubic-bezier(0.34, 1.15, 0.64, 1);
+}
+
+.aac6-step[data-state="done"] .aac6-step__check path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 300ms var(--ease-out) 70ms;
+}
+
+.aac6-step__label {
+  min-width: 0;
+  color: var(--brand-navy);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  opacity: 0.45;
+  transition: opacity 420ms var(--ease-out), color 420ms var(--ease-out);
+}
+
+.aac6-step[data-state="active"] .aac6-step__label {
+  color: #0f172a;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.aac6-step[data-state="done"] .aac6-step__label {
+  opacity: 0.72;
+}
+
+.aac6-step__label-text {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  opacity: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+
+.aac6-step__label-text.is-swapping {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(-6px);
+}
+
+/*
   The crawler's current path. It ticks faster than the headline so the two read
   as different rates of one job rather than the same caption in two sizes.
 */
@@ -30,23 +255,21 @@
   line-height: 20px;
 }
 
+/* The chain's own ring sweep already reports that work is in progress, so the
+   live dot would be a second indicator of the same fact. Kept only for the
+   settled state, where it marks the finish the chain has no row for. */
 .aac6-url__dot {
   flex: 0 0 auto;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #1d4ed8;
-  animation: aac6-pulse 1600ms var(--ease-in-out) infinite;
+  margin-left: -16px;
+  background: transparent;
+  transition: background-color 300ms var(--ease-out);
 }
 
 .aac6-url[data-done="true"] .aac6-url__dot {
   background: #166534;
-  animation: none;
-}
-
-@keyframes aac6-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
 }
 
 /* Reserves its line before the first path arrives. Left to collapse, the row is
@@ -286,7 +509,43 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aac6-url__dot {
-    animation: none;
+  .aac6-step,
+  .aac6-step__pending,
+  .aac6-step__live,
+  .aac6-step__check,
+  .aac6-step__label,
+  .aac6-step__label-text,
+  .aac6-step__marker::after {
+    transition-duration: 140ms;
+    transition-delay: 0ms !important;
+    filter: none !important;
+  }
+
+  .aac6-step,
+  .aac6-step__pending,
+  .aac6-step__live,
+  .aac6-step__check,
+  .aac6-step__label-text {
+    transform: none !important;
+  }
+
+  /* The links still have to draw — they are the progress read, not decoration. */
+  .aac6-step__marker::after {
+    transition-duration: 200ms !important;
+  }
+
+  .aac6-step__check path {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  /* The sweep is the motion-heavy piece; a plain dot still says which row is
+     live, and the step timings themselves are not compressed. */
+  .aac6-step__ring {
+    display: none !important;
+  }
+
+  .aac6-step__core {
+    display: block;
   }
 }
